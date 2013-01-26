@@ -18,15 +18,29 @@ require(['jquery', 'codemirror', 'threejs'], function($) {
 
     function init() {
         $('.editor').each(function() {
-            initEditor($(this).get(0));
+            var $e = $(this);
+            var $commands = $('<div>', {'class': 'commands'}).appendTo($e);
+            var $editArea = $('<div>', {'class': 'editArea'}).appendTo($e);
+
+            initCommands($commands);
+            initEditor($editArea);
         });
         $('.preview').each(function() {
             initPreview($(this));
         });
     }
 
-    function initEditor(e) {
-        CodeMirror(e, {
+    function initCommands($e) {
+        // TODO: replace this with play, stop, position etc.
+        $('<div>', {'class': 'evaluate command'}).appendTo($e).
+            text('Evaluate').
+            on('click', function() {
+                console.log('eval now');
+            });
+    }
+
+    function initEditor($e) {
+        CodeMirror($e.get(0), {
             value: 'function a() {return 42;}',
             mode: 'javascript',
             indentUnit: 4,

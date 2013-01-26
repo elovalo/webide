@@ -11,3 +11,10 @@
 
     background: black;
 }
+
+.commands {
+    margin: 0 1em 0 1em;
+    padding: 1em;
+
+    background: #eee;
+}
