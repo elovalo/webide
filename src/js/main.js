@@ -1,13 +1,14 @@
 require.config({
     paths: {
         jquery: '../components/jquery/jquery',
+        codemirror: '../components/codemirror/lib/codemirror',
         threejs: '../vendor/three',
-        codemirror: '../components/codemirror/lib/codemirror'
+        jsjs: '../vendor/libjs.min'
     },
     urlArgs: 'buster=' + (new Date()).getTime() // for dev only! use rev otherwise
 });
 
-require(['jquery', 'codemirror', 'threejs'], function($) {
+require(['jquery', 'codemirror', 'threejs', 'jsjs'], function($) {
     $(function() {
         // TODO: draw some leds now
         // TODO: draw ide
@@ -22,31 +23,41 @@ require(['jquery', 'codemirror', 'threejs'], function($) {
             var $commands = $('<div>', {'class': 'commands'}).appendTo($e);
             var $editArea = $('<div>', {'class': 'editArea'}).appendTo($e);
 
-            initCommands($commands);
-            initEditor($editArea);
+            var editor = initEditor($editArea);
+            initCommands($commands, editor);
         });
         $('.preview').each(function() {
             initPreview($(this));
         });
     }
 
-    function initCommands($e) {
-        // TODO: replace this with play, stop, position etc.
-        $('<div>', {'class': 'evaluate command'}).appendTo($e).
-            text('Evaluate').
-            on('click', function() {
-                console.log('eval now');
-            });
-    }
-
     function initEditor($e) {
-        CodeMirror($e.get(0), {
-            value: 'function a() {return 42;}',
+        return CodeMirror($e.get(0), {
+            value: 'function a() {\n    return 42;\n}\na();',
             mode: 'javascript',
             indentUnit: 4,
             lineWrapping: true,
             lineNumbers: true
         });
+    }
+
+    function initCommands($e, editor) {
+        // TODO: replace this with play, stop, position etc.
+        $('<div>', {'class': 'evaluate command'}).appendTo($e).
+            text('Evaluate').
+            on('click', function() {
+                var jsObjs = JSJS.Init();
+                var rval = JSJS.EvaluateScript(
+                    jsObjs.cx,
+                    jsObjs.glob,
+                    editor.getValue()
+                );
+                var d = JSJS.ValueToNumber(jsObjs.cx, rval);
+
+                window.alert(d); //2
+
+                JSJS.End(jsObjs);
+            });
     }
 
     function initPreview($e) {
