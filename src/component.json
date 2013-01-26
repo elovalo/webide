@@ -5,6 +5,6 @@
   "dependencies": {
     "requirejs": "~2.1.4",
     "jquery": "~1.9.0",
-    "ace": "v0.2.0"
+    "codemirror": "e89fa823b9ae0f258c7b7bd44c12e71486bfd534"
   }
 }
