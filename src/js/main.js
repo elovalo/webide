@@ -13,14 +13,25 @@ require(['jquery', 'codemirror', 'threejs'], function($) {
         // TODO: draw ide
         // TODO: eval
 
-        $('.editor').each(function() {
-            CodeMirror($(this).get(0), {
-                value: 'function a() {return 42;}',
-                mode: 'javascript',
-                indentUnit: 4,
-                lineWrapping: true,
-                lineNumbers: true
-            });
-        });
+        init();
     });
+
+    function init() {
+        $('.editor').each(function() {
+            initEditor($(this).get(0));
+        });
+        $('.preview').each(function() {
+            // TODO: init
+        });
+    }
+
+    function initEditor(e) {
+        CodeMirror(e, {
+            value: 'function a() {return 42;}',
+            mode: 'javascript',
+            indentUnit: 4,
+            lineWrapping: true,
+            lineNumbers: true
+        });
+    }
 });
