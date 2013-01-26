@@ -12,7 +12,15 @@ require(['jquery', 'codemirror', 'threejs'], function($) {
         // TODO: draw some leds now
         // TODO: draw ide
         // TODO: eval
-        console.log('ready');
-        console.log($, THREE);
+
+        $('.editor').each(function() {
+            CodeMirror($(this).get(0), {
+                value: 'function a() {return 42;}',
+                mode: 'javascript',
+                indentUnit: 4,
+                lineWrapping: true,
+                lineNumbers: true
+            });
+        });
     });
 });
