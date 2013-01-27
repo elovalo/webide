@@ -1,5 +1,4 @@
-// TODO: wrap in define
-var math = {
+define('math', {
     randint: function(min, max) {
         if(max < min) return;
 
@@ -8,4 +7,4 @@ var math = {
     clamp: function(a, min, max) {
         return Math.max(min, Math.min(max, a));
     }
-};
+});

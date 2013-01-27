@@ -2,6 +2,7 @@ define(['./sandbox'], function(sandbox) {
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($e, editor) {
         var sb = sandbox();
+        sandbox.load(sb, 'module');
         sandbox.load(sb, 'math');
 
         // TODO: replace this with play, stop, position etc.
