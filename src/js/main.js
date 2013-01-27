@@ -2,8 +2,7 @@ require.config({
     paths: {
         jquery: '../components/jquery/jquery',
         codemirror: '../components/codemirror/lib/codemirror',
-        threejs: '../vendor/three',
-        jsjs: '../vendor/libjs.min'
+        threejs: '../vendor/three'
     },
     urlArgs: 'buster=' + (new Date()).getTime() // for dev only! use rev otherwise
 });

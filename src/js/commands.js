@@ -1,20 +1,14 @@
-define(['jsjs'], function() {
+define(function() {
     function initCommands($e, editor) {
+        var sandbox = $('<iframe width="0" height="0"/>').
+            css({visibility: 'hidden'}).
+            appendTo('body')[0].contentWindow;
+
         // TODO: replace this with play, stop, position etc.
         $('<div>', {'class': 'evaluate command'}).appendTo($e).
             text('Evaluate').
             on('click', function() {
-                var jsObjs = JSJS.Init();
-                var rval = JSJS.EvaluateScript(
-                    jsObjs.cx,
-                    jsObjs.glob,
-                    editor.getValue()
-                );
-                var d = JSJS.ValueToNumber(jsObjs.cx, rval);
-
-                window.alert(d);
-
-                JSJS.End(jsObjs);
+                console.log(sandbox.eval(editor.getValue()));
             });
     }
 
