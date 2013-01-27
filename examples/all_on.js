@@ -1,7 +1,3 @@
-define(function() {
-    return {
-        effect: function(cube) {
-            cube().on();
-        }
-    };
-});
+function effect(cube) {
+    cube().on();
+}
