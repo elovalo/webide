@@ -28,7 +28,7 @@ define(['threejs'], function() {
             var h = 300;
 
             camera.aspect = w / h;
-            camera.updateProjectionnMatrix();
+            camera.updateProjectionMatrix();
 
             renderer.setSize(w, h);
         });
