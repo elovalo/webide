@@ -1,10 +1,6 @@
 function init(cube) {
     return {
-        xyz: {
-            x: cube.x / 2,
-            y: cube.y / 2,
-            z: cube.z / 2
-        }
+        xyz: cube.xyz.map(partial(math.rdiv, 2))
     };
 }
 
