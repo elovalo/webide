@@ -1,0 +1,34 @@
+{
+  "name": "webide",
+  "version": "0.1.0",
+  "description": "Web based IDE for developing some kickass fx using JavaScript.",
+  "main": "serve.js",
+
+  "dependencies": {
+    "connect": "== 2.7.2"
+  },
+
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+ 
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elovalo/webide.git"
+  },
+
+  "keywords": [
+    "led",
+    "hardware",
+    "ide",
+    "editor",
+    "effects"
+  ],
+
+  "author": "Juho Vepsalainen",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
