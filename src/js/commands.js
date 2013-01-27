@@ -1,6 +1,6 @@
-define(['./sandbox'], function(sandbox) {
+define(['./sandbox', 'jquery'], function(sandbox, $) {
     // https://github.com/josscrowcroft/javascript-sandbox-console
-    function initCommands($e, editor) {
+    function initCommands($e, editor, previews) {
         var sb = sandbox();
         sandbox.load(sb, 'module');
         sandbox.load(sb, 'math');
@@ -13,9 +13,7 @@ define(['./sandbox'], function(sandbox) {
                 var code = editor.getValue() + 'evaluate();';
                 var res = sandbox.evaluate(sb, code);
 
-                console.log(res);
-
-                // TODO: evaluate res using webgl now
+                previews.evaluate(res);
             });
     }
 

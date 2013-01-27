@@ -7,16 +7,16 @@ define(['threejs'], function() {
         var z = 8; // XXX
         var renderer = new THREE.WebGLRenderer({
             clearAlpha: true
-        }); 
+        });
         var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 10000);
         var scene = new THREE.Scene();
 
         scene.add(camera);
         camera.position.x = -50;
         camera.position.z = 400;
-        renderer.setSize(w, h); 
+        renderer.setSize(w, h);
 
-        initParticles(scene, x, y, z); 
+        var particles = initParticles(scene, x, y, z);
 
         renderer.render(scene, camera);
 
@@ -34,6 +34,24 @@ define(['threejs'], function() {
         });
 
         // TODO: animate (needs state + handler using requestAnimationFrame)
+
+        return {
+            evaluate: function(ops) {
+                ops.forEach(function(op) {
+                    var o = {
+                        'on': function() {
+                            particles.visible = true;
+                        },
+                        'off': function() {
+                            particles.visible = false;
+                        }
+                    }[op]();
+                    console.log(op);
+                });
+
+                renderer.render(scene, camera);
+            }
+        };
     }
 
     function initParticles(scene, x, y, z) {
@@ -65,6 +83,8 @@ define(['threejs'], function() {
         particles.sortParticles = true;
 
         scene.add(particles);
+
+        return particles;
     }
 
     return initPreview;
