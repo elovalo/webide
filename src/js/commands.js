@@ -16,7 +16,7 @@ define(['./sandbox', 'jquery'], function(sandbox, $) {
         return $('<div>', {'class': 'evaluate command'}).
             text('Evaluate').
             on('click', function() {
-                var code = editor.getValue() + 'evaluate();';
+                var code = 'inject(functional, window);' + editor.getValue() + 'evaluate();';
                 var res = sandbox.evaluate(sb, code);
 
                 previews.evaluate(res);

@@ -16,28 +16,34 @@ function evaluate() {
     }
 
     return anim;
+
+    function cube(ops) {
+        var ret = function() {
+            var o = {};
+
+            o.on = function() {
+                ops.push('on');
+            };
+            o.off = function() {
+                ops.push('off');
+            };
+
+            return o;
+        };
+
+        // TODO: pass dims here in some nice way
+        ret.xyz = {
+            x: 8,
+            y: 8,
+            z: 8
+        };
+
+        return ret;
+    }
 }
 
-function cube(ops) {
-    var ret = function() {
-        var o = {};
-
-        o.on = function() {
-            ops.push('on');
-        };
-        o.off = function() {
-            ops.push('off');
-        };
-
-        return o;
-    };
-
-    // TODO: pass dims here in some nice way
-    ret.xyz = {
-        x: 8,
-        y: 8,
-        z: 8
-    };
-
-    return ret;
+function inject(src, target) {
+    for(var k in src) {
+        target[k] = src[k];
+    }
 }
