@@ -36,8 +36,8 @@ define(['threejs'], function() {
         // TODO: animate (needs state + handler using requestAnimationFrame)
 
         return {
-            evaluate: function(ops) {
-                ops.forEach(function(op) {
+            evaluate: function(anim) {
+                anim.effect.forEach(function(op) {
                     var o = {
                         'on': function() {
                             particles.visible = true;
