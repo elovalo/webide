@@ -5,7 +5,7 @@ define(['./sandbox', 'jquery'], function(sandbox, $) {
         $p.append($templates(editor));
     }
 
-    function $evaluate($p, editor, previews) {
+    function $evaluate(editor, previews) {
         var sb = sandbox();
         sandbox.load(sb, 'module');
         sandbox.load(sb, 'math');
