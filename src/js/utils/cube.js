@@ -1,29 +1,34 @@
 function evaluate() {
-    var ops = {};
+    var anim = {};
+    var ops;
+    var init;
 
     if(window.init) {
-        ops.init = null;
+        ops = [];
+        init = window.init(cube(ops));
+        anim.init = ops;
     }
 
     if(window.effect) {
-        var effect = [];
-
-        var cube = function() {
-            var o = {};
-
-            o.on = function() {
-                effect.push('on');
-            };
-            o.off = function() {
-                effect.push('off');
-            };
-
-            return o;
-        };
-
-        window.effect(cube);
-        ops.effect = effect;
+        ops = [];
+        window.effect(cube(ops), init);
+        anim.effect = ops;
     }
 
-    return ops;
+    return anim;
+}
+
+function cube(ops) {
+    return function() {
+        var o = {};
+
+        o.on = function() {
+            ops.push('on');
+        };
+        o.off = function() {
+            ops.push('off');
+        };
+
+        return o;
+    };
 }
