@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         watch: {
             reload: {
-                files: ['src/*', 'grunt.js'],
+                files: ['src/*', 'src/js/*.js', 'src/css/*.css', 'grunt.js'],
                 tasks: 'tinylr-reload'
             }
         }
