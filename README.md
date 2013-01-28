@@ -4,10 +4,9 @@ Web based IDE for developing some kickass fx using JavaScript.
 
 ## Development
 
-1. npm install bower node-dev -g
-2. sudo npm install
-3. cd src
-4. bower install
-5. node-dev serve.js at project root
+1. `sudo npm install`
+2. `cd src`
+3. `bower install`
+4. `grunt` at project root
 
-It is recommended that you use LiveReload or a similar tool. TODO: set up grunt script for running the servers (regular + LR) for dev.
+Make sure you have installed [LiveReload browser extension](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-) to get most benefit out of the setup!
