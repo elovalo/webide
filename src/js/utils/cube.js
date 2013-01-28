@@ -19,7 +19,7 @@ function evaluate() {
 }
 
 function cube(ops) {
-    return function() {
+    var ret = function() {
         var o = {};
 
         o.on = function() {
@@ -31,4 +31,13 @@ function cube(ops) {
 
         return o;
     };
+
+    // TODO: pass dims here in some nice way
+    ret.xyz = {
+        x: 8,
+        y: 8,
+        z: 8
+    };
+
+    return ret;
 }
