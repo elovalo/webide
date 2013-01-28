@@ -10,6 +10,7 @@ define(['./sandbox', 'jquery'], function(sandbox, $) {
         sandbox.load(sb, 'module');
         sandbox.load(sb, 'math');
         sandbox.load(sb, 'cube');
+        sandbox.load(sb, 'functional');
 
         // TODO: replace this with play, stop, position etc.
         return $('<div>', {'class': 'evaluate command'}).
