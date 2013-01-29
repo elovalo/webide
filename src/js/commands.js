@@ -1,23 +1,28 @@
 define(['./sandbox', 'jquery'], function(sandbox, $) {
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews) {
-        $p.append($evaluate(editor, previews));
+        $p.append($playback(editor, previews));
         $p.append($templates(editor));
     }
 
-    function $evaluate(editor, previews) {
+    function $playback(editor, previews) {
+        var playClass = 'play';
+        var stopClass = 'stop';
         var sb = sandbox();
         sandbox.load(sb, 'module');
         sandbox.load(sb, 'math');
         sandbox.load(sb, 'cube');
         sandbox.load(sb, 'functional');
 
-        // TODO: replace this with play, stop, position etc.
-        return $('<div>', {'class': 'evaluate command'}).
-            text('Evaluate').
+        return $('<div>', {'class': 'playback command'}).
+            addClass(playClass).
             on('click', function() {
                 var code = 'inject(functional, window);' + editor.getValue() + 'evaluate();';
                 var res = sandbox.evaluate(sb, code);
+                var $e = $(this);
+
+                if($e.hasClass(playClass)) $e.addClass(stopClass).removeClass(playClass);
+                else $e.addClass(playClass).removeClass(stopClass);
 
                 previews.evaluate(res);
             });

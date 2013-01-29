@@ -26,8 +26,16 @@ html, body {
     background: #eee;
 }
 
-.evaluate {
+.command {
     float: left;
+}
+
+.commands .play::after {
+    content: 'play';
+}
+
+.commands .stop::after {
+    content: 'stop';
 }
 
 .codeTemplates {
