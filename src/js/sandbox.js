@@ -21,38 +21,29 @@ define(function(require) {
 
     function load(sb, srcFiles, done) {
         done = done || function() {};
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-
-        parallel(function(src) {
-            $.get('js/utils/' + src + '.js', function(d, cb) {
+        parallel(function(src, cb, i) {
+            $.get('js/utils/' + src + '.js', function(d) {
                 if(d.indexOf('define') === 0) {
-                    cb(null, d.trim().slice(0, -2) + ', "' + src + '");');
+                    cb(null, {data: d.trim().slice(0, -2) + ', "' + src + '");', i: i});
                 }
                 else {
-                    cb(null, d);
+                    cb(null, {data: d, i: i});
                 }
             });
         }, srcFiles, function(err, data) {
-            // TODO: concat data and set to innerhtml
-            // TODO: append script to frame
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
 
-            done();
-        });
-
-        /*
-        $.get('js/utils/' + src + '.js', function(d) {
-            if(d.indexOf('define') === 0) {
-                script.innerHTML = d.trim().slice(0, -2) + ', "' + src + '");';
-            }
-            else {
-                script.innerHTML = d;
-            }
+            script.innerHTML = data.sort(function(a, b) {
+                return a.i > b.i;
+            }).map(function(v) {
+                return v.data;
+            }).join('');
 
             sb.frame.contentDocument.body.appendChild(script);
 
             done();
-        });*/
+        });
     }
     init.load = load;
 
