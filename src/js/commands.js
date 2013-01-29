@@ -20,12 +20,15 @@ define(function(require) {
         sandbox.load(sb, 'annotate');
         sandbox.load(sb, 'math');
         sandbox.load(sb, 'object');
-        sandbox.load(sb, 'functional');
+        sandbox.load(sb, 'functional', function() {
+            sb.evaluate(sb, 'inject(functional, window);');
+        });
 
         return $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
-                var code = 'inject(functional, window);' + editor.getValue() +
+                // TODO: rethink this. now old init and effect are retained
+                var code = editor.getValue() +
                     'evaluate({x: ' + dims.x +', y: ' + dims.y  +', z: ' +
                     dims.z + '});';
                 var res = sandbox.evaluate(sb, code);

@@ -16,7 +16,8 @@ define(['jquery'], function($) {
     }
     init.evaluate = evaluate;
 
-    function load(sb, src) {
+    function load(sb, src, done) {
+        done = done || function() {};
         var script = document.createElement('script');
         script.type = 'text/javascript';
 
@@ -29,6 +30,8 @@ define(['jquery'], function($) {
             }
 
             sb.frame.contentDocument.body.appendChild(script);
+
+            done();
         });
     }
     init.load = load;
