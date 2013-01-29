@@ -32,28 +32,39 @@ define(['threejs'], function() {
 
         // TODO: animate (needs state + handler using requestAnimationFrame)
 
+        function execute(fn) {
+            fn.forEach(function(op) {
+                var o = {
+                    'on': function() {
+                        render(dims, particles, op.params);
+                    },
+                    'off': function() {
+                        render(dims, particles, op.params);
+                    }
+                }[op.op]();
+            });
+        }
+
         return {
             evaluate: function(anim) {
-                anim.effect.forEach(function(op) {
-                    var o = {
-                        'on': function() {
-                            render(dims, particles, 1);
-                        },
-                        'off': function() {
-                            render(dims, particles, 0);
-                        }
-                    }[op]();
-                    console.log(op);
-                });
+                if(anim.init) execute(anim.init);
+                if(anim.effect) execute(anim.effect);
 
                 renderer.render(scene, camera);
             }
         };
     }
 
-    function render(dims, particles, alpha) {
-        for(var i = 0, len = dims.x * dims.y * dims.z; i < len; i++) {
-            particles.alpha.value[i] = alpha;
+    function render(dims, particles, params) {
+        var alpha = 'alpha' in params? params.alpha: 1;
+
+        if('x' in params && 'y' in params && 'z' in params) {
+            particles.alpha.value[params.x + params.y * dims.x * dims.y + params.z * dims.z] = alpha;
+        }
+        else {
+            for(var i = 0, len = dims.x * dims.y * dims.z; i < len; i++) {
+                particles.alpha.value[i] = alpha;
+            }
         }
 
         particles.alpha.needsUpdate = true;

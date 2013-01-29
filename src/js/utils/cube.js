@@ -18,14 +18,20 @@ function evaluate(dims) {
     return anim;
 
     function cube(ops) {
-        var ret = function() {
+        var ret = function(params) {
             var o = {};
 
             o.on = function() {
-                ops.push('on');
+                ops.push({
+                    op: 'on',
+                    params: params
+                });
             };
             o.off = function() {
-                ops.push('off');
+                ops.push({
+                    op: 'off',
+                    params: params
+                });
             };
 
             return o;
