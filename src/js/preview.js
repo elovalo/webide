@@ -57,11 +57,26 @@ define(['threejs'], function() {
         var z = dims.z;
         var dim = 200; // XXX
         var dimHalf = dim / 2;
-        var geometry = new THREE.Geometry();
-        var material = new THREE.ParticleBasicMaterial({
-            color: 0x4444FF,
-            size: 20
+        var attributes = {
+            alpha: {
+                type: 'f',
+                value: []
+            }
+        };
+
+        var material = new THREE.ShaderMaterial({
+            uniforms: {
+                color: {
+                    type: 'c',
+                    value: new THREE.Color(0x0000ff)
+                }
+            },
+            attributes: attributes,
+            vertexShader: $('#vertexshader').text(),
+            fragmentShader: $('#fragmentshader').text(),
+            transparent: true
         });
+        var geometry = new THREE.Geometry();
 
         for(var xi = 0, xlen = x; xi < xlen; xi++) {
             for(var yi = 0, ylen = y; yi < ylen; yi++) {
@@ -73,6 +88,11 @@ define(['threejs'], function() {
                     ));
                 }
             }
+        }
+
+        // TODO: separate to render
+        for(var i = 0; i < x * y * z; i++) {
+            attributes.alpha.value[i] = 1;
         }
 
         var particles = new THREE.ParticleSystem(
