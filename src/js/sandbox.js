@@ -19,9 +19,17 @@ define(['jquery'], function($) {
     function load(sb, src) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'js/utils/' + src + '.js';
 
-        sb.frame.contentDocument.body.appendChild(script);
+        $.get('js/utils/' + src + '.js', function(d) {
+            if(d.indexOf('define') === 0) {
+                script.innerHTML = d.trim().slice(0, -2) + ', "' + src + '");';
+            }
+            else {
+                script.innerHTML = d;
+            }
+console.log('loaded', src);
+            sb.frame.contentDocument.body.appendChild(script);
+        });
     }
     init.load = load;
 

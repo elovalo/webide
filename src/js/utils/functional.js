@@ -1,4 +1,4 @@
-define('functional', function(require) {
+define(function(require) {
     var annotate = require('./annotate');
     var is = require('./is');
     var obj = require('./object');

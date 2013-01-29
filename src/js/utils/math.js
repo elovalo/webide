@@ -1,4 +1,4 @@
-define('math', {
+define({
     randint: function(min, max) {
         if(max < min) return;
 
