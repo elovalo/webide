@@ -7,9 +7,9 @@ function init(cube) {
             y: 4,
             z: 4
         },
-    dir: 'x',
-    speed: 1,
-    prev: {
+        dir: 'x',
+        speed: 1,
+        prev: {
             dirs: [],
             speeds: [],
             i: 0
