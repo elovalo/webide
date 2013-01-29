@@ -37,10 +37,10 @@ define(['threejs'], function() {
                 anim.effect.forEach(function(op) {
                     var o = {
                         'on': function() {
-                            particles.visible = true;
+                            render(dims, particles, 1);
                         },
                         'off': function() {
-                            particles.visible = false;
+                            render(dims, particles, 0);
                         }
                     }[op]();
                     console.log(op);
@@ -49,6 +49,14 @@ define(['threejs'], function() {
                 renderer.render(scene, camera);
             }
         };
+    }
+
+    function render(dims, particles, alpha) {
+        for(var i = 0, len = dims.x * dims.y * dims.z; i < len; i++) {
+            particles.alpha.value[i] = alpha;
+        }
+
+        particles.alpha.needsUpdate = true;
     }
 
     function initParticles(scene, dims) {
@@ -90,21 +98,14 @@ define(['threejs'], function() {
             }
         }
 
-        // TODO: separate to render
-        for(var i = 0; i < x * y * z; i++) {
-            attributes.alpha.value[i] = 1;
-        }
-
         var particles = new THREE.ParticleSystem(
             geometry,
             material
         );
-        particles.dynamic = true;
-        particles.sortParticles = true;
 
         scene.add(particles);
 
-        return particles;
+        return attributes;
     }
 
     return initPreview;
