@@ -19,8 +19,17 @@ html, body {
 }
 
 .commands {
-    margin: 0 1em 0 1em;
     padding: 1em;
 
+    overflow: auto;
+
     background: #eee;
+}
+
+.evaluate {
+    float: left;
+}
+
+.codeTemplates {
+    float: right;
 }
