@@ -21,6 +21,7 @@ require.config({
 
 require(['jquery', './preview', './editor', './commands'], function($, preview, editor, commands) {
     $(function() {
+        var dims = {x: 8, y: 8, z: 8};
         // TODO: figure out how to deal with this. hook up cb at command?
         var previews = [];
         previews.evaluate = function(ops) {
@@ -30,14 +31,14 @@ require(['jquery', './preview', './editor', './commands'], function($, preview, 
         };
 
         $('.preview').each(function() {
-            previews.push(preview($(this)));
+            previews.push(preview($(this), dims));
         });
         $('.editor').each(function() {
             var $e = $(this);
             var $commands = $('<div>', {'class': 'commands'}).appendTo($e);
             var $editArea = $('<div>', {'class': 'editArea'}).appendTo($e);
 
-            commands($commands, editor($editArea), previews);
+            commands($commands, editor($editArea), previews, dims);
         });
     });
 });

@@ -5,12 +5,12 @@ define(function(require) {
     var $ = require('jquery');
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
-    function initCommands($p, editor, previews) {
-        $p.append($playback(editor, previews));
+    function initCommands($p, editor, previews, dims) {
+        $p.append($playback(editor, previews, dims));
         $p.append($templates(editor));
     }
 
-    function $playback(editor, previews) {
+    function $playback(editor, previews, dims) {
         var playClass = 'play';
         var stopClass = 'stop';
         var sb = sandbox();
@@ -25,7 +25,9 @@ define(function(require) {
         return $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
-                var code = 'inject(functional, window);' + editor.getValue() + 'evaluate();';
+                var code = 'inject(functional, window);' + editor.getValue() +
+                    'evaluate({x: ' + dims.x +', y: ' + dims.y  +', z: ' +
+                    dims.z + '});';
                 var res = sandbox.evaluate(sb, code);
                 var $e = $(this);
 

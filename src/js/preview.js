@@ -1,10 +1,7 @@
 define(['threejs'], function() {
-    function initPreview($e) {
+    function initPreview($e, dims) {
         var w = 400; // XXX
         var h = 300; // XXX
-        var x = 8; // XXX
-        var y = 8; // XXX
-        var z = 8; // XXX
         var renderer = new THREE.WebGLRenderer({
             clearAlpha: true
         });
@@ -16,7 +13,7 @@ define(['threejs'], function() {
         camera.position.z = 400;
         renderer.setSize(w, h);
 
-        var particles = initParticles(scene, x, y, z);
+        var particles = initParticles(scene, dims);
 
         renderer.render(scene, camera);
 
@@ -54,7 +51,10 @@ define(['threejs'], function() {
         };
     }
 
-    function initParticles(scene, x, y, z) {
+    function initParticles(scene, dims) {
+        var x = dims.x;
+        var y = dims.y;
+        var z = dims.z;
         var dim = 200; // XXX
         var dimHalf = dim / 2;
         var geometry = new THREE.Geometry();
