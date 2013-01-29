@@ -31,11 +31,15 @@ function evaluate(dims) {
             return o;
         };
 
-        ret.xyz = dims;
+        ret.xyz = {
+            x: dims.x - 1,
+            y: dims.y - 1,
+            z: dims.z - 1
+        };
 
-        ret.x = dims.x;
-        ret.y = dims.y;
-        ret.z = dims.z;
+        ret.x = ret.xyz.x;
+        ret.y = ret.xyz.y;
+        ret.z = ret.xyz.z;
 
         return ret;
     }
