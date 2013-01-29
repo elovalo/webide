@@ -1,4 +1,9 @@
-define(['./sandbox', 'jquery'], function(sandbox, $) {
+define(function(require) {
+    var sandbox = require('./sandbox');
+    var parallel = require('./utils/async').parallel;
+    var prop = require('./utils/common').prop;
+    var $ = require('jquery');
+
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews) {
         $p.append($playback(editor, previews));
@@ -35,13 +40,17 @@ define(['./sandbox', 'jquery'], function(sandbox, $) {
 
         $ret.append($('<option/>'));
 
-        // TODO: no guarantees this executes in order, run via parallel helper
-        Object.keys(urls).forEach(function(url, i) {
-            $.get(url, function(d) {
-                var idx = urls[this.url];
-                var name = examples[idx].replace('_', ' ');
+        parallel(function(url, cb, i) {
+            $.get(url, function(code) {
+                cb(null, {url: url, i: i, code: code});
+            });
+        }, Object.keys(urls), function(err, data) {
+            data.sort(function(a, b) {
+                return a.i > b.i;
+            }).forEach(function(d) {
+                var name = examples[urls[d.url]].replace('_', ' ');
 
-                $ret.append($('<option/>', {value: name}).text(name).data('code', d));
+                $ret.append($('<option/>', {value: name}).text(name).data('code', d.code));
             });
         });
 
@@ -49,9 +58,7 @@ define(['./sandbox', 'jquery'], function(sandbox, $) {
             var $e = $(this);
             var val = $e.val();
 
-            if(val) {
-                editor.setValue($(':selected', $e).data('code'));
-            }
+            if(val) editor.setValue($(':selected', $e).data('code'));
         });
 
         return $ret;
