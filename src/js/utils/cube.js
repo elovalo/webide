@@ -18,6 +18,10 @@ function evaluate() {
     return anim;
 
     function cube(ops) {
+        // TODO: pass these as params to evaluate
+        var x = 8;
+        var y = 8;
+        var z = 8;
         var ret = function() {
             var o = {};
 
@@ -31,12 +35,15 @@ function evaluate() {
             return o;
         };
 
-        // TODO: pass dims here in some nice way
         ret.xyz = {
-            x: 8,
-            y: 8,
-            z: 8
+            x: x,
+            y: y,
+            z: z
         };
+
+        ret.x = x;
+        ret.y = y;
+        ret.z = z;
 
         return ret;
     }
