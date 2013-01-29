@@ -1,6 +1,6 @@
 var wormLength = 10;
 
-function init (cube) {
+function init(cube) {
     return {
         pos: {
             x: 4,
