@@ -1,7 +1,13 @@
 require.config({
     paths: {
         jquery: '../components/jquery/jquery',
+
         codemirror: '../components/codemirror/lib/codemirror',
+        matchbrackets: '../components/codemirror/addon/edit/matchbrackets',
+        continuecomment: '../components/codemirror/addon/edit/continuecomment',
+        javascripthint: '../components/codemirror/addon/hint/javascript-hint',
+        javascriptmode: '../components/codemirror/mode/javascript/javascript',
+
         threejs: '../vendor/three'
     },
     urlArgs: 'buster=' + (new Date()).getTime() // for dev only! use rev otherwise
