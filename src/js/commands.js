@@ -40,7 +40,7 @@ define(function(require) {
 
     function $templates(editor) {
         var $ret = $('<select/>', {'class': 'codeTemplates'});
-        var examples = ['all_off', 'all_on', 'brownian', 'finite_worm'];
+        var examples = ['all_off', 'all_on', 'brownian', 'corners', 'finite_worm'];
         var urls = getUrls(examples);
 
         $ret.append($('<option/>'));
