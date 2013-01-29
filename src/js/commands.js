@@ -21,16 +21,16 @@ define(function(require) {
         sandbox.load(sb, 'math');
         sandbox.load(sb, 'object');
         sandbox.load(sb, 'functional', function() {
+            // XXX: executes evaluate(...) too for some reason. investigate why
             sb.evaluate(sb, 'inject(functional, window);');
         });
 
         return $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
-                // TODO: rethink this. now old init and effect are retained
-                var code = editor.getValue() +
-                    'evaluate({x: ' + dims.x +', y: ' + dims.y  +', z: ' +
-                    dims.z + '});';
+                var code ='(function() {var init; var effect;' + editor.getValue() +
+                    ';return evaluate(init, effect, {x: ' + dims.x +', y: ' + dims.y  +', z: ' +
+                    dims.z + '});})();';
                 var res = sandbox.evaluate(sb, code);
                 var $e = $(this);
 

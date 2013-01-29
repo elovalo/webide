@@ -1,17 +1,19 @@
-function evaluate(dims) {
+function evaluate(init, effect, dims) {
     var anim = {};
     var ops;
-    var init;
+    var initRes;
 
-    if(window.init) {
+    if(!dims) return;
+
+    if(init) {
         ops = [];
-        init = window.init(cube(ops));
+        initRes = init(cube(ops));
         anim.init = ops;
     }
 
-    if(window.effect) {
+    if(effect) {
         ops = [];
-        window.effect(cube(ops), init);
+        effect(cube(ops), initRes);
         anim.effect = ops;
     }
 
