@@ -14,14 +14,12 @@ define(function(require) {
         var playClass = 'play';
         var stopClass = 'stop';
         var sb = sandbox();
-        sandbox.load(sb, 'module');
-        sandbox.load(sb, 'cube');
-        sandbox.load(sb, 'is');
-        sandbox.load(sb, 'annotate');
-        sandbox.load(sb, 'math');
-        sandbox.load(sb, 'object');
-        sandbox.load(sb, 'functional', function() {
+
+        // XXX: presumes deps are in the right order
+        sandbox.load(sb, ['module', 'cube', 'is', 'annotate', 'math', 'object',
+            'functional'], function() {
             // XXX: executes evaluate(...) too for some reason. investigate why
+            console.log('loading done');
             sb.evaluate(sb, 'inject(functional, window);');
         });
 
