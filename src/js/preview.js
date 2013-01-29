@@ -36,10 +36,10 @@ define(['threejs'], function() {
             fn.forEach(function(op) {
                 var o = {
                     'on': function() {
-                        render(dims, particles, op.params);
+                        render(dims, particles, op.params, 1);
                     },
                     'off': function() {
-                        render(dims, particles, op.params);
+                        render(dims, particles, op.params, 0);
                     }
                 }[op.op]();
             });
@@ -55,10 +55,8 @@ define(['threejs'], function() {
         };
     }
 
-    function render(dims, particles, params) {
-        var alpha = 'alpha' in params? params.alpha: 1;
-
-        if('x' in params && 'y' in params && 'z' in params) {
+    function render(dims, particles, params, alpha) {
+        if(params && 'x' in params && 'y' in params && 'z' in params) {
             particles.alpha.value[params.x + params.y * dims.x * dims.y + params.z * dims.z] = alpha;
         }
         else {
