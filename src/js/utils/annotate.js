@@ -1,6 +1,13 @@
-define(function(require) {
-    var is = require('./is');
-
+(function(root, factory) {
+    if(typeof define === 'function' && define.amd) {
+        define(['./is'], function(is) {
+            return (root.annotate = factory(is));
+        });
+    }
+    else {
+        root.annotate = factory(root.is);
+    }
+}(this, function(is) {
     return function() {
         var doc = arguments[1];
         var functions = [];
@@ -75,4 +82,4 @@ define(function(require) {
             return a === i;
         };
     }
-});
+}));

@@ -15,8 +15,11 @@ define(function(require) {
         var stopClass = 'stop';
         var sb = sandbox();
         sandbox.load(sb, 'module');
-        sandbox.load(sb, 'math');
         sandbox.load(sb, 'cube');
+        sandbox.load(sb, 'is');
+        sandbox.load(sb, 'annotate');
+        sandbox.load(sb, 'math');
+        sandbox.load(sb, 'object');
         sandbox.load(sb, 'functional');
 
         return $('<div>', {'class': 'playback command'}).
