@@ -10,6 +10,12 @@ require.config({
 
         threejs: '../vendor/three'
     },
+    shim: {
+        matchbrackets: ['codemirror'],
+        continuecomment: ['codemirror'],
+        javascripthint: ['codemirror'],
+        javascriptmode: ['codemirror']
+    },
     urlArgs: 'buster=' + (new Date()).getTime() // for dev only! use rev otherwise
 });
 
