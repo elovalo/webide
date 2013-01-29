@@ -27,7 +27,7 @@ define(['jquery'], function($) {
             else {
                 script.innerHTML = d;
             }
-console.log('loaded', src);
+
             sb.frame.contentDocument.body.appendChild(script);
         });
     }
