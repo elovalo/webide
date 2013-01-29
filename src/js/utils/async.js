@@ -1,5 +1,8 @@
-define({
-    parallel: function(operation, data, done) {
+define(function(require) {
+    var annotate = require('./annotate');
+    var is = require('./is');
+
+    function parallel(operation, data, done) {
         var accumData = [];
 
         for(var i = 0, len = data.length; i < len; i++) {
@@ -14,4 +17,9 @@ define({
             if(accumData.length == len) done(null, accumData);
         }
     }
+
+    return {
+        parallel: annotate('parallel', 'Runs given `operation` on `data` in parallel and executes `done` once finished.').
+            on(is.fn, is.array, is.fn, parallel)
+    };
 });
