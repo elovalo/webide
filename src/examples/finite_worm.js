@@ -28,11 +28,3 @@ function effect(cube, vars) {
     newSegment[vars.dir] += vars.speed;
     segments.push(newSegment);
 }
-
-function nextDir(dir) {
-    return {
-        x: 'y',
-        y: 'z',
-        z: 'x'
-    }[dir];
-}

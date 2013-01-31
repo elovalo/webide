@@ -18,11 +18,3 @@ function effect(cube, vars) {
 
     vars.pos[vars.dir] += vars.speed;
 }
-
-function nextDir(dir) {
-    return {
-        x: 'y',
-        y: 'z',
-        z: 'x'
-    }[dir];
-}
