@@ -24,9 +24,9 @@ require(['jquery', './preview', './editor', './commands'], function($, preview, 
         var dims = {x: 8, y: 8, z: 8};
         // TODO: figure out how to deal with this. hook up cb at command?
         var previews = [];
-        previews.evaluate = function(ops) {
+        previews.evaluate = function(ops, cb) {
             previews.forEach(function(p) {
-                p.evaluate(ops);
+                p.evaluate(ops, cb);
             });
         };
 

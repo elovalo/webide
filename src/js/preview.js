@@ -43,17 +43,33 @@ define(['threejs'], function() {
                     }
                 }[op.op]();
             });
+
+            renderer.render(scene, camera);
+        }
+
+        // TODO: ticks
+        function animate(cb) {
+            function anim() {
+                var res = cb();
+
+                execute(res.ops);
+
+                if(res.playing) requestAnimationFrame(anim);
+            }
+
+            anim();
         }
 
         return {
-            evaluate: function(anim) {
-                if(anim.init) execute(anim.init);
-                if(anim.effect) execute(anim.effect);
+            evaluate: function(init, cb) {
+                execute(init.ops);
 
-                renderer.render(scene, camera);
+                animate(cb);
             }
         };
     }
+
+
 
     function render(dims, particles, params, alpha) {
         if(params && 'x' in params && 'y' in params && 'z' in params) {

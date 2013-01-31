@@ -1,54 +1,56 @@
-function evaluate(init, effect, dims) {
-    var anim = {};
-    var ops;
-    var initRes;
+function evaluateInit(init, dims) {
+    var ops = [];
+    var vars = {};
 
-    if(init) {
-        ops = [];
-        initRes = init(cube(ops));
-        anim.init = ops;
-    }
+    if(init) vars = init(cube(ops, dims));
 
-    if(effect) {
-        ops = [];
-        effect(cube(ops), initRes);
-        anim.effect = ops;
-    }
+    return {
+        vars: vars,
+        ops: ops
+    };
+}
 
-    return anim;
+function evaluateEffect(effect, vars, dims) {
+    var ops = [];
 
-    function cube(ops) {
-        var ret = function(params) {
-            var o = {};
+    if(effect) effect(cube(ops, dims), vars);
 
-            o.on = function() {
-                ops.push({
-                    op: 'on',
-                    params: params
-                });
-            };
-            o.off = function() {
-                ops.push({
-                    op: 'off',
-                    params: params
-                });
-            };
+    return {
+        ops: ops
+    };
+}
 
-            return o;
+function cube(ops, dims) {
+    var ret = function(params) {
+        var o = {};
+
+        o.on = function() {
+            ops.push({
+                op: 'on',
+                params: params
+            });
+        };
+        o.off = function() {
+            ops.push({
+                op: 'off',
+                params: params
+            });
         };
 
-        ret.xyz = {
-            x: dims.x - 1,
-            y: dims.y - 1,
-            z: dims.z - 1
-        };
+        return o;
+    };
 
-        ret.x = ret.xyz.x;
-        ret.y = ret.xyz.y;
-        ret.z = ret.xyz.z;
+    ret.xyz = {
+        x: dims.x - 1,
+        y: dims.y - 1,
+        z: dims.z - 1
+    };
 
-        return ret;
-    }
+    ret.x = ret.xyz.x;
+    ret.y = ret.xyz.y;
+    ret.z = ret.xyz.z;
+
+    return ret;
 }
 
 function inject(src, target) {

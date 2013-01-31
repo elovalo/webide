@@ -25,20 +25,36 @@ define(function(require) {
         return $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
-                // TODO: if stop -> play, exec init, capture output
-                // after that exec effect per each call (capture output, pass
-                // as input)
-                var code ='(function() {var init; var effect;' + editor.getValue() +
-                    ';return evaluate(init, effect, {x: ' + dims.x +', y: ' + dims.y  +', z: ' +
-                    dims.z + '});})();';
-                var res = sandbox.evaluate(sb, code);
                 var $e = $(this);
 
-                if($e.hasClass(playClass)) $e.addClass(stopClass).removeClass(playClass);
-                else $e.addClass(playClass).removeClass(stopClass);
+                if($e.hasClass(stopClass)) $e.addClass(playClass).removeClass(stopClass);
+                else {
+                    $e.addClass(stopClass).removeClass(playClass);
 
-                previews.evaluate(res);
+                    var res = sandbox.evaluate(sb, encapsulate('var init; ' +
+                        editor.getValue() + ';return evaluateInit(init, ' +
+                        dimsToString(dims) + ');'));
+
+                    previews.evaluate(res, function() {
+                        // TODO: figure out a nice way to pass vars
+                        var ret = sandbox.evaluate(sb, encapsulate('var effect; ' +
+                            editor.getValue() + ';return evaluateEffect(effect, ' +
+                            dimsToString(dims) + ', ' + '{}'  + ');'));
+                        ret.playing = $e.hasClass(stopClass);
+
+                        return ret;
+                    });
+                }
+
             });
+    }
+
+    function encapsulate(code) {
+        return '(function() {' + code + '})();';
+    }
+
+    function dimsToString(dims) {
+        return '{x: ' + dims.x + ', y: ' + dims.y + ', z: ' + dims.z +'}';
     }
 
     function $templates(editor) {
