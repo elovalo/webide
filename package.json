@@ -6,6 +6,8 @@
 
   "dependencies": {
     "connect": "== 2.7.2",
+    "filewalker": "== 0.1.1",
+    "handlebars": "== 1.0.8",
     "grunt": "== 0.3.17",
     "tiny-lr": "== 0.0.4"
   },

@@ -1,5 +1,6 @@
 define(function(require) {
     var sandbox = require('./sandbox');
+    var examples = Object.keys(require('./examples'));
     var parallel = require('./utils/async').parallel;
     var prop = require('./utils/common').prop;
     var $ = require('jquery');
@@ -41,7 +42,6 @@ define(function(require) {
 
     function $templates(editor) {
         var $ret = $('<select/>', {'class': 'codeTemplates'});
-        var examples = ['all_off', 'all_on', 'brownian', 'corners', 'finite_worm'];
         var urls = getUrls(examples);
 
         $ret.append($('<option/>'));
