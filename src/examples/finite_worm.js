@@ -2,11 +2,7 @@ var wormLength = 10;
 
 function init(cube) {
     return {
-        pos: {
-            x: 4,
-            y: 4,
-            z: 4
-        },
+        pos: xyz(4, 4, 4),
         dir: 'x',
         speed: 1,
         prev: {
