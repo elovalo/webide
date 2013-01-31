@@ -3,8 +3,6 @@ function evaluate(init, effect, dims) {
     var ops;
     var initRes;
 
-    if(!dims) return;
-
     if(init) {
         ops = [];
         initRes = init(cube(ops));

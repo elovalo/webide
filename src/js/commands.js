@@ -19,14 +19,15 @@ define(function(require) {
         // XXX: presumes deps are in the right order
         sandbox.load(sb, ['module', 'cube', 'is', 'annotate', 'math', 'object',
             'functional'], function() {
-            // XXX: executes evaluate(...) too for some reason. investigate why
-            console.log('loading done');
-            sb.evaluate(sb, 'inject(functional, window);');
+            sandbox.evaluate(sb, 'inject(functional, window);');
         });
 
         return $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
+                // TODO: if stop -> play, exec init, capture output
+                // after that exec effect per each call (capture output, pass
+                // as input)
                 var code ='(function() {var init; var effect;' + editor.getValue() +
                     ';return evaluate(init, effect, {x: ' + dims.x +', y: ' + dims.y  +', z: ' +
                     dims.z + '});})();';
