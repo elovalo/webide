@@ -9,5 +9,5 @@ function effect(cube) {
     circle(xyz(fac, 0, 4), 6, 9);
     circle(xyz(-fac, 0, 5), 3, 5);
     circle(xyz(0, fac, 6), 1, 3);
-    cube({x: fac, y: 4, z: 7}).on();
+    cube([fac, 4, 7]).on();
 }
