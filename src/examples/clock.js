@@ -3,7 +3,7 @@ function effect() {
     var pos = (ticks >> 3) % ((txt.length + 4) * 8);
 
     text.scroll(txt, pos, axis.yz);
-    text.scroll(txt, pos-7, axiz.yz);
+    text.scroll(txt, pos - cube.z, axiz.yz);
 }
 
 function getTime() {
