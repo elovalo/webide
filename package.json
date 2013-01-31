@@ -5,7 +5,10 @@
   "main": "serve.js",
 
   "dependencies": {
-    "connect": "== 2.7.2",
+    "connect": "== 2.7.2"
+  },
+
+  "devDependencies": {
     "filewalker": "== 0.1.1",
     "handlebars": "== 1.0.8",
     "grunt": "== 0.3.17",
