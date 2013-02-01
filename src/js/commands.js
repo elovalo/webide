@@ -37,7 +37,8 @@ define(function(require) {
                     );
                     var res = sb.evaluateInit(sb.getInit(), dims);
 
-                    previews.evaluate(res, function(vars) {
+                    previews.evaluate(res, function(vars, ticks) {
+                        sb.ticks = ticks;
                         sb.eval('function getEffect() {var effect;' +
                             editor.getValue() +
                             ';return effect;}'

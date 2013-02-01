@@ -49,12 +49,20 @@ define(['threejs'], function() {
             renderer.render(scene, camera);
         }
 
-        // TODO: ticks
+        var prevTime;
+        var ticks;
         function animate(init, cb) {
             var res = init;
 
+            prevTime = new Date().getTime();
+            ticks = 0;
+
             function anim() {
-                res = cb(res.vars);
+                var curTime = new Date().getTime();
+                ticks += curTime - prevTime;
+                prevTime = curTime;
+
+                res = cb(res.vars, ticks);
 
                 execute(res.ops);
 
