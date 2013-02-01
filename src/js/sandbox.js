@@ -14,11 +14,6 @@ define(function(require) {
         return sb;
     }
 
-    function evaluate(sb, value) {
-        return sb.eval(value);
-    }
-    init.evaluate = evaluate;
-
     function load(sb, srcFiles, done) {
         done = done || function() {};
         parallel(function(src, cb, i) {

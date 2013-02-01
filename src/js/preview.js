@@ -48,9 +48,11 @@ define(['threejs'], function() {
         }
 
         // TODO: ticks
-        function animate(cb) {
+        function animate(init, cb) {
+            var res = init;
+
             function anim() {
-                var res = cb();
+                res = cb(res.vars);
 
                 execute(res.ops);
 
@@ -64,7 +66,7 @@ define(['threejs'], function() {
             evaluate: function(init, cb) {
                 execute(init.ops);
 
-                animate(cb);
+                animate(init, cb);
             }
         };
     }

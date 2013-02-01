@@ -16,6 +16,7 @@ function evaluateEffect(effect, vars, dims) {
     if(effect) effect(cube(ops, dims), vars);
 
     return {
+        vars: vars,
         ops: ops
     };
 }

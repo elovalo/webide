@@ -19,7 +19,7 @@ define(function(require) {
         // XXX: presumes deps are in the right order
         sandbox.load(sb, ['module', 'cube', 'is', 'annotate', 'math', 'object',
             'functional'], function() {
-            sandbox.evaluate(sb, 'inject(functional, window);');
+            sb.inject(sb.functional, sb.window);
         });
 
         return $('<div>', {'class': 'playback command'}).
@@ -31,15 +31,19 @@ define(function(require) {
                 else {
                     $e.addClass(stopClass).removeClass(playClass);
 
-                    var res = sandbox.evaluate(sb, encapsulate('var init; ' +
-                        editor.getValue() + ';return evaluateInit(init, ' +
-                        dimsToString(dims) + ');'));
+                    sb.eval('function getInit() {var init;' +
+                        editor.getValue() +
+                        ';return init;}'
+                    );
+                    var res = sb.evaluateInit(sb.getInit(), dims);
 
-                    previews.evaluate(res, function() {
-                        // TODO: figure out a nice way to pass vars
-                        var ret = sandbox.evaluate(sb, encapsulate('var effect; ' +
-                            editor.getValue() + ';return evaluateEffect(effect, ' +
-                            dimsToString(dims) + ', ' + '{}'  + ');'));
+                    previews.evaluate(res, function(vars) {
+                        sb.eval('function getEffect() {var effect;' +
+                            editor.getValue() +
+                            ';return effect;}'
+                        );
+
+                        var ret = sb.evaluateEffect(sb.getEffect(), dims, vars);
                         ret.playing = $e.hasClass(stopClass);
 
                         return ret;
