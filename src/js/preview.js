@@ -34,11 +34,13 @@ define(['threejs'], function() {
 
         function execute(fn) {
             fn.forEach(function(op) {
+                if(!op) return;
+
                 var o = {
-                    'on': function() {
+                    on: function() {
                         render(dims, particles, op.params, 1);
                     },
-                    'off': function() {
+                    off: function() {
                         render(dims, particles, op.params, 0);
                     }
                 }[op.op]();
