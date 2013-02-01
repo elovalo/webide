@@ -7,6 +7,6 @@ function effect(cube) {
 
         return led;
     }).on(0.25);
-    cube({x: range(cube.x), y: range(cube.y), z: range(water, cube.z)}).on();
-    cube({x: range(cube.x), y: range(cube.y), z: range(water, cube.z)}).on(wf(surface << 1));
+    cube({z: range(water, cube.z)}).on();
+    cube({z: range(water, cube.z)}).on(wf(surface << 1));
 }

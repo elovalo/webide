@@ -1,3 +1,3 @@
 function effect(cube) {
-    cube({x: range(cube.x), y: range(cube.y), z: (ticks >> 7) % cube.z}).on();
+    cube({z: (ticks >> 7) % cube.z}).on();
 }
