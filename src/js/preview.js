@@ -30,18 +30,16 @@ define(['threejs'], function() {
             renderer.setSize(w, h);
         });
 
-        // TODO: animate (needs state + handler using requestAnimationFrame)
-
         function execute(fn) {
             fn.forEach(function(op) {
                 if(!op) return;
 
                 var o = {
                     on: function() {
-                        render(dims, particles, op.params, 1);
+                        render(dims, particles, op.coords, 1);
                     },
                     off: function() {
-                        render(dims, particles, op.params, 0);
+                        render(dims, particles, op.coords, 0);
                     }
                 }[op.op]();
             });
@@ -81,16 +79,15 @@ define(['threejs'], function() {
         };
     }
 
+    function render(dims, particles, coords, alpha) {
+        var xDims = dims.x;
+        var yDims = dims.y;
+        var zDims = dims.z;
 
+        for(var i = 0, len = coords.length; i < len; i++) {
+            var coord = coords[i];
 
-    function render(dims, particles, params, alpha) {
-        if(params && 'x' in params && 'y' in params && 'z' in params) {
-            particles.alpha.value[params.x + params.y * dims.x * dims.y + params.z * dims.z] = alpha;
-        }
-        else {
-            for(var i = 0, len = dims.x * dims.y * dims.z; i < len; i++) {
-                particles.alpha.value[i] = alpha;
-            }
+            particles.alpha.value[coord.x + coord.y * xDims * yDims + coord.z * zDims ] = alpha;
         }
 
         particles.alpha.needsUpdate = true;

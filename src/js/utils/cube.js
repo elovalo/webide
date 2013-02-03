@@ -22,20 +22,40 @@ function evaluateEffect(effect, vars, dims) {
 }
 
 function cube(ops, dims) {
-    var ret = function(params) {
+    var ret = function(selector) {
         var o = {};
+        var coords = [];
+
+        if(selector) {
+            // TODO: expand
+            if(is.array(selector)) {
+                coords = selector;
+            }
+        }
+        else {
+            for(var x = 0, xLen = dims.x; x < xLen; x++) {
+                for(var y = 0, yLen = dims.y; y < yLen; y++) {
+                    for(var z = 0, zLen = dims.z; z < zLen; z++) {
+                        coords.push({x: x, y: y, z: z});
+                    }
+                }
+            }
+        }
 
         o.on = function() {
             ops.push({
                 op: 'on',
-                params: params
+                coords: coords
             });
         };
         o.off = function() {
             ops.push({
                 op: 'off',
-                params: params
+                coords: coords
             });
+        };
+        o.map = function(cb) {
+            return ret(coords.map(cb));
         };
 
         return o;
