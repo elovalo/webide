@@ -17,13 +17,11 @@ define(function(require) {
     function load(sb, srcFiles, done) {
         done = done || function() {};
         parallel(function(src, cb, i) {
-            $.get('js/utils/' + src + '.js', function(d) {
-                if(d.indexOf('define') === 0) {
-                    cb(null, {data: d.trim().slice(0, -2) + ', "' + src + '");', i: i});
-                }
-                else {
-                    cb(null, {data: d, i: i});
-                }
+            $.ajax({url: 'js/utils/' + src + '.js'}).done(function(d) {
+                handle(d, i, src, cb);
+            }).fail(function(xhr, text, err) {
+                // TODO: figure out why "parsererror" happens sometimes!
+                handle(xhr.responseText, i, src, cb);
             });
         }, srcFiles, function(err, data) {
             var script = document.createElement('script');
@@ -39,6 +37,11 @@ define(function(require) {
 
             done();
         });
+
+        function handle(d, i, src, cb) {
+            if(d.indexOf('define') === 0) cb(null, {data: d.trim().slice(0, -2) + ', "' + src + '");', i: i});
+            else cb(null, {data: d, i: i});
+        }
     }
     init.load = load;
 
