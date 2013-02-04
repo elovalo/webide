@@ -12,15 +12,33 @@ function main() {
 }
 
 function generateExamples() {
-    var files = [];
+    var categories = {};
 
+    // 1. get root file(s) -> basic category
+    // 2. get files in dirs -> dir name -> category, contents -> items
     filewalker('./src/examples').on('file', function(p) {
-        files.push(p);
+        var parts = p.split('/');
+        var category, item;
+
+        if(parts.length > 1) {
+            category = parts[0];
+            item = parts[1];
+        }
+        else {
+            category = 'none';
+            item = parts[0];
+        }
+
+        item = item.split('.')[0];
+
+        if(!(category in categories)) categories[category] = [];
+
+        categories[category].push(item);
     }).on('done', function() {
         var outputPath = path.join(__dirname, 'src/js/examples.js');
         var templatePath = path.join(__dirname, '_templates/examples.hbs');
 
-        writeTemplate(files, outputPath, templatePath);
+        writeTemplate(categories, outputPath, templatePath);
     }).walk();
 }
 
@@ -34,9 +52,10 @@ function writeTemplate(data, outputPath, templatePath, out) {
 
 function toObject(data) {
     return {
-        modules: data.map(function(d) {
+        examples: Object.keys(data).map(function(v) {
             return {
-                name: d.split('.')[0]
+                category: v,
+                items: data[v]
             };
         })
     };
@@ -48,8 +67,14 @@ function compile(path, cb) {
     });
 }
 
+Handlebars.registerHelper('array', function(items, options) {
+    return items.map(function(val) {
+        return options.fn({item: val});
+    });
+});
+
 Handlebars.registerHelper('list', function(items, options) {
     return items.map(function(val) {
-            return options.fn(val);
-        }).join(',\n    ');
+        return options.fn(val);
+    }).join(',\n    ');
 });
