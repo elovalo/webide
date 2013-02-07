@@ -1,7 +1,7 @@
 require.config({
     paths: {
         annotate: '../components/annotate.js/lib/annotate',
-        is: '../components/is-js/is',
+        'is-js': '../components/is/is',
         jquery: '../components/jquery/jquery',
 
         codemirror: '../components/codemirror/lib/codemirror',

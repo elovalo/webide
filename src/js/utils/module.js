@@ -1,4 +1,7 @@
 function define(module, id) {
+    // XXX: evil hack due to is-js naming (inconsistency)
+    window['is-js'] = window.is;
+
     if(typeof module === 'function') {
         window[id] = module(require);
     }
@@ -9,6 +12,6 @@ function define(module, id) {
     function require(name) {
         if(name.indexOf('./') === 0) name = name.slice(2);
 
-        return  window[name];
+        return window[name];
     }
 }

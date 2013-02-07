@@ -1,6 +1,6 @@
 define(function(require) {
     var annotate = require('annotate');
-    var is = require('is');
+    var is = require('is-js');
 
     function keys(o) {
         return Object.keys(o);
