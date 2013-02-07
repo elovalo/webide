@@ -1,6 +1,6 @@
 define(function(require) {
-    var annotate = require('./annotate');
-    var is = require('./is');
+    var annotate = require('annotate');
+    var is = require('is');
 
     function parallel(operation, data, done) {
         var accumData = [];

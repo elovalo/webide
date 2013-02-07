@@ -17,7 +17,13 @@ define(function(require) {
     function load(sb, srcFiles, done) {
         done = done || function() {};
         parallel(function(src, cb, i) {
-            $.ajax({url: 'js/utils/' + src + '.js'}).done(function(d) {
+            var path = src;
+
+            if(src.indexOf('/') == -1) path = 'js/utils/' + src;
+
+            path += '.js';
+
+            $.ajax({url: path}).done(function(d) {
                 handle(d, i, src, cb);
             }).fail(function(xhr, text, err) {
                 // TODO: figure out why "parsererror" happens sometimes!

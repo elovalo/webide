@@ -17,7 +17,9 @@ define(function(require) {
         var sb = sandbox();
 
         // XXX: presumes deps are in the right order
-        sandbox.load(sb, ['module', 'cube', 'is', 'annotate', 'math', 'object',
+        sandbox.load(sb, ['module',
+            'components/is-js/is', 'components/annotate.js/lib/annotate',
+            'cube', 'math', 'object',
             'functional'], function() {
             sb.inject(sb.functional, sb.window);
         });

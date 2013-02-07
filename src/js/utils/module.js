@@ -7,6 +7,8 @@ function define(module, id) {
     }
 
     function require(name) {
-        return  window[name.slice(2)];
+        if(name.indexOf('./') === 0) name = name.slice(2);
+
+        return  window[name];
     }
 }
