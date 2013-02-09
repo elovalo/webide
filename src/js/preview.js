@@ -30,23 +30,6 @@ define(['threejs'], function() {
             renderer.setSize(w, h);
         });
 
-        function execute(fn) {
-            fn.forEach(function(op) {
-                if(!op) return;
-
-                var o = {
-                    on: function() {
-                        render(dims, particles, op.coords, 1);
-                    },
-                    off: function() {
-                        render(dims, particles, op.coords, 0);
-                    }
-                }[op.op]();
-            });
-
-            renderer.render(scene, camera);
-        }
-
         var prevTime;
         var ticks;
         function animate(init, cb) {
@@ -70,6 +53,23 @@ define(['threejs'], function() {
             anim();
         }
 
+        function execute(fn) {
+            fn.forEach(function(op) {
+                if(!op) return;
+
+                var o = {
+                    on: function() {
+                        render(dims, particles, op.coords, 1);
+                    },
+                    off: function() {
+                        render(dims, particles, op.coords, 0);
+                    }
+                }[op.op]();
+            });
+
+            renderer.render(scene, camera);
+        }
+
         return {
             evaluate: function(init, cb) {
                 execute(init.ops);
@@ -87,7 +87,7 @@ define(['threejs'], function() {
         for(var i = 0, len = coords.length; i < len; i++) {
             var coord = coords[i];
 
-            particles.alpha.value[coord.x + coord.y * xDims * yDims + coord.z * zDims ] = alpha;
+            particles.alpha.value[coord.x + coord.y * xDims * yDims + coord.z * zDims] = alpha;
         }
 
         particles.alpha.needsUpdate = true;
