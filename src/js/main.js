@@ -1,7 +1,13 @@
 require.config({
+    'package': [
+        {
+            name: 'funkit',
+            location: '../components/funkit/lib',
+            main: 'index'
+        }
+    ],
     paths: {
         annotate: '../components/annotate.js/lib/annotate',
-        funkit: '../components/funkit/lib/index',
         'is-js': '../components/is/is',
         jquery: '../components/jquery/jquery',
 
