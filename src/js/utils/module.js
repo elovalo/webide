@@ -4,7 +4,7 @@ function define(deps, module, id) {
     // XXX: evil hack due to is-js naming (inconsistency)
     window['is-js'] = window.is;
 
-    if(isArray(deps)) {
+    if(id && isArray(deps)) {
         setTimeout(checkDeps, delay);
     }
     else if(id) {
@@ -15,7 +15,7 @@ function define(deps, module, id) {
         var i, len;
 
         for(i = 0, len = deps.length; i < len; i++) {
-            if(!(deps[i] in window)) {
+            if(!(depName(deps[i]) in window)) {
                 setTimeout(checkDeps, delay);
                 return;
             }
@@ -29,9 +29,7 @@ function define(deps, module, id) {
         var ret = [];
 
         for(i = 0, len = deps.length; i < len; i++) {
-            dep = deps[i];
-
-            if(dep.indexOf('./') === 0) dep = dep.slice(2);
+            dep = depName(deps[i]);
 
             if(!(dep in window)) console.warn('Dependency ' + dep + ' has not been loaded yet!');
 
@@ -39,6 +37,10 @@ function define(deps, module, id) {
         }
 
         return ret;
+    }
+
+    function depName(dep) {
+        return dep.indexOf('./') === 0? dep.slice(2): dep;
     }
 
     function isArray(a) {
