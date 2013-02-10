@@ -1,8 +1,4 @@
-define(function(require) {
-    var annotate = require('annotate');
-    var is = require('is-js');
-    var obj = require('./object');
-
+define(['annotate', 'is-js', './object'], function(annotate, is, obj) {
     function partial(fn) {
         var slice = Array.prototype.slice;
         var args = slice.apply(arguments, [1]);

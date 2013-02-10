@@ -1,17 +1,47 @@
-function define(module, id) {
+function define(deps, module, id) {
+    var delay = 200; // in ms
+
     // XXX: evil hack due to is-js naming (inconsistency)
     window['is-js'] = window.is;
 
-    if(typeof module === 'function') {
-        window[id] = module(require);
+    if(isArray(deps)) {
+        setTimeout(checkDeps, delay);
     }
-    else {
+    else if(id) {
         window[id] = module;
     }
 
-    function require(name) {
-        if(name.indexOf('./') === 0) name = name.slice(2);
+    function checkDeps() {
+        var i, len;
 
-        return window[name];
+        for(i = 0, len = deps.length; i < len; i++) {
+            if(!(deps[i] in window)) {
+                setTimeout(checkDeps, delay);
+                return;
+            }
+        }
+
+        window[id] = module.apply(undefined, loadDeps(deps));
+    }
+
+    function loadDeps(deps) {
+        var i, len, dep;
+        var ret = [];
+
+        for(i = 0, len = deps.length; i < len; i++) {
+            dep = deps[i];
+
+            if(dep.indexOf('./') === 0) dep = dep.slice(2);
+
+            if(!(dep in window)) console.warn('Dependency ' + dep + ' has not been loaded yet!');
+
+            ret.push(window[dep]);
+        }
+
+        return ret;
+    }
+
+    function isArray(a) {
+        return toString.call(a) === '[object Array]';
     }
 }

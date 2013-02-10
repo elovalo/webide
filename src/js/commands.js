@@ -16,11 +16,9 @@ define(function(require) {
         var stopClass = 'stop';
         var sb = sandbox();
 
-        // XXX: presumes deps are in the right order
         sandbox.load(sb, ['module',
             'components/is/is', 'components/annotate.js/lib/annotate',
-            'cube', 'math', 'object',
-            'functional'], function() {
+            'functional', 'cube', 'math', 'object'], function() {
             sb.inject(sb.functional, sb.window);
         });
 

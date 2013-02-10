@@ -1,7 +1,4 @@
-define(function(require) {
-    var annotate = require('annotate');
-    var is = require('is-js');
-
+define(['annotate', 'is-js'], function(annotate, is) {
     function randint(min, max) {
         if(max < min) return;
 
