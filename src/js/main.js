@@ -1,5 +1,5 @@
 require.config({
-    'package': [
+    packages: [
         {
             name: 'funkit',
             location: '../components/funkit/lib',

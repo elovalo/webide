@@ -53,7 +53,7 @@ function generateFunkit() {
 
         funkit[parts[0]] = 'components/funkit/lib/' + p;
     }).on('done', function() {
-        var outputPath = path.join(__dirname, 'src/js/funkit.js');
+        var outputPath = path.join(__dirname, 'src/js/funkit_paths.js');
         var templatePath = path.join(__dirname, '_templates/funkit.hbs');
 
         writeTemplate(funkit, outputPath, templatePath);

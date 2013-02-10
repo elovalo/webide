@@ -2,10 +2,12 @@ define(function(require) {
     var sandbox = require('./sandbox');
     var groups = require('./examples');
     var funkit = require('funkit');
-    var funkitPaths = require('./funkit');
+    var funkitPaths = require('./funkit_paths');
     var parallel = require('./utils/async').parallel;
     var prop = require('./utils/common').prop;
     var $ = require('jquery');
+
+    console.log(funkit);
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews, dims) {
