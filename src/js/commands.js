@@ -1,6 +1,8 @@
 define(function(require) {
     var sandbox = require('./sandbox');
     var groups = require('./examples');
+    var funkit = require('funkit');
+    var funkitPaths = require('./funkit');
     var parallel = require('./utils/async').parallel;
     var prop = require('./utils/common').prop;
     var $ = require('jquery');

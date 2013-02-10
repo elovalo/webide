@@ -9,6 +9,7 @@ main();
 
 function main() {
     generateExamples();
+    generateFunkit();
 }
 
 function generateExamples() {
@@ -42,6 +43,23 @@ function generateExamples() {
     }).walk();
 }
 
+function generateFunkit() {
+    var funkit = {};
+
+    filewalker('./src/components/funkit/lib').on('file', function(p) {
+        var parts = p.split('.');
+
+        if(p.indexOf('.') === 0) return;
+
+        funkit[parts[0]] = 'components/funkit/lib/' + p;
+    }).on('done', function() {
+        var outputPath = path.join(__dirname, 'src/js/funkit.js');
+        var templatePath = path.join(__dirname, '_templates/funkit.hbs');
+
+        writeTemplate(funkit, outputPath, templatePath);
+    }).walk();
+}
+
 function writeTemplate(data, outputPath, templatePath, out) {
     out = out || function() {};
 
@@ -51,7 +69,7 @@ function writeTemplate(data, outputPath, templatePath, out) {
 }
 
 function toObject(data) {
-    return {
+    var ret = {
         examples: Object.keys(data).map(function(v) {
             return {
                 category: v,
@@ -59,6 +77,8 @@ function toObject(data) {
             };
         })
     };
+    console.log(ret);
+    return ret;
 }
 
 function compile(path, cb) {

@@ -21,7 +21,7 @@ function define(deps, module, id) {
             }
         }
 
-        window[id] = module.apply(undefined, loadDeps(deps));
+        window[id] = module.apply(undefined, loadDeps(deps).concat(require));
     }
 
     function loadDeps(deps) {
@@ -37,6 +37,19 @@ function define(deps, module, id) {
         }
 
         return ret;
+    }
+
+    function require(name) {
+        var dep = depName(name);
+
+        if(!(dep in window)) {
+            console.log('dep not found', dep);
+
+            // TODO
+            return;
+        }
+
+        return window[dep];
     }
 
     function depName(dep) {
