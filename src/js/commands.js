@@ -56,14 +56,6 @@ define(function(require) {
             });
     }
 
-    function encapsulate(code) {
-        return '(function() {' + code + '})();';
-    }
-
-    function dimsToString(dims) {
-        return '{x: ' + dims.x + ', y: ' + dims.y + ', z: ' + dims.z +'}';
-    }
-
     function $templates(editor, groups) {
         var $ret = $('<select/>', {'class': 'codeTemplates'});
 
