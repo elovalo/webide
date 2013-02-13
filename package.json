@@ -5,7 +5,10 @@
   "main": "serve.js",
 
   "dependencies": {
-    "connect": "== 2.7.2"
+    "connect": "== 2.7.2",
+    "express": "== 3.1.0",
+    "jqtpl": "== 2.0.14rc1",
+    "jshtml": "== 0.3.0"
   },
 
   "devDependencies": {
