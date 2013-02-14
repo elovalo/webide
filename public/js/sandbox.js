@@ -21,14 +21,14 @@ define(function(require) {
 
             if(src.indexOf('/') == -1) path = 'js/utils/' + src;
 
-            path += '.js';
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', path + '.js', false);
+            xhr.send();
 
-            $.ajax({url: path}).done(function(d) {
-                handle(d, i, src, cb);
-            }).fail(function(xhr, text, err) {
-                // TODO: figure out why "parsererror" happens sometimes!
+            if(xhr.status === 200 &&
+              xhr.getResponseHeader('Content-Type') === 'application/javascript') {
                 handle(xhr.responseText, i, src, cb);
-            });
+            }
         }, srcFiles, function(err, data) {
             var script = document.createElement('script');
             script.type = 'text/javascript';
