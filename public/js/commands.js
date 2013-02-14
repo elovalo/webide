@@ -20,6 +20,9 @@ define(function(require) {
             'components/funkit/lib/index',
             'cube'], function() {
             sb.inject(sb.functional, sb.window);
+
+            // aliases
+            sb.range = sb.funkit.math.range;
         });
 
         return $('<div>', {'class': 'playback command'}).
