@@ -2,12 +2,7 @@ define(function(require) {
     var sandbox = require('./sandbox');
     var groups = require('./examples');
     var funkit = require('funkit');
-    var funkitPaths = require('./funkit_paths');
-    var parallel = require('./utils/async').parallel;
-    var prop = require('./utils/common').prop;
     var $ = require('jquery');
-
-    console.log(funkit);
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews, dims) {
@@ -22,7 +17,8 @@ define(function(require) {
 
         sandbox.load(sb, ['module',
             'components/is/is', 'components/annotate.js/lib/annotate',
-            'functional', 'cube', 'math', 'object'], function() {
+            'components/funkit/lib/index',
+            'cube'], function() {
             sb.inject(sb.functional, sb.window);
         });
 
@@ -78,7 +74,7 @@ define(function(require) {
     }
 
     function generateGroups($p, group, urls) {
-        parallel(function(url, cb, i) {
+        funkit.async.map(function(url, cb, i) {
             $.get(url, function(code) {
                 cb(null, {url: url, i: i, code: code});
             });

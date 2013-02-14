@@ -9,7 +9,6 @@ main();
 
 function main() {
     generateExamples();
-    generateFunkit();
 }
 
 function generateExamples() {
@@ -17,7 +16,7 @@ function generateExamples() {
 
     // 1. get root file(s) -> basic category
     // 2. get files in dirs -> dir name -> category, contents -> items
-    filewalker('./src/examples').on('file', function(p) {
+    filewalker('./public/examples').on('file', function(p) {
         var parts = p.split('/');
         var category, item;
 
@@ -36,27 +35,10 @@ function generateExamples() {
 
         categories[category].push(item);
     }).on('done', function() {
-        var outputPath = path.join(__dirname, 'src/js/examples.js');
+        var outputPath = path.join(__dirname, 'public/js/examples.js');
         var templatePath = path.join(__dirname, '_templates/examples.hbs');
 
         writeTemplate(categories, outputPath, templatePath);
-    }).walk();
-}
-
-function generateFunkit() {
-    var funkit = {};
-
-    filewalker('./src/components/funkit/lib').on('file', function(p) {
-        var parts = p.split('.');
-
-        if(p.indexOf('.') === 0) return;
-
-        funkit[parts[0]] = 'components/funkit/lib/' + p;
-    }).on('done', function() {
-        var outputPath = path.join(__dirname, 'src/js/funkit_paths.js');
-        var templatePath = path.join(__dirname, '_templates/funkit.hbs');
-
-        writeTemplate(funkit, outputPath, templatePath);
     }).walk();
 }
 
@@ -69,7 +51,7 @@ function writeTemplate(data, outputPath, templatePath, out) {
 }
 
 function toObject(data) {
-    var ret = {
+    return {
         examples: Object.keys(data).map(function(v) {
             return {
                 category: v,
@@ -77,8 +59,6 @@ function toObject(data) {
             };
         })
     };
-    console.log(ret);
-    return ret;
 }
 
 function compile(path, cb) {
@@ -86,12 +66,6 @@ function compile(path, cb) {
         cb(err, Handlebars.compile(f.toString()));
     });
 }
-
-Handlebars.registerHelper('array', function(items, options) {
-    return items.map(function(val) {
-        return options.fn({item: val});
-    });
-});
 
 Handlebars.registerHelper('list', function(items, options) {
     return items.map(function(val) {

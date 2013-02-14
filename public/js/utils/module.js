@@ -7,6 +7,9 @@ function define(deps, module, id) {
     if(id && isArray(deps)) {
         setTimeout(checkDeps, delay);
     }
+    else if(isFunction(deps)) {
+        deps(require);
+    }
     else if(id) {
         window[id] = module;
     }
@@ -21,7 +24,7 @@ function define(deps, module, id) {
             }
         }
 
-        window[id] = module.apply(undefined, loadDeps(deps).concat(require));
+        window[id] = module.apply(undefined, [require].concat(loadDeps(deps)));
     }
 
     function loadDeps(deps) {
@@ -43,9 +46,10 @@ function define(deps, module, id) {
         var dep = depName(name);
 
         if(!(dep in window)) {
-            console.log('dep not found', dep);
+            console.log('failed to find', dep, delay, searching);
 
-            // TODO
+            // TODO: ajax this!
+
             return;
         }
 
@@ -58,5 +62,9 @@ function define(deps, module, id) {
 
     function isArray(a) {
         return toString.call(a) === '[object Array]';
+    }
+
+    function isFunction(a) {
+        return {}.toString.call(a) === '[object Function]';
     }
 }

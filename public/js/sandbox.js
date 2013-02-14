@@ -1,5 +1,5 @@
 define(function(require) {
-    var parallel = require('./utils/async').parallel;
+    var funkit = require('funkit');
     var $ = require('jquery');
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
@@ -16,7 +16,7 @@ define(function(require) {
 
     function load(sb, srcFiles, done) {
         done = done || function() {};
-        parallel(function(src, cb, i) {
+        funkit.async.map(function(src, cb, i) {
             var path = src;
 
             if(src.indexOf('/') == -1) path = 'js/utils/' + src;
@@ -33,9 +33,7 @@ define(function(require) {
             var script = document.createElement('script');
             script.type = 'text/javascript';
 
-            script.innerHTML = data.sort(function(a, b) {
-                return a.i > b.i;
-            }).map(function(v) {
+            script.innerHTML = data.map(function(v) {
                 return v.data;
             }).join('');
 
