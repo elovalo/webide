@@ -41,3 +41,7 @@ html, body {
 .codeTemplates {
     float: right;
 }
+
+.CodeMirror {
+    height: auto;
+}
