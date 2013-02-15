@@ -13,7 +13,11 @@ define(['threejs'], function() {
         camera.position.z = 400;
         renderer.setSize(w, h);
 
-        var particles = initParticles(scene, dims);
+        var particleSystem = initParticles(scene, dims);
+        var particles = particleSystem.particles;
+
+        // TODO
+        //camera.lookAt(particleSystem.object.position);
 
         renderer.render(scene, camera);
 
@@ -140,7 +144,10 @@ define(['threejs'], function() {
 
         scene.add(particles);
 
-        return attributes;
+        return {
+            object: particles,
+            particles: attributes
+        };
     }
 
     return initPreview;
