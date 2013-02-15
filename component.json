@@ -6,7 +6,7 @@
     "requirejs": "~2.1.4",
     "jquery": "~1.9.0",
     "funkit": "~0.6.7",
-    "annotate.js": "~0.6.2",
+    "annotate.js": "~0.6.5",
     "codemirror": "dfc45b7021467b4b0ef78a98ad9bdb7e4e4e8096"
   }
 }
