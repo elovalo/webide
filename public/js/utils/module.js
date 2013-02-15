@@ -4,19 +4,9 @@ function define(deps, module, id) {
 
     if(isString(module)) id = module;
 
-    if(id && isArray(deps)) {
-        window[id] = arrayDeps(deps);
-    }
-    else if(isFunction(deps)) {
-        // XXX: hack for funkit. figure out how to deal with module name
-        if(id === 'components/funkit/lib/index') {
-            window.funkit = deps(require);
-        }
-        else window[id] = deps(require);
-    }
-    else if(id) {
-        window[id] = module;
-    }
+    if(id && isArray(deps)) window[id] = arrayDeps(deps);
+    else if(isFunction(deps)) window[id] = deps(require);
+    else if(id) window[id] = module;
 
     function arrayDeps(deps) {
         var i, len, dep, path;

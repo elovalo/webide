@@ -22,6 +22,7 @@ define(function(require) {
             sb.inject(sb.functional, sb.window);
 
             // aliases
+            sb.funkit = sb['components/funkit/lib/index'];
             sb.range = sb.funkit.math.range;
         });
 
