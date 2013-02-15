@@ -36,23 +36,31 @@ define(function(require) {
                 else {
                     $e.addClass(stopClass).removeClass(playClass);
 
+                    sb._ops = [];
+                    sb.ticks = 0;
+
                     sb.eval('function getInit() {var init;' +
                         editor.getValue() +
                         ';return init;}'
                     );
                     var res = sb.evaluateInit(sb.getInit(), dims);
+                    res.ops = sb._ops;
 
                     previews.evaluate(res, function(vars, ticks) {
+                        sb._ops = [];
                         sb.ticks = ticks;
+
                         sb.eval('function getEffect() {var effect;' +
                             editor.getValue() +
                             ';return effect;}'
                         );
 
-                        var ret = sb.evaluateEffect(sb.getEffect(), dims, vars);
-                        ret.playing = $e.hasClass(stopClass);
+                        sb.evaluateEffect(sb.getEffect(), dims, vars);
 
-                        return ret;
+                        return {
+                            ops: sb._ops,
+                            playing: $e.hasClass(stopClass)
+                        };
                     });
                 }
 

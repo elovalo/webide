@@ -53,8 +53,8 @@ define(['threejs'], function() {
             anim();
         }
 
-        function execute(fn) {
-            fn.forEach(function(op) {
+        function execute(ops) {
+            ops.forEach(function(op) {
                 if(!op) return;
 
                 var o = {
@@ -65,6 +65,7 @@ define(['threejs'], function() {
                         render(dims, particles, op.coords, 0);
                     }
                 }[op.op]();
+
             });
 
             renderer.render(scene, camera);
@@ -87,7 +88,7 @@ define(['threejs'], function() {
         for(var i = 0, len = coords.length; i < len; i++) {
             var coord = coords[i];
 
-            particles.alpha.value[coord.x + coord.y * xDims * yDims + coord.z * zDims] = alpha;
+            particles.alpha.value[parseInt(coord.x + coord.y, 10) * xDims * yDims + parseInt(coord.z, 10) * zDims] = alpha;
         }
 
         particles.alpha.needsUpdate = true;

@@ -1,27 +1,22 @@
 function evaluateInit(init, dims) {
-    var ops = [];
     var vars = {};
 
-    if(init) vars = init(cube(ops, dims));
+    if(init) vars = init(cube(dims));
 
     return {
-        vars: vars,
-        ops: ops
+        vars: vars
     };
 }
 
 function evaluateEffect(effect, dims, vars) {
-    var ops = [];
-
-    if(effect) effect(cube(ops, dims), vars);
+    if(effect) effect(cube(dims), vars);
 
     return {
-        vars: vars,
-        ops: ops
+        vars: vars
     };
 }
 
-function cube(ops, dims) {
+function cube(dims) {
     var ret = function(selector, b, c) {
         var functional = funkit.functional;
         var range = funkit.math.range;
@@ -69,13 +64,13 @@ function cube(ops, dims) {
         }
 
         o.on = function() {
-            ops.push({
+            window._ops.push({
                 op: 'on',
                 coords: coords
             });
         };
         o.off = function() {
-            ops.push({
+            window._ops.push({
                 op: 'off',
                 coords: coords
             });
