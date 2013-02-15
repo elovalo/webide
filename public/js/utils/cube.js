@@ -59,8 +59,8 @@ function cube(ops, dims) {
             map(select, xyzs);
         }
 
-        function select(x, y, z) {
-            coords.push({x: x, y: y, z: z});
+        function select(xyz) {
+            coords.push(xyz);
         }
 
         o.on = function() {
@@ -76,9 +76,12 @@ function cube(ops, dims) {
             });
         };
         o.map = function(cb) {
-            // TODO: this is supposed to map free axes!
-            console.log('free axes', freeAxes, selector);
-            return ret(coords.map(cb));
+            return ret(map(cb, functional.map(function(v, i) {
+                var axis = toProperty(i);
+
+                if(v) return range(dims[axis]);
+                return [selector[axis]]; // TODO: expand to support more cases
+            }, freeAxes)));
         };
 
         function toProperty(i) {
@@ -95,7 +98,7 @@ function cube(ops, dims) {
             for(x = 0, xLen = xs.length; x < xLen; x++)
                 for(y = 0, yLen = ys.length; y < yLen; y++)
                     for(z = 0, zLen = zs.length; z < zLen; z++)
-                        ret.push(cb(xs[x], ys[y], zs[z]));
+                        ret.push(cb({x: xs[x], y: ys[y], z: zs[z]}));
 
             return ret;
         }
