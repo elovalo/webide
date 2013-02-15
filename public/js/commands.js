@@ -23,6 +23,7 @@ define(function(require) {
 
             // aliases
             sb.funkit = sb['components/funkit/lib/index'];
+            sb.math = sb.funkit.math;
             sb.range = sb.funkit.math.range;
         });
 
