@@ -40,7 +40,7 @@ function cube(ops, dims) {
 
             if(freeLen > 1) selectAll();
             else if(freeLen === 1) selectLines(xyz);
-            else select(xyz);
+            else select.apply(undefined, xyz);
         }
 
         function selectAll() {
@@ -55,24 +55,12 @@ function cube(ops, dims) {
             }, xyz));
         }
 
-        function toProperty(i) {
-            return ['x', 'y', 'z'][i];
-        }
-
         function selectKernel(xyzs) {
-            var xs = xyzs[0];
-            var ys = xyzs[1];
-            var zs = xyzs[2];
-            var x, y, z, xLen, yLen, zLen;
-
-            for(x = 0, xLen = xs.length; x < xLen; x++)
-                for(y = 0, yLen = ys.length; y < yLen; y++)
-                    for(z = 0, zLen = zs.length; z < zLen; z++)
-                        select([xs[x], ys[y], zs[z]]);
+            map(select, xyzs);
         }
 
-        function select(xyz) {
-            coords.push({x: xyz[0], y: xyz[1], z: xyz[2]});
+        function select(x, y, z) {
+            coords.push({x: x, y: y, z: z});
         }
 
         o.on = function() {
@@ -89,9 +77,30 @@ function cube(ops, dims) {
         };
         o.map = function(cb) {
             // TODO: this is supposed to map free axes!
-            console.log('free axes', freeAxes);
+            console.log('free axes', freeAxes, selector);
             return ret(coords.map(cb));
         };
+
+        function toProperty(i) {
+            return ['x', 'y', 'z'][i];
+        }
+
+        function map(cb, xyzs) {
+            var xs = xyzs[0];
+            var ys = xyzs[1];
+            var zs = xyzs[2];
+            var x, y, z, xLen, yLen, zLen;
+            var ret = [];
+
+            for(x = 0, xLen = xs.length; x < xLen; x++)
+                for(y = 0, yLen = ys.length; y < yLen; y++)
+                    for(z = 0, zLen = zs.length; z < zLen; z++)
+                        ret.push(cb(xs[x], ys[y], zs[z]));
+
+            return ret;
+        }
+
+
 
         return o;
     };
