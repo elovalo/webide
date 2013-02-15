@@ -10,7 +10,7 @@ function evaluateInit(init, dims) {
     };
 }
 
-function evaluateEffect(effect, vars, dims) {
+function evaluateEffect(effect, dims, vars) {
     var ops = [];
 
     if(effect) effect(cube(ops, dims), vars);
@@ -27,6 +27,7 @@ function cube(ops, dims) {
         var range = funkit.math.range;
         var o = {};
         var coords = [];
+        var freeAxes = [];
 
         if(is.number(selector)) check([selector, b, c]);
         else if(is.array(selector)) check(selector);
@@ -34,7 +35,7 @@ function cube(ops, dims) {
         else selectAll();
 
         function check(xyz) {
-            var freeAxes = functional.map(functional.not(is.set), xyz);
+            freeAxes = functional.map(functional.not(is.set), xyz);
             var freeLen = functional.filter(funkit.id, freeAxes).length;
 
             if(freeLen > 1) selectAll();
@@ -87,6 +88,8 @@ function cube(ops, dims) {
             });
         };
         o.map = function(cb) {
+            // TODO: this is supposed to map free axes!
+            console.log('free axes', freeAxes);
             return ret(coords.map(cb));
         };
 
