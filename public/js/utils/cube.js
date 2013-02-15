@@ -24,6 +24,7 @@ function evaluateEffect(effect, vars, dims) {
 function cube(ops, dims) {
     var ret = function(selector, b, c) {
         var functional = funkit.functional;
+        var range = funkit.math.range;
         var o = {};
         var coords = [];
 
@@ -42,18 +43,21 @@ function cube(ops, dims) {
         }
 
         function selectAll() {
-            for(var x = 0, xLen = dims.x; x < xLen; x++) {
-                for(var y = 0, yLen = dims.y; y < yLen; y++) {
-                    for(var z = 0, zLen = dims.z; z < zLen; z++) {
-                        select([x, y, z]);
-                    }
-                }
-            }
+            selectKernel(range(dims.x), range(dims.y), range(dims.z));
         }
 
         function selectPlanes(xyz) {
             // TODO
             console.log('select planes', xyz, 'now');
+        }
+
+        function selectKernel(xs, ys, zs) {
+            var x, y, z, xLen, yLen, zLen;
+
+            for(x = 0, xLen = xs.length; x < xLen; x++)
+                for(y = 0, yLen = ys.length; y < yLen; y++)
+                    for(z = 0, zLen = zs.length; z < zLen; z++)
+                        select([xs[x], ys[y], zs[z]]);
         }
 
         function select(xyz) {
