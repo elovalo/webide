@@ -38,20 +38,30 @@ function cube(ops, dims) {
             var freeLen = functional.filter(funkit.id, freeAxes).length;
 
             if(freeLen > 1) selectAll();
-            else if(freeLen === 1) selectPlanes(xyz);
+            else if(freeLen === 1) selectLines(xyz);
             else select(xyz);
         }
 
         function selectAll() {
-            selectKernel(range(dims.x), range(dims.y), range(dims.z));
+            selectKernel([range(dims.x), range(dims.y), range(dims.z)]);
         }
 
-        function selectPlanes(xyz) {
-            // TODO
-            console.log('select planes', xyz, 'now');
+        function selectLines(xyz) {
+            selectKernel(functional.map(function(v, i) {
+                if(is.array(v)) return v;
+                if(is.number(v)) return [v];
+                return range(dims[toProperty(i)]);
+            }, xyz));
         }
 
-        function selectKernel(xs, ys, zs) {
+        function toProperty(i) {
+            return ['x', 'y', 'z'][i];
+        }
+
+        function selectKernel(xyzs) {
+            var xs = xyzs[0];
+            var ys = xyzs[1];
+            var zs = xyzs[2];
             var x, y, z, xLen, yLen, zLen;
 
             for(x = 0, xLen = xs.length; x < xLen; x++)
