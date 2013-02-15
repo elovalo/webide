@@ -2,7 +2,7 @@ function init(cube) {
     var demo = 0;
 
     cube().off();
-    [wholeCube, twoFreedoms, oneFreedom, oneFreedomTwoYs, specificLed][demo](cube);
+    [wholeCube, twoFreedoms, oneFreedom, oneFreedomTwoYs, specificLed, multipleLeds][demo](cube);
 }
 
 function wholeCube(cube) {
@@ -28,4 +28,9 @@ function specificLed(cube) {
     cube({x: 2, y: 4, z: 1}).on();
     cube([3, 5, 2]).on();
     cube(4, 6, 3).on();
+}
+
+function multipleLeds(cube) {
+    cube([[0, 0, 0], [0, 0, 1], [0, 0, 2]]).on();
+    cube([{x: 4, y: 4, z: 4}, {x: 4, y: 4, z: 5}, {x: 4, y: 4, z: 6}]).on();
 }

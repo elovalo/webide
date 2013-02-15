@@ -30,17 +30,22 @@ function cube(ops, dims) {
         var freeAxes = [];
 
         if(is.number(selector)) check([selector, b, c]);
-        else if(is.array(selector)) check(selector);
-        else if(is.object(selector)) check([selector.x, selector.y, selector.z]);
+        else if(is.array(selector)) {
+            if(functional.filter(is.number, selector).length) check(selector);
+            else functional.each(check, selector);
+        }
+        else if(is.object(selector)) check(selector);
         else selectAll();
 
         function check(xyz) {
+            if(!is.array(xyz) && is.object(xyz)) xyz = [xyz.x, xyz.y, xyz.z];
+
             freeAxes = functional.map(functional.not(is.set), xyz);
             var freeLen = functional.filter(funkit.id, freeAxes).length;
 
             if(freeLen > 1) selectAll();
             else if(freeLen === 1) selectLines(xyz);
-            else select.apply(undefined, xyz);
+            else select({x: xyz[0], y: xyz[1], z: xyz[2]});
         }
 
         function selectAll() {
