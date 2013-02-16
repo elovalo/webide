@@ -1,4 +1,4 @@
-define(['threejs'], function() {
+define(['threejs', 'trackball'], function() {
     function initPreview($e, dims) {
         var w = 400; // XXX
         var h = 300; // XXX
@@ -11,13 +11,15 @@ define(['threejs'], function() {
         scene.add(camera);
         camera.position.x = -50;
         camera.position.z = 400;
+
+        var controls = trackball(camera);
+
+        // TODO: controls.handleResize() on window resize
+
         renderer.setSize(w, h);
 
         var particleSystem = initParticles(scene, dims);
         var particles = particleSystem.particles;
-
-        // TODO
-        //camera.lookAt(particleSystem.object.position);
 
         renderer.render(scene, camera);
 
@@ -51,6 +53,8 @@ define(['threejs'], function() {
 
                 execute(res.ops);
 
+                controls.update();
+
                 if(res.playing) requestAnimationFrame(anim);
             }
 
@@ -82,6 +86,22 @@ define(['threejs'], function() {
                 animate(init, cb);
             }
         };
+    }
+
+    function trackball(camera) {
+        var controls = new THREE.TrackballControls(camera);
+
+        controls.rotateSpeed = 1.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+
+        controls.noZoom = false;
+        controls.noPan = false;
+
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+
+        return controls;
     }
 
     function render(dims, particles, coords, alpha) {

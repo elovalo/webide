@@ -17,13 +17,15 @@ require.config({
         javascripthint: '../components/codemirror/addon/hint/javascript-hint',
         javascriptmode: '../components/codemirror/mode/javascript/javascript',
 
-        threejs: '../vendor/three'
+        threejs: '../vendor/three',
+        trackball: '../vendor/three.trackball'
     },
     shim: {
         matchbrackets: ['codemirror'],
         continuecomment: ['codemirror'],
         javascripthint: ['codemirror'],
-        javascriptmode: ['codemirror']
+        javascriptmode: ['codemirror'],
+        trackball: ['threejs']
     },
     urlArgs: 'buster=' + (new Date()).getTime() // for dev only! use rev otherwise
 });
