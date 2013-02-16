@@ -12,7 +12,7 @@ define(['threejs', 'trackball'], function() {
         camera.position.x = -50;
         camera.position.z = 400;
 
-        var controls = trackball(camera);
+        var controls = trackball($e, camera);
 
         // TODO: controls.handleResize() on window resize
 
@@ -88,8 +88,8 @@ define(['threejs', 'trackball'], function() {
         };
     }
 
-    function trackball(camera) {
-        var controls = new THREE.TrackballControls(camera);
+    function trackball($e, camera) {
+        var controls = new THREE.TrackballControls(camera, $e.get()[0]);
 
         controls.rotateSpeed = 1.0;
         controls.zoomSpeed = 1.2;
