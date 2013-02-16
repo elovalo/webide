@@ -108,11 +108,12 @@ define(['threejs', 'trackball'], function() {
         var xDims = dims.x;
         var yDims = dims.y;
         var zDims = dims.z;
+        var i, len, coord;
 
-        for(var i = 0, len = coords.length; i < len; i++) {
-            var coord = coords[i];
+        for(i = 0, len = coords.length; i < len; i++) {
+            coord = coords[i];
 
-            particles.alpha.value[parseInt(coord.x + coord.y, 10) * xDims * yDims + parseInt(coord.z, 10) * zDims] = alpha;
+            particles.alpha.value[parseInt(coord.x, 10) + parseInt(coord.y, 10) * xDims * yDims + parseInt(coord.z, 10) * zDims] = alpha;
         }
 
         particles.alpha.needsUpdate = true;
