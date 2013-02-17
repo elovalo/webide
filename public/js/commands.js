@@ -27,49 +27,67 @@ define(function(require) {
             sb.range = sb.funkit.math.range;
         });
 
-        return $('<div>', {'class': 'playback command'}).
+        function restart($e) {
+            if($e.hasClass(stopClass)) {
+                stop($e);
+                play($e);
+            }
+        }
+
+        function play($e) {
+            $e.addClass(stopClass).removeClass(playClass);
+
+            sb._ops = [];
+            sb.ticks = 0;
+
+            sb.eval('function getInit() {var init;' +
+                editor.getValue() +
+                ';return init;}'
+            );
+            var res = sb.evaluateInit(sb.getInit(), dims);
+            res.ops = sb._ops;
+
+            previews.evaluate(res, function(vars, ticks) {
+                sb._ops = [];
+                sb.ticks = ticks;
+
+                sb.eval('function getEffect() {var effect;' +
+                    editor.getValue() +
+                    ';return effect;}'
+                );
+
+                try {
+                    sb.evaluateEffect(sb.getEffect(), dims, vars);
+                }
+                catch(e) {
+                    console.error(e.message);
+                }
+
+                return {
+                    ops: sb._ops,
+                    playing: $e.hasClass(stopClass)
+                };
+            });
+        }
+
+        function stop($e) {
+            $e.addClass(playClass).removeClass(stopClass);
+        }
+
+        var $e = $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
                 var $e = $(this);
 
-                if($e.hasClass(stopClass)) $e.addClass(playClass).removeClass(stopClass);
-                else {
-                    $e.addClass(stopClass).removeClass(playClass);
-
-                    sb._ops = [];
-                    sb.ticks = 0;
-
-                    sb.eval('function getInit() {var init;' +
-                        editor.getValue() +
-                        ';return init;}'
-                    );
-                    var res = sb.evaluateInit(sb.getInit(), dims);
-                    res.ops = sb._ops;
-
-                    previews.evaluate(res, function(vars, ticks) {
-                        sb._ops = [];
-                        sb.ticks = ticks;
-
-                        sb.eval('function getEffect() {var effect;' +
-                            editor.getValue() +
-                            ';return effect;}'
-                        );
-
-                        try {
-                            sb.evaluateEffect(sb.getEffect(), dims, vars);
-                        }
-                        catch(e) {
-                            console.error(e.message);
-                        }
-
-                        return {
-                            ops: sb._ops,
-                            playing: $e.hasClass(stopClass)
-                        };
-                    });
-                }
-
+                if($e.hasClass(stopClass)) stop($e);
+                else play($e);
             });
+
+        $e.bind('play', play.bind(undefined, $e)).
+            bind('stop', stop.bind(undefined, $e)).
+            bind('restart', restart.bind(undefined, $e));
+
+        return $e;
     }
 
     function $templates(editor, groups) {
@@ -106,7 +124,10 @@ define(function(require) {
             var $e = $(this);
             var val = $e.val();
 
-            if(val) editor.setValue($(':selected', $e).data('code'));
+            if(val) {
+                editor.setValue($(':selected', $e).data('code'));
+                $('.playback.command').trigger('restart');
+            }
         });
 
         return $ret;
