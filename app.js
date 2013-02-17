@@ -9,10 +9,11 @@ try {
 }
 catch (e) {
     config = {
-        cookieSecret: 'developersecret',
-        repoPath: '../demorepo'
+        cookieSecret: 'developersecret'
     };
 }
+
+if(!config.repoPath) config.repoPath = '../webidefx';
 
 function serve() {
     var app = express();
