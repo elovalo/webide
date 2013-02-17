@@ -1,8 +1,18 @@
-var express = require('express'),
-    routes = require('./routes'),
-     //user = require('./routes/user'),
-    path = require('path'),
-    jqtpl = require('jqtpl');
+var express = require('express');
+var routes = require('./routes');
+//var user = require('./routes/user');
+var path = require('path');
+var jqtpl = require('jqtpl');
+var config;
+
+try {
+    config = require('./config.json');
+}
+catch (e) {
+    config = {
+        cookieSecret: 'developersecret'
+    };
+}
 
 var app = express();
 
@@ -19,7 +29,7 @@ app.configure(function(){
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.cookieParser('your secret here'));
+    app.use(express.cookieParser(config.cookieSecret));
     app.use(express.session());
     app.use(app.router);
     app.use(express['static'](path.join(__dirname, 'public')));

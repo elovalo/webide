@@ -9,3 +9,7 @@ Web based IDE for developing some kickass fx using JavaScript.
 3. `grunt` at project root
 
 Make sure you have installed [LiveReload browser extension](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-) to get most benefit out of the setup!
+
+## Deployment
+
+Fill in config.json (do not commit!) and add necessary details there.
