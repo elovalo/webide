@@ -5,18 +5,18 @@ define(['threejs', 'trackball'], function() {
         var renderer = new THREE.WebGLRenderer({
             clearAlpha: true
         });
-        var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 10000);
+        var camera = new THREE.PerspectiveCamera(45, w / h, 10, 10000);
         var scene = new THREE.Scene();
 
         scene.add(camera);
-        camera.position.x = -50;
-        camera.position.z = 400;
+        camera.position.x = 50;
+        camera.position.z = 800;
 
         var controls = trackball($e, camera);
 
         renderer.setSize(w, h);
 
-        var particleSystem = initParticles(scene, dims);
+        var particleSystem = initParticles(scene, dims, 400);
         var particles = particleSystem.particles;
 
         renderer.render(scene, camera);
@@ -104,7 +104,7 @@ define(['threejs', 'trackball'], function() {
         var controls = new THREE.TrackballControls(camera, $e.get()[0]);
 
         controls.rotateSpeed = 1.0;
-        controls.zoomSpeed = 1.2;
+        controls.zoomSpeed = 0.5;
         controls.panSpeed = 0.8;
 
         controls.noZoom = false;
@@ -131,11 +131,10 @@ define(['threejs', 'trackball'], function() {
         particles.alpha.needsUpdate = true;
     }
 
-    function initParticles(scene, dims) {
+    function initParticles(scene, dims, dim) {
         var x = dims.x;
         var y = dims.y;
         var z = dims.z;
-        var dim = 200; // XXX
         var dimHalf = dim / 2;
         var attributes = {
             alpha: {
