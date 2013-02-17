@@ -12,12 +12,12 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', 'tinylr-start serve watch');    
-    
-    grunt.registerTask('serve', 'Start server', function() {        
-        var app = require('./app'),
-            http = require('http');
-                
+    grunt.registerTask('default', 'tinylr-start serve watch');
+
+    grunt.registerTask('serve', 'Start server', function() {
+        var app = require('./app')();
+        var http = require('http');
+
         http.createServer(app).listen(app.get('port'), function(){
             console.log("Starting Elovalo Webide " + app.get('port'));
         });

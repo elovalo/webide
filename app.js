@@ -9,36 +9,41 @@ try {
 }
 catch (e) {
     config = {
-        cookieSecret: 'developersecret'
+        cookieSecret: 'developersecret',
+        repoPath: '../demorepo'
     };
 }
 
-var app = express();
+function serve() {
+    var app = express();
 
-app.configure(function(){
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', __dirname + '/views');
+    app.configure(function(){
+        app.set('port', process.env.PORT || 3000);
+        app.set('views', __dirname + '/views');
 
-    app.set('view engine', 'html');
-    app.set('view options', {layout: false});
+        app.set('view engine', 'html');
+        app.set('view options', {layout: false});
 
-    app.engine('html', jqtpl.__express);
+        app.engine('html', jqtpl.__express);
 
-    app.use(express.favicon());
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(express.cookieParser(config.cookieSecret));
-    app.use(express.session());
-    app.use(app.router);
-    app.use(express['static'](path.join(__dirname, 'public')));
-});
+        app.use(express.favicon());
+        app.use(express.logger('dev'));
+        app.use(express.bodyParser());
+        app.use(express.methodOverride());
+        app.use(express.cookieParser(config.cookieSecret));
+        app.use(express.session());
+        app.use(app.router);
+        app.use(express['static'](path.join(__dirname, 'public')));
+    });
 
-app.configure('development', function(){
-    app.use(express.errorHandler());
-});
+    app.configure('development', function(){
+        app.use(express.errorHandler());
+    });
 
-app.get('/', routes.index);
-app.get('/editor', routes.editor);
+    app.get('/', routes.index);
+    app.get('/editor', routes.editor);
 
-module.exports = app;
+    return app;
+}
+
+module.exports = serve;
