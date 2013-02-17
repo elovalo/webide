@@ -2,18 +2,7 @@ var express = require('express');
 var routes = require('./routes');
 var path = require('path');
 var jqtpl = require('jqtpl');
-var config;
-
-try {
-    config = require('./config.json');
-}
-catch (e) {
-    config = {
-        cookieSecret: 'developersecret'
-    };
-}
-
-if(!config.repoPath) config.repoPath = '../webidefx';
+var config = require('./config');
 
 function serve() {
     var app = express();
