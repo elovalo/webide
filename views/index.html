@@ -8,4 +8,10 @@
 </head>
 <body>
     <a href="/editor">New Effect</a>
+
+    <ul class="effects">
+    {{each(effect, i) effects}}
+        <li>${i}.${effect}</li>
+    {{/each}}
+    </ul>
 </body>
