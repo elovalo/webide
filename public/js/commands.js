@@ -25,6 +25,11 @@ define(function(require) {
             sb.funkit = sb['components/funkit/lib/index'];
             sb.math = sb.funkit.math;
             sb.range = sb.funkit.math.range;
+
+            // these are needed for completion to work
+            window.funkit = funkit;
+            window.math = funkit.math;
+            window.range = window.math.range;
         });
 
         function restart($e) {
