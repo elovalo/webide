@@ -1,7 +1,7 @@
 function effect(cube) {
     var time = ticks / 100;
 
-    cube({z: 0}).forEach(function(led) {
+    cube({z: 0}).each(function(led) {
         var tc = math.cos(time);
         var ts = math.sin(time);
         var x = led.x * tc - y * ts;

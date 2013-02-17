@@ -80,6 +80,9 @@ function cube(dims) {
                 coords: coords
             });
         };
+        o.each = function(cb) {
+            return ret(map(cb, getXyzs()));
+        };
         o.filter = function(cb) {
             return ret(filter(cb, getXyzs()));
         };
@@ -125,13 +128,16 @@ function cube(dims) {
             var xs = xyzs[0];
             var ys = xyzs[1];
             var zs = xyzs[2];
-            var x, y, z, xLen, yLen, zLen;
+            var x, y, z, xLen, yLen, zLen, xyz;
             var ret = [];
 
             for(x = 0, xLen = xs.length; x < xLen; x++)
                 for(y = 0, yLen = ys.length; y < yLen; y++)
-                    for(z = 0, zLen = zs.length; z < zLen; z++)
-                        ret.push(cb({x: xs[x], y: ys[y], z: zs[z]}));
+                    for(z = 0, zLen = zs.length; z < zLen; z++) {
+                        xyz = cb({x: xs[x], y: ys[y], z: zs[z]});
+
+                        if(xyz) ret.push(xyz);
+                    }
 
             return ret;
         }

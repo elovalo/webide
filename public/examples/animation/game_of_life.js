@@ -5,7 +5,7 @@ function init() {
 function effect(cube, vars) {
     var isAlive = false;
 
-    cube().forEach(function(led) {
+    cube().each(function(led) {
         var neighbours = led.neighbours().length;
 
         if(neighbours >= 6 && neighbours <= 15 || math.randint(0, 10) > 8) {
