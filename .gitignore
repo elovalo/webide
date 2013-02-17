@@ -2,3 +2,4 @@ components/
 node_modules/
 *.swp
 nbproject
+config.json
