@@ -1,7 +1,7 @@
 define(['threejs', 'trackball'], function() {
     function initPreview($e, dims) {
-        var w = 400; // XXX
-        var h = 300; // XXX
+        var w = $e.width();
+        var h = $e.height();
         var renderer = new THREE.WebGLRenderer({
             clearAlpha: true
         });
