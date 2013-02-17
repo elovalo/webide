@@ -67,6 +67,12 @@ function compile(path, cb) {
     });
 }
 
+Handlebars.registerHelper('array', function(items, options) {
+    return items.map(function(val) {
+        return options.fn({item: val});
+    });
+});
+
 Handlebars.registerHelper('list', function(items, options) {
     return items.map(function(val) {
         return options.fn(val);

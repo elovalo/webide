@@ -72,9 +72,30 @@ define(function(require) {
 
         $ret.append($('<option/>'));
 
-        for(var group in groups) {
-            generateGroups($ret, group, getUrls(group, groups[group]));
-        }
+        funkit.async.map(function(group, groupCb) {
+            funkit.async.map(function(url, cb, i) {
+                $.get(url, function(code) {
+                    cb(null, {group: group[0], url: url, i: i, code: code});
+                });
+            }, getUrls(group[0], group[1]), function(err, data) {
+                groupCb(null, data);
+            });
+        }, funkit.functional.otozip(groups), function(err, data) {
+            data.sort(function(a, b) {
+                return a[0].group > b[0].group;
+            }).forEach(function(d) {
+                var $p = $('<optgroup/>', {label: d[0].group}).appendTo($ret);
+
+                d.sort(function(a, b) {
+                    return a.i > b.i;
+                }).forEach(function(d) {
+                    var parts = d.url.split('/');
+                    var name = parts[parts.length - 1].replace('_', ' ');
+
+                    $p.append($('<option/>', {value: name}).text(name).data('code', d.code));
+                });
+            });
+        });
 
         $ret.on('change', function() {
             var $e = $(this);
@@ -86,39 +107,10 @@ define(function(require) {
         return $ret;
     }
 
-    function generateGroups($p, group, urls) {
-        funkit.async.map(function(url, cb, i) {
-            $.get(url, function(code) {
-                cb(null, {url: url, i: i, code: code});
-            });
-        }, Object.keys(urls), function(err, data) {
-            createOptions(err, data, group, urls, $p);
-        });
-    }
-
-    function createOptions(err, data, group, urls, $p) {
-        $p = group === 'none'? $p: $('<optgroup/>', {label: group}).appendTo($p);
-
-        data.sort(function(a, b) {
-            return a.i > b.i;
-        }).forEach(function(d) {
-            var parts = d.url.split('/');
-            var name = parts[parts.length - 1].replace('_', ' ');
-
-            $p.append($('<option/>', {value: name}).text(name).data('code', d.code));
-        });
-    }
-
-    // TODO: refactor as [[k, v]] -> to object
     function getUrls(group, examples) {
-        var ret = {};
-
-        examples.forEach(function(v, i) {
-            if(group === 'none') ret['examples/' + v + '.js'] = i;
-            else ret['examples/' + group + '/' + v + '.js'] = i;
+        return examples.map(function(example) {
+            return 'examples/' + group + '/' + example + '.js';
         });
-
-        return ret;
     }
 
     return initCommands;
