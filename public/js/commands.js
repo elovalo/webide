@@ -51,12 +51,12 @@ define(function(require) {
                 sb._ops = [];
                 sb.ticks = ticks;
 
-                sb.eval('function getEffect() {var effect;' +
-                    editor.getValue() +
-                    ';return effect;}'
-                );
-
                 try {
+                    sb.eval('function getEffect() {var effect;' +
+                        editor.getValue() +
+                        ';return effect;}'
+                    );
+
                     sb.evaluateEffect(sb.getEffect(), dims, vars);
                 }
                 catch(e) {
