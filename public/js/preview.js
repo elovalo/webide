@@ -14,8 +14,6 @@ define(['threejs', 'trackball'], function() {
 
         var controls = trackball($e, camera);
 
-        // TODO: controls.handleResize() on window resize
-
         renderer.setSize(w, h);
 
         var particleSystem = initParticles(scene, dims);
@@ -26,14 +24,14 @@ define(['threejs', 'trackball'], function() {
         $e.append(renderer.domElement);
 
         $(window).on('resize', function() {
-            // TODO: update w/h properly
-            var w = 400;
-            var h = 300;
+            var w = $e.width();
+            var h = $e.height();
 
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
 
             renderer.setSize(w, h);
+            controls.handleResize();
         });
 
         var prevTime;
