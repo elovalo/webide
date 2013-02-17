@@ -4,7 +4,6 @@ var express = require('express'),
     path = require('path'),
     jqtpl = require('jqtpl');
 
-
 var app = express();
 
 app.configure(function(){
@@ -31,7 +30,6 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/editor', routes.editor);
 
-//Export Application
 module.exports = app;
-

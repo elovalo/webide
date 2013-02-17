@@ -3,34 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <title>${title}</title>
-<script type="x-shader/x-vertex" id="vertexshader">
-    attribute float alpha;
-    varying float vAlpha;
-
-    void main() {
-        vAlpha = alpha;
-        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-        gl_PointSize = 10.0;
-        gl_Position = projectionMatrix * mvPosition;
-    }
-</script>
-<script type="x-shader/x-fragment" id="fragmentshader">
-    uniform vec3 color;
-    varying float vAlpha;
-
-    void main() {
-        gl_FragColor = vec4(color, 1);
-        gl_FragColor.a *= vAlpha;
-    }
-</script>
-
-<link rel="stylesheet" href="components/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="css/base.css">
 
-<script data-main="js/main.js" src="components/requirejs/require.js"></script>
 </head>
 <body>
-    <div class="preview"></div>
-    <div class="editor"></div>
+    <a href="/editor">New Effect</a>
 </body>
