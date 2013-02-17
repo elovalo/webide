@@ -55,7 +55,12 @@ define(function(require) {
                             ';return effect;}'
                         );
 
-                        sb.evaluateEffect(sb.getEffect(), dims, vars);
+                        try {
+                            sb.evaluateEffect(sb.getEffect(), dims, vars);
+                        }
+                        catch(e) {
+                            console.error(e.message);
+                        }
 
                         return {
                             ops: sb._ops,
