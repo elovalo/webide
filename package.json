@@ -2,24 +2,25 @@
   "name": "webide",
   "version": "0.1.0",
   "description": "Web based IDE for developing some kickass fx using JavaScript.",
-  "main": "serve.js",
+  "main": "app.js",
 
   "dependencies": {
     "connect": "== 2.7.2",
     "express": "== 3.1.0",
     "jqtpl": "== 2.0.14rc1",
-    "jshtml": "== 0.3.0"
+    "jshtml": "== 0.3.0",
+    "gift": "== 0.0.5",
+    "filewalker": "== 0.1.1"
   },
 
   "devDependencies": {
-    "filewalker": "== 0.1.1",
     "handlebars": "== 1.0.8",
     "grunt": "== 0.3.17",
     "tiny-lr": "== 0.0.4"
   },
 
   "directories": {
-    "example": "examples"
+    "example": "public/examples"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
