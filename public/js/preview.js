@@ -34,11 +34,13 @@ define(['threejs', 'trackball'], function() {
             controls.handleResize();
         });
 
+        var animating = false;
         var prevTime;
         var ticks;
         function animate(init, cb) {
             var res = init;
 
+            animating = true;
             prevTime = new Date().getTime();
             ticks = 0;
 
@@ -54,10 +56,22 @@ define(['threejs', 'trackball'], function() {
                 controls.update();
 
                 if(res.playing) requestAnimationFrame(anim);
+                else {
+                    animating = false;
+                    refresh();
+                }
             }
 
             anim();
         }
+
+        function refresh() {
+            controls.update();
+            renderer.render(scene, camera);
+
+            if(!animating) requestAnimationFrame(refresh);
+        }
+        refresh();
 
         function execute(ops) {
             ops.forEach(function(op) {
