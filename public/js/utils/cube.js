@@ -65,10 +65,13 @@ function cube(dims) {
             coords.push(xyz);
         }
 
-        o.on = function() {
+        o.on = function(intensity) {
+            intensity = is.set(intensity)? intensity: 1;
+
             window._ops.push({
                 op: 'on',
-                coords: coords
+                coords: coords,
+                intensity: intensity
             });
         };
         o.off = function() {

@@ -1,3 +1,3 @@
 function effect(cube) {
-    cube().on();
+    cube().on(0.5);
 }

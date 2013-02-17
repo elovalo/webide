@@ -79,7 +79,7 @@ define(['threejs', 'trackball'], function() {
 
                 var o = {
                     on: function() {
-                        render(dims, particles, op.coords, 1);
+                        render(dims, particles, op.coords, op.intensity);
                     },
                     off: function() {
                         render(dims, particles, op.coords, 0);
