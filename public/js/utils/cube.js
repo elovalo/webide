@@ -75,17 +75,45 @@ function cube(dims) {
                 coords: coords
             });
         };
-        o.map = function(cb) {
-            return ret(map(cb, functional.map(function(v, i) {
-                var axis = toProperty(i);
-
-                if(v) return range(dims[axis]);
-                return [selector[axis]]; // TODO: expand to support more cases
-            }, freeAxes)));
+        o.filter = function(cb) {
+            return ret(filter(cb, getXyzs()));
         };
+        o.map = function(cb) {
+            return ret(map(cb, getXyzs()));
+        };
+
+        function getXyzs() {
+            if(freeAxes.length) {
+                return functional.map(function(v, i) {
+                    var axis = toProperty(i);
+
+                    if(v) return range(dims[axis]);
+                    return [selector[axis]]; // TODO: expand to support more cases
+                }, freeAxes);
+            }
+            return [range(dims.x), range(dims.y), range(dims.z)];
+        }
 
         function toProperty(i) {
             return ['x', 'y', 'z'][i];
+        }
+
+        function filter(cb, xyzs) {
+            var xs = xyzs[0];
+            var ys = xyzs[1];
+            var zs = xyzs[2];
+            var x, y, z, xLen, yLen, zLen, xyz;
+            var ret = [];
+
+            for(x = 0, xLen = xs.length; x < xLen; x++)
+                for(y = 0, yLen = ys.length; y < yLen; y++)
+                    for(z = 0, zLen = zs.length; z < zLen; z++) {
+                        xyz = {x: xs[x], y: ys[y], z: zs[z]};
+
+                        if(cb(xyz)) ret.push(xyz);
+                    }
+
+            return ret;
         }
 
         function map(cb, xyzs) {
@@ -102,8 +130,6 @@ function cube(dims) {
 
             return ret;
         }
-
-
 
         return o;
     };
