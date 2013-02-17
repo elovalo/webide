@@ -1,6 +1,8 @@
 function evaluateInit(init, dims) {
     var vars = {};
 
+    cube(dims)().off();
+
     if(init) vars = init(cube(dims));
 
     return {
