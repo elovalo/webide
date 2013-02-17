@@ -51,7 +51,7 @@ define(['threejs', 'trackball'], function() {
 
                 res = cb(res.vars, ticks);
 
-                execute(res.ops);
+                if(res.ok) execute(res.ops);
 
                 controls.update();
 

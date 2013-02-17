@@ -50,6 +50,7 @@ define(function(require) {
             previews.evaluate(res, function(vars, ticks) {
                 sb._ops = [];
                 sb.ticks = ticks;
+                var ok = true;
 
                 try {
                     sb.eval('function getEffect() {var effect;' +
@@ -60,10 +61,12 @@ define(function(require) {
                     sb.evaluateEffect(sb.getEffect(), dims, vars);
                 }
                 catch(e) {
+                    ok = false;
                     console.error(e.message);
                 }
 
                 return {
+                    ok: ok,
                     ops: sb._ops,
                     playing: $e.hasClass(stopClass)
                 };
