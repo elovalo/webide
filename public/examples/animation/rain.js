@@ -3,7 +3,7 @@ function effect(cube) {
     var surface = ticks & 127;
 
     cube({z: 0}).map(function(led) {
-        led.z = ((ticks >> 3) + math.rand()) & 7;
+        led.z = ((ticks >> 3) + math.random()) & 7;
 
         return led;
     }).on(0.25);
