@@ -158,6 +158,10 @@ function cube(dims) {
     return ret;
 }
 
+function xyz() {
+    return {x: 0, y: 0, z: 0};
+}
+
 function wf(i) {
     i = funkit.math.clamp(i, 0, 1);
 
