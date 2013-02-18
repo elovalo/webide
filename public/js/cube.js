@@ -3,19 +3,11 @@ function evaluateInit(init, dims) {
 
     cube(dims)().off();
 
-    if(init) vars = init(cube(dims));
-
-    return {
-        vars: vars
-    };
+    if(init) return init(cube(dims));
 }
 
 function evaluateEffect(effect, dims, vars) {
     if(effect) effect(cube(dims), vars);
-
-    return {
-        vars: vars
-    };
 }
 
 function cube(dims) {

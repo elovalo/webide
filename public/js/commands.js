@@ -54,10 +54,12 @@ define(function(require) {
             data.editor.getValue() +
             ';return init;}'
         );
-        var res = sb.evaluateInit(sb.getInit(), data.dims);
-        res.ops = sb._ops;
+        var vars = sb.evaluateInit(sb.getInit(), data.dims);
+        var res = {
+            ops: sb._ops
+        };
 
-        data.previews.evaluate(res, function(vars, ticks) {
+        data.previews.evaluate(res, function(ticks) {
             sb._ops = [];
             sb.ticks = ticks;
             var ok = true;

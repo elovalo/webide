@@ -49,7 +49,7 @@ define(['threejs', 'trackball'], function() {
                 ticks += curTime - prevTime;
                 prevTime = curTime;
 
-                res = cb(res.vars, ticks);
+                res = cb(ticks);
 
                 if(res.ok) execute(res.ops);
 
