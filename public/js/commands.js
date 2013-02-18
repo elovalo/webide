@@ -1,5 +1,5 @@
 define(function(require) {
-    var sandbox = require('./sandbox');
+    var sandbox = require('sandboxy');
     var groups = require('./examples');
     var funkit = require('funkit');
     var partial = funkit.partial;

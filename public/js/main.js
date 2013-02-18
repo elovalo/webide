@@ -10,6 +10,7 @@ require.config({
         annotate: '../components/annotate.js/lib/annotate',
         'is-js': '../components/is/is',
         jquery: '../components/jquery/jquery',
+        sandboxy: '../components/sandboxy/sandboxy',
 
         codemirror: '../components/codemirror/lib/codemirror',
         matchbrackets: '../components/codemirror/addon/edit/matchbrackets',
