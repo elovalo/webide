@@ -15,7 +15,7 @@ define(function(require) {
     }
 
     function $playback(editor, previews, dims) {
-        var sb = initializeSandbox();
+        var sb = initSandbox();
         var $e = $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
@@ -87,7 +87,7 @@ define(function(require) {
         $e.addClass(playClass).removeClass(stopClass);
     }
 
-    function initializeSandbox() {
+    function initSandbox() {
         var sb = sandbox();
 
         sb.is = is;

@@ -1,16 +1,17 @@
 define(function(require) {
     var funkit = require('funkit');
-    var $ = require('jquery');
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
-    function init($e, editor) {
-        var frame = $('<iframe width="0" height="0"/>').
-            css({visibility: 'hidden'}).
-            appendTo('body')[0];
+    function init() {
+        var frame = document.createElement('iframe');
+        frame.width = 0;
+        frame.height = 0;
+        frame.style.visibility = 'hidden';
+
+        document.body.appendChild(frame);
+
         var sb = frame.contentWindow;
-
         sb.frame = frame;
-
         return sb;
     }
 
