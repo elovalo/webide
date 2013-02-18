@@ -2,8 +2,11 @@ define(function(require) {
     var sandbox = require('./sandbox');
     var groups = require('./examples');
     var funkit = require('funkit');
+    var partial = funkit.partial;
     var $ = require('jquery');
     var is = require('is-js');
+    var playClass = 'play';
+    var stopClass = 'stop';
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews, dims) {
@@ -12,79 +15,81 @@ define(function(require) {
     }
 
     function $playback(editor, previews, dims) {
-        var playClass = 'play';
-        var stopClass = 'stop';
-        var sb = sandbox();
-
-        initializeSandbox(sb);
-
-        function restart($e) {
-            if($e.hasClass(stopClass)) {
-                stop($e);
-                play($e);
-            }
-        }
-
-        function play($e) {
-            $e.addClass(stopClass).removeClass(playClass);
-
-            sb._ops = [];
-            sb.ticks = 0;
-
-            sb.eval('function getInit() {var init;' +
-                editor.getValue() +
-                ';return init;}'
-            );
-            var res = sb.evaluateInit(sb.getInit(), dims);
-            res.ops = sb._ops;
-
-            previews.evaluate(res, function(vars, ticks) {
-                sb._ops = [];
-                sb.ticks = ticks;
-                var ok = true;
-
-                try {
-                    sb.eval('function getEffect() {var effect;' +
-                        editor.getValue() +
-                        ';return effect;}'
-                    );
-
-                    sb.evaluateEffect(sb.getEffect(), dims, vars);
-                }
-                catch(e) {
-                    ok = false;
-                    console.error(e.message);
-                }
-
-                return {
-                    ok: ok,
-                    ops: sb._ops,
-                    playing: $e.hasClass(stopClass)
-                };
-            });
-        }
-
-        function stop($e) {
-            $e.addClass(playClass).removeClass(stopClass);
-        }
-
+        var sb = initializeSandbox();
         var $e = $('<div>', {'class': 'playback command'}).
             addClass(playClass).
             on('click', function() {
                 var $e = $(this);
 
-                if($e.hasClass(stopClass)) stop($e);
-                else play($e);
+                if($e.hasClass(stopClass)) $e.trigger('stop');
+                else $e.trigger('play');
             });
 
-        $e.bind('play', play.bind(undefined, $e)).
-            bind('stop', stop.bind(undefined, $e)).
-            bind('restart', restart.bind(undefined, $e));
-
-        return $e;
+        return $e.bind('play', {
+                sb: sb,
+                editor: editor,
+                dims:dims,
+                previews: previews
+            }, partial(play, $e)).
+            bind('stop', partial(stop, $e)).
+            bind('restart', partial(restart, $e));
     }
 
-    function initializeSandbox(sb) {
+    function restart($e) {
+        if($e.hasClass(stopClass)) {
+            $e.trigger('stop').trigger('play');
+        }
+    }
+
+    function play($e, evt) {
+        var data = evt.data;
+        var sb = data.sb;
+
+        $e.addClass(stopClass).removeClass(playClass);
+
+        sb._ops = [];
+        sb.ticks = 0;
+
+        sb.eval('function getInit() {var init;' +
+            data.editor.getValue() +
+            ';return init;}'
+        );
+        var res = sb.evaluateInit(sb.getInit(), data.dims);
+        res.ops = sb._ops;
+
+        data.previews.evaluate(res, function(vars, ticks) {
+            sb._ops = [];
+            sb.ticks = ticks;
+            var ok = true;
+
+            try {
+                sb.eval('function getEffect() {var effect;' +
+                    data.editor.getValue() +
+                    ';return effect;}'
+                );
+
+                sb.evaluateEffect(sb.getEffect(), data.dims, vars);
+            }
+            catch(e) {
+                ok = false;
+                console.error(e.message);
+            }
+
+            return {
+                ok: ok,
+                ops: sb._ops,
+                playing: $e.hasClass(stopClass)
+            };
+        });
+    }
+
+    function stop($e) {
+        $e.addClass(playClass).removeClass(stopClass);
+    }
+
+    function initializeSandbox() {
+        var sb = sandbox();
+
         sb.is = is;
         sb.funkit = funkit;
         sb.math = sb.funkit.math;
@@ -96,6 +101,8 @@ define(function(require) {
         window.range = window.math.range;
 
         sandbox.load(sb, ['js/cube']);
+
+        return sb;
     }
 
     function $templates(editor, groups) {
