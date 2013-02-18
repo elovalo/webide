@@ -18,10 +18,8 @@ define(function(require) {
         done = done || function() {};
         funkit.async.map(function(src, cb, i) {
             var path = src;
-
-            if(src.indexOf('/') == -1) path = 'js/utils/' + src;
-
             var xhr = new XMLHttpRequest();
+
             xhr.open('get', path + '.js', false);
             xhr.send();
 

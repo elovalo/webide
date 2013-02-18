@@ -157,9 +157,3 @@ function cube(dims) {
 
     return ret;
 }
-
-function inject(src, target) {
-    for(var k in src) {
-        target[k] = src[k];
-    }
-}

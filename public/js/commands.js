@@ -3,6 +3,7 @@ define(function(require) {
     var groups = require('./examples');
     var funkit = require('funkit');
     var $ = require('jquery');
+    var is = require('is-js');
 
     // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews, dims) {
@@ -15,22 +16,7 @@ define(function(require) {
         var stopClass = 'stop';
         var sb = sandbox();
 
-        sandbox.load(sb, ['module',
-            'components/is/is', 'components/annotate.js/lib/annotate',
-            'components/funkit/lib/index',
-            'cube'], function() {
-            sb.inject(sb.functional, sb.window);
-
-            // aliases
-            sb.funkit = sb['components/funkit/lib/index'];
-            sb.math = sb.funkit.math;
-            sb.range = sb.funkit.math.range;
-
-            // these are needed for completion to work
-            window.funkit = funkit;
-            window.math = funkit.math;
-            window.range = window.math.range;
-        });
+        initializeSandbox(sb);
 
         function restart($e) {
             if($e.hasClass(stopClass)) {
@@ -96,6 +82,20 @@ define(function(require) {
             bind('restart', restart.bind(undefined, $e));
 
         return $e;
+    }
+
+    function initializeSandbox(sb) {
+        sb.is = is;
+        sb.funkit = funkit;
+        sb.math = sb.funkit.math;
+        sb.range = sb.funkit.math.range;
+
+        // these are needed for completion to work
+        window.funkit = funkit;
+        window.math = funkit.math;
+        window.range = window.math.range;
+
+        sandbox.load(sb, ['js/cube']);
     }
 
     function $templates(editor, groups) {
