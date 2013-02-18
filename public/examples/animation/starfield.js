@@ -1,6 +1,6 @@
 function init(cube) {
     return {
-        stars: range(10).map(partial(randint, 0, cube.xyz))
+        stars: range(10).map(partial(math.randint, 0, cube.xyz))
     };
 }
 
