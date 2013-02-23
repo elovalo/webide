@@ -11,7 +11,7 @@
     "jshtml": "== 0.3.0",
     "gift": "== 0.0.5",
     "filewalker": "== 0.1.1",
-    "funkit": "== 0.6.7"
+    "funkit": "== 0.7.4"
   },
 
   "devDependencies": {
