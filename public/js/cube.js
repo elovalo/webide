@@ -151,8 +151,27 @@ function cube(dims) {
 }
 
 function xyz() {
-    return {x: 0, y: 0, z: 0};
+    return {
+        x: 0,
+        y: 0,
+        z: 0
+    };
 }
+
+axis = {
+    xy: function xy(cube, y, z) {
+        cube({x: cube.x, y: y, z: z}).on();
+    },
+    yz: function yz(cube, x, y) {
+        cube({x: cube.x - x, y: cube.y, z: z}).on();
+    }
+};
+
+shape = {
+    character: function(char, offset, axis) {
+        // TODO
+    }
+};
 
 function wf(i) {
     i = funkit.math.clamp(i, 0, 1);
