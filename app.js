@@ -81,14 +81,13 @@ function auth(app) {
             failureRedirect: '/'
         }),
         function(req, res) {
-            // Successful authentication, redirect home.
-            res.redirect('/');
+            res.redirect('back');
         }
     );
 
     app.get('/logout', function(req, res){
         req.logout();
-        res.redirect('/');
+        res.redirect('back');
     });
 }
 
