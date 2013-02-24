@@ -9,7 +9,9 @@ block head
         .commands
             .playback
             select.templates
-            .save
+
+            if user
+                .save
 
     script(type='x-shader/x-vertex', id='vertexshader')
         include ../public/shaders/vertex.shader
