@@ -1,7 +1,7 @@
-var effects = require('./utils/effects');
+var effects = require('./effects');
 
 exports.index = function(req, res) {
-    effects.get(function(err, data) {
+    effects.getAll(function(err, data) {
         res.render('index', {
             title: 'Elovalo Webide', // TODO: move to tpl
             effects: data,
@@ -38,12 +38,28 @@ exports.editorSave = function(req, res) {
     var id = req.param('id');
     var status;
 
-    if(code && id) {
-        effects.commit('Save effect', id, code, function(err) {
-            status = err? 'error': 'success';
+    // TODO: refactor status out and replace with 404
+    if(code && req.user.id) {
+        if(id) {
+            effects.getMeta(id, function(err, d) {
+                if(err) return res.json({status: 'error'});
 
-            res.json({status: status});
-        });
+                if(req.user.id == d.author) {
+                    effects.commit('Save effect', id, code, function(err) {
+                        status = err? 'error': 'success';
+
+                        res.json({status: status});
+                    });
+                }
+                else {
+                    // new author, fork
+                }
+            });
+        }
+        else {
+            // TODO: create new effect to repo now
+            res.json({status: 'success'});
+        }
     }
     else {
         res.json({status: 'error'});
@@ -61,7 +77,7 @@ exports.effects = function(req, res) {
         });
     }
     else {
-        effects.getMeta(function(err, d) {
+        effects.getAllMeta(function(err, d) {
             if(err) return res.send(404);
 
             return res.json(d);
