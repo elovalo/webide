@@ -1,0 +1,17 @@
+extends layout
+
+block head
+    link(rel='stylesheet', href='components/codemirror/lib/codemirror.css')
+    link(rel='stylesheet', href='components/codemirror/addon/hint/show-hint.css')
+    link(rel='stylesheet', href='css/editor.css')
+
+    script(type='x-shader/x-vertex', id='vertexshader')
+        include ../public/shaders/vertex.shader
+    script(type='x-shader/x-fragment', id='fragmentshader')
+        include ../public/shaders/fragment.shader
+
+    script(type='text/javascript', data-main='js/main.js', src='components/requirejs/require.js')
+
+block content
+    .preview
+    .editor

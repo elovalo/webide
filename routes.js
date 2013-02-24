@@ -1,10 +1,10 @@
 var path = require('path');
 var filewalker = require('filewalker');
 var funkit = require('funkit');
-var config = require('./config');
+var conf = require('./conf.json');
 
 exports.index = function(req, res) {
-    var metaPath = path.join(config.repoPath, 'effects_meta');
+    var metaPath = path.join(conf.repoPath, 'effects_meta');
     var files = [];
 
     filewalker(metaPath).

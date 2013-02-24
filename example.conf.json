@@ -1,0 +1,5 @@
+{
+  "cookieSecret": "replacethis",
+  "port": 3000,
+  "repoPath": "../webidefx"
+}

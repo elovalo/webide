@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    a(href='/editor') New Effect
+
+    ul
+        each effect in effects
+            li= effect
