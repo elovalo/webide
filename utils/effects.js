@@ -2,29 +2,38 @@ var fs = require('fs');
 var path = require('path');
 
 var gift = require('gift');
+var partial = require('funkit').partial;
 
 var filewalker = require('filewalker');
 
 var conf = require('../conf.json');
 var repo = gift(conf.repoPath);
 
-function get(cb) {
-    var metaPath = effectsMetaPath();
+exports.get = partial(walk, effectsMetaPath(), function(f, p) {
+    var d = require(path.join(p, f));
+    d.id = path.basename(f, '.json');
+
+    return d;
+});
+exports.getMeta = partial(walk, effectsPath(), function(f) {
+    return path.basename(f, '.js');
+});
+
+function walk(p, fileCb, cb) {
     var data = [];
     var d;
 
-    filewalker(metaPath).
+    filewalker(p).
         on('file', function(f) {
-            d = require(path.join(metaPath, f));
-            d.id = path.basename(f, '.json');
-
-            data.push(d);
+            data.push(fileCb(f, p));
         }).
         on('done', function() {
-            cb(data);
+            cb(null, data);
+        }).
+        on('error', function(err) {
+            cb(err);
         }).walk();
 }
-exports.get = get;
 
 function read(id, cb) {
     fs.readFile(effectPath(id), 'utf8', cb);

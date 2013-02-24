@@ -1,7 +1,7 @@
 var effects = require('./utils/effects');
 
 exports.index = function(req, res) {
-    effects.get(function(data) {
+    effects.get(function(err, data) {
         res.render('index', {
             title: 'Elovalo Webide', // TODO: move to tpl
             effects: data,
@@ -56,10 +56,15 @@ exports.effects = function(req, res) {
     if(id) {
         effects.read(id, function(err, d) {
             if(err) return res.send(404);
-            else return res.send(d);
+
+            return res.send(d);
         });
     }
     else {
-        res.send(404);
+        effects.getMeta(function(err, d) {
+            if(err) return res.send(404);
+
+            return res.json(d);
+        });
     }
 };
