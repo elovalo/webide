@@ -6,4 +6,10 @@ html, body {
 
 .login {
     float: right;
+    margin-right: 2em;
+}
+
+.logout {
+    float: right;
+    margin-right: 2em;
 }

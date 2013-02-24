@@ -85,6 +85,11 @@ function auth(app) {
             res.redirect('/');
         }
     );
+
+    app.get('/logout', function(req, res){
+        req.logout();
+        res.redirect('/');
+    });
 }
 
 module.exports = serve;

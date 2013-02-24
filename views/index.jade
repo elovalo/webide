@@ -3,6 +3,7 @@ extends layout
 block content
     if user
         .user= user.displayName
+        a(class='logout', href='/logout') Logout
     else
         a(class='login', href='/auth/github') Login with GitHub
 
