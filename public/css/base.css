@@ -4,6 +4,24 @@ html, body {
     height: 100%;
 }
 
+.newEffect {
+    float: left;
+    margin-left: 2em;
+}
+
+.effects {
+    float: left;
+}
+
+.user {
+    float: right;
+    margin-right: 2em;
+}
+
+.user .name {
+    display: block;
+}
+
 .login {
     float: right;
     margin-right: 2em;

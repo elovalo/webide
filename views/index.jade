@@ -2,14 +2,16 @@ extends layout
 
 block content
     if user
-        .user= user.displayName
+        .user
+            img(class='avatar', src= user._json.avatar_url, alt='Avatar')
+            a(class='name', href=user.profileUrl)= user.username
         a(class='logout', href='/logout') Logout
     else
         a(class='login', href='/auth/github') Login with GitHub
 
-    a(href='/editor') New Effect
+    a(class='newEffect', href='/editor') New Effect
 
-    ul
+    ul(class='effects')
         each effect in effects
             li
                 a(href='/editor?id=' + effect.id)= effect.name
