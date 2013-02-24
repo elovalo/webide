@@ -40,6 +40,10 @@
     float: right;
 }
 
+.initialCode {
+    display: none;
+}
+
 .CodeMirror {
     height: auto;
 }

@@ -5,4 +5,5 @@ block content
 
     ul
         each effect in effects
-            li= effect
+            li
+                a(href='/editor?id=' + effect.id)= effect.name

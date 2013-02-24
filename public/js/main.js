@@ -47,12 +47,23 @@ require(['jquery', './preview', './editor', './commands'], function($, preview, 
         $('.preview').each(function() {
             previews.push(preview($(this), dims));
         });
+
+        var code = getCode();
         $('.editor').each(function() {
             var $e = $(this);
             var $commands = $('<div>', {'class': 'commands'}).appendTo($e);
             var $editArea = $('<div>', {'class': 'editArea'}).appendTo($e);
 
-            commands($commands, editor($editArea), previews, dims);
+            commands($commands, editor($editArea, code), previews, dims);
         });
     });
+
+    function getCode() {
+        var $initial = $('.initialCode');
+        var initial = $initial.text();
+
+        $initial.remove();
+
+        return initial || 'function effect(cube) {\n    cube().on();\n}';
+    }
 });
