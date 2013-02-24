@@ -8,10 +8,10 @@ function main() {
     var uri = 'http://84.251.8.171:8081/frame';
     var data = setAll();
 
-    request.put({
+    request({
+        method: 'PUT',
         uri: uri,
-        json: true,
-        body: data
+        json: data
     }, function(err, res, d) {
         if(err) throw err;
 
