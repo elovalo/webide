@@ -4,6 +4,10 @@ html, body {
     height: 100%;
 }
 
+body {
+    font: 13px/1.333 "lucida grande", tahoma, sans-serif;
+}
+
 header, article, footer {
     overflow: auto;
 }
