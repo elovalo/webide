@@ -10,10 +10,10 @@ define(function(require) {
     var playClass = 'play';
     var stopClass = 'stop';
 
-    // https://github.com/josscrowcroft/javascript-sandbox-console
     function initCommands($p, editor, previews, dims) {
         $p.append($playback(editor, previews, dims));
         $p.append($templates(editor, groups));
+        $p.append($save(editor));
     }
 
     function $playback(editor, previews, dims) {
@@ -98,10 +98,22 @@ define(function(require) {
         return sb;
     }
 
-    function $templates(editor, groups) {
-        var $ret = $('<select/>', {'class': 'codeTemplates'});
+    function $save(editor) {
+        return $('<div>').addClass('save').on('click', function() {
+            $.post('', {
+                id: $('.codeId').text(),
+                code: editor.getValue()
+            }, function(data) {
+                if(data.status == 'success') console.log('Saved data successfully!');
+                else console.error('Saving data failed!');
+            }, 'json');
+        });
+    }
 
-        $ret.append($('<option/>'));
+    function $templates(editor, groups) {
+        var $ret = $('<select>', {'class': 'codeTemplates'});
+
+        $ret.append($('<option>'));
 
         funkit.async.map(function(group, groupCb) {
             funkit.async.map(function(url, cb, i) {
@@ -115,7 +127,7 @@ define(function(require) {
             data.sort(function(a, b) {
                 return a[0].group > b[0].group;
             }).forEach(function(d) {
-                var $p = $('<optgroup/>', {label: d[0].group}).appendTo($ret);
+                var $p = $('<optgroup>', {label: d[0].group}).appendTo($ret);
 
                 d.sort(function(a, b) {
                     return a.i > b.i;
@@ -123,7 +135,7 @@ define(function(require) {
                     var parts = d.url.split('/');
                     var name = parts[parts.length - 1].replace('_', ' ');
 
-                    $p.append($('<option/>', {value: name}).text(name).data('code', d.code));
+                    $p.append($('<option>', {value: name}).text(name).data('code', d.code));
                 });
             });
         });

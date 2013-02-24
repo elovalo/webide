@@ -35,6 +35,7 @@ function serve() {
 
     app.get('/', routes.index);
     app.get('/editor', routes.editor);
+    app.post('/editor', routes.editorSave);
 
     return app;
 }

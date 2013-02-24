@@ -36,11 +36,19 @@
     content: 'stop';
 }
 
+.commands .save {
+    float: right;
+    margin-right: 2em;
+}
+.commands .save::after {
+    content: 'save';
+}
+
 .codeTemplates {
     float: right;
 }
 
-.initialCode {
+.initialCode, .codeId {
     display: none;
 }
 
