@@ -17,7 +17,12 @@ header, footer {
     background: #ddd;
 }
 
-.newEffect {
+.create {
+    float: left;
+    margin-left: 2em;
+}
+
+.browse {
     float: left;
 }
 
