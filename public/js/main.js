@@ -51,10 +51,9 @@ require(['jquery', './preview', './editor', './commands'], function($, preview, 
         var code = getCode();
         $('.editor').each(function() {
             var $e = $(this);
-            var $commands = $('<div>', {'class': 'commands'}).appendTo($e);
             var $editArea = $('<div>', {'class': 'editArea'}).appendTo($e);
 
-            commands($commands, editor($editArea, code), previews, dims);
+            commands($e, editor($editArea, code), previews, dims);
         });
     });
 

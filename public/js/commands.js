@@ -11,15 +11,16 @@ define(function(require) {
     var stopClass = 'stop';
 
     function initCommands($p, editor, previews, dims) {
-        $p.append($playback(editor, previews, dims));
-        $p.append($templates(editor, groups));
-        $p.append($save(editor));
+        var $commands = $($('#commandsTemplate').html()).prependTo($p);
+
+        playback($('.playback', $commands), editor, previews, dims);
+        templates($('.templates', $commands), editor, groups);
+        save($('.save', $commands), editor);
     }
 
-    function $playback(editor, previews, dims) {
+    function playback($e, editor, previews, dims) {
         var sb = initSandbox();
-        var $e = $('<div>', {'class': 'playback command'}).
-            addClass(playClass).
+        $e.addClass(playClass).
             on('click', function() {
                 var $e = $(this);
 
@@ -27,7 +28,7 @@ define(function(require) {
                 else $e.trigger('play');
             });
 
-        return $e.bind('play', {
+        $e.bind('play', {
                 sb: sb,
                 editor: editor,
                 dims:dims,
@@ -98,8 +99,8 @@ define(function(require) {
         return sb;
     }
 
-    function $save(editor) {
-        return $('<div>').addClass('save').on('click', function() {
+    function save($e, editor) {
+        $e.on('click', function() {
             $.post('', {
                 id: $('.codeId').text(),
                 code: editor.getValue()
@@ -110,10 +111,8 @@ define(function(require) {
         });
     }
 
-    function $templates(editor, groups) {
-        var $ret = $('<select>', {'class': 'codeTemplates'});
-
-        $ret.append($('<option>'));
+    function templates($e, editor, groups) {
+        $e.append($('<option>'));
 
         funkit.async.map(function(group, groupCb) {
             funkit.async.map(function(url, cb, i) {
@@ -127,7 +126,7 @@ define(function(require) {
             data.sort(function(a, b) {
                 return a[0].group > b[0].group;
             }).forEach(function(d) {
-                var $p = $('<optgroup>', {label: d[0].group}).appendTo($ret);
+                var $p = $('<optgroup>', {label: d[0].group}).appendTo($e);
 
                 d.sort(function(a, b) {
                     return a.i > b.i;
@@ -140,7 +139,7 @@ define(function(require) {
             });
         });
 
-        $ret.on('change', function() {
+        $e.on('change', function() {
             var $e = $(this);
             var val = $e.val();
 
@@ -149,8 +148,6 @@ define(function(require) {
                 $('.playback.command').trigger('restart');
             }
         });
-
-        return $ret;
     }
 
     function getUrls(group, examples) {

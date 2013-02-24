@@ -20,12 +20,12 @@
     background: #eee;
 }
 
-.command {
-    float: left;
-}
-
 .commands.error {
     background: #dbb;
+}
+
+.commands .playback {
+    float: left;
 }
 
 .commands .play::after {
@@ -44,7 +44,7 @@
     content: 'save';
 }
 
-.codeTemplates {
+.commands .templates {
     float: right;
 }
 
