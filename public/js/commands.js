@@ -50,6 +50,8 @@ define(function(require) {
         sb._ops = [];
         sb.ticks = 0;
 
+        console.groupCollapsed('Executing effect');
+
         sb.eval('function getInit() {var init;' +
             data.editor.getValue() +
             ';return init;}'
@@ -87,6 +89,8 @@ define(function(require) {
 
     function stop($e) {
         $e.addClass(playClass).removeClass(stopClass);
+
+        console.groupEnd();
     }
 
     function initSandbox() {
