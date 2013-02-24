@@ -35,21 +35,13 @@ define(['threejs', 'trackball'], function() {
         });
 
         var animating = false;
-        var prevTime;
-        var ticks;
         function animate(init, cb) {
             var res = init;
 
             animating = true;
-            prevTime = new Date().getTime();
-            ticks = 0;
 
             function anim() {
-                var curTime = new Date().getTime();
-                ticks += curTime - prevTime;
-                prevTime = curTime;
-
-                res = cb(ticks);
+                res = cb(res.ticks);
 
                 if(res.ok) execute(res.ops);
 

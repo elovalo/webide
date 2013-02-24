@@ -5,6 +5,8 @@ define(function(require) {
     var partial = funkit.partial;
     var $ = require('jquery');
     var is = require('is-js');
+    var interpreter = require('./interpreter');
+
     var playClass = 'play';
     var stopClass = 'stop';
 
@@ -43,54 +45,30 @@ define(function(require) {
 
     function play($e, evt) {
         var $commands = $('.commands');
-        var data = evt.data;
-        var sb = data.sb;
 
         $e.addClass(stopClass).removeClass(playClass);
-
-        sb._ops = [];
-        sb.ticks = 0;
+        $commands.removeClass('error');
 
         console.groupCollapsed('Executing effect');
 
-        $commands.removeClass('error');
-
-        sb.eval('function getInit() {var init;' +
-            data.editor.getValue() +
-            ';return init;}'
-        );
-        var vars = sb.evaluateInit(sb.getInit(), data.dims);
-        var res = {
-            ops: sb._ops
-        };
-
-        data.previews.evaluate(res, function(ticks) {
-            sb._ops = [];
-            sb.ticks = ticks;
-            var ok = true;
-
-            try {
-                sb.eval('function getEffect() {var effect;' +
-                    data.editor.getValue() +
-                    ';return effect;}'
-                );
-
-                sb.evaluateEffect(sb.getEffect(), data.dims, vars);
-
+        interpreter(evt.data.sb, evt.data.dims, {
+            execute: evt.data.previews.evaluate,
+            code: function() {
+                return evt.data.editor.getValue();
+            },
+            ok: function() {
                 $commands.removeClass('error');
-            }
-            catch(e) {
-                ok = false;
+            },
+            error: function(e) {
                 console.error(e.message);
 
                 $commands.addClass('error');
+            },
+            playing: function() {
+                return {
+                    playing: $e.hasClass(stopClass)
+                };
             }
-
-            return {
-                ok: ok,
-                ops: sb._ops,
-                playing: $e.hasClass(stopClass)
-            };
         });
     }
 
