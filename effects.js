@@ -48,7 +48,7 @@ function commit(msg, id, data, cb) {
 
         repo.add(path.join('effects', id + '.js'), function(err) {
             if(err) {
-                console.log('add failed', err);
+                console.warn('add failed', err);
                 return cb(err);
             }
 
@@ -56,7 +56,7 @@ function commit(msg, id, data, cb) {
                 all: true
             }, function(err) {
                 if(err) {
-                    console.log('commit failed', err);
+                    console.warn('commit failed', err);
                     return cb(err);
                 }
 
