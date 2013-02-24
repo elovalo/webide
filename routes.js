@@ -30,11 +30,10 @@ exports.index = function(req, res) {
 };
 
 exports.editor = function(req, res) {
-    var fxPath = effectsPath();
     var id = req.query.id;
 
     if(id) {
-        fs.readFile(path.join(fxPath, id + '.js'), 'utf8', function(err, d) {
+        readEffect(id, function(err, d) {
             res.render('editor', {
                 title: 'Effect editor', // TODO: move to tpl
                 initialCode: d,
@@ -66,13 +65,26 @@ exports.editorSave = function(req, res) {
     }
 };
 
+exports.effects = function(req, res) {
+    var id = req.query.id;
+
+    if(id) {
+        readEffect(id, function(err, d) {
+            if(err) return res.send(404);
+            else return res.send(d);
+        });
+    }
+    else {
+        res.send(404);
+    }
+};
+
+function readEffect(id, cb) {
+    fs.readFile(effectPath(id), 'utf8', cb);
+}
+
 function commit(msg, id, data, cb) {
-    var p;
-
-    // avoid exposing FS (perhaps there's a neater way?)
-    if(id.indexOf('/') >= 0 || id.indexOf('\\') >= 0) return cb(true);
-
-    p = effectPath(id);
+    var p = effectPath(id);
 
     fs.writeFile(p, data, 'utf8', function(err, d) {
         if(err) return cb(err);
@@ -98,6 +110,9 @@ function commit(msg, id, data, cb) {
 }
 
 function effectPath(id) {
+    // avoid exposing FS (perhaps there's a neater way?)
+    if(id.indexOf('/') >= 0 || id.indexOf('\\') >= 0) return;
+
     return path.join(effectsPath(), id + '.js');
 }
 
