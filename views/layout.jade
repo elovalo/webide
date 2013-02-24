@@ -5,4 +5,19 @@ html
         link(rel='stylesheet', href='css/base.css')
         block head
     body
-        block content
+        header
+            if user
+                .user
+                    img(class='avatar', src= user._json.avatar_url, alt='Avatar')
+                    a(class='name', href=user.profileUrl)= user.username
+                a(class='logout', href='/logout') Logout
+            else
+                a(class='login', href='/auth/github') Login with GitHub
+
+            a(class='newEffect', href='/editor') New Effect
+
+        article
+            block content
+
+        footer
+            a(href="http://elovalo.org") Brought to you by Elovalo

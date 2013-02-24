@@ -4,18 +4,25 @@ html, body {
     height: 100%;
 }
 
-.newEffect {
-    float: left;
-    margin-left: 2em;
+header, article, footer {
+    overflow: auto;
 }
 
-.effects {
+article {
+    height: 100%;
+}
+
+header, footer {
+    padding: 1em;
+    background: #ddd;
+}
+
+.newEffect {
     float: left;
 }
 
 .user {
     float: right;
-    margin-right: 2em;
 }
 
 .user .name {
@@ -24,7 +31,6 @@ html, body {
 
 .login {
     float: right;
-    margin-right: 2em;
 }
 
 .logout {

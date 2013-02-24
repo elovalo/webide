@@ -37,13 +37,17 @@ exports.editor = function(req, res) {
             res.render('editor', {
                 title: 'Effect editor', // TODO: move to tpl
                 initialCode: d,
-                codeId: id
+                codeId: id,
+                user: req.user
             });
         });
     }
     else {
         res.render('editor', {
-            title: 'Effect editor' // TODO: move to tpl
+            title: 'Effect editor', // TODO: move to tpl
+            user: req.user,
+            initialCode: undefined,
+            codeId: undefined
         });
     }
 };
