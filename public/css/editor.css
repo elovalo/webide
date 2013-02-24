@@ -24,6 +24,10 @@
     float: left;
 }
 
+.commands.error {
+    background: #dbb;
+}
+
 .commands .play::after {
     content: 'play';
 }

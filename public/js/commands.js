@@ -42,6 +42,7 @@ define(function(require) {
     }
 
     function play($e, evt) {
+        var $commands = $('.commands');
         var data = evt.data;
         var sb = data.sb;
 
@@ -51,6 +52,8 @@ define(function(require) {
         sb.ticks = 0;
 
         console.groupCollapsed('Executing effect');
+
+        $commands.removeClass('error');
 
         sb.eval('function getInit() {var init;' +
             data.editor.getValue() +
@@ -73,10 +76,14 @@ define(function(require) {
                 );
 
                 sb.evaluateEffect(sb.getEffect(), data.dims, vars);
+
+                $commands.removeClass('error');
             }
             catch(e) {
                 ok = false;
                 console.error(e.message);
+
+                $commands.addClass('error');
             }
 
             return {
