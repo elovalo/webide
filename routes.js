@@ -21,10 +21,10 @@ exports.index = function(req, res) {
             data.push(d);
         }).
         on('done', function() {
-            console.log(data);
             res.render('index', {
                 title: 'Elovalo Webide', // TODO: move to tpl
-                effects: data
+                effects: data,
+                user: req.user
             });
         }).walk();
 };

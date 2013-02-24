@@ -1,6 +1,11 @@
 extends layout
 
 block content
+    if user
+        .user= user.displayName
+    else
+        a(class='login', href='/auth/github') Login with GitHub
+
     a(href='/editor') New Effect
 
     ul

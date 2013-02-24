@@ -1,5 +1,11 @@
 {
   "cookieSecret": "replacethis",
+  "host": "http://localhost",
   "port": 3000,
-  "repoPath": "../webidefx"
+  "repoPath": "../webidefx",
+  "github": {
+    "id": "todo",
+    "secret": "todo",
+    "url": "/auth/github"
+  }
 }
