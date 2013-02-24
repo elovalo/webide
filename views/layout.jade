@@ -3,6 +3,7 @@ html
     head
         title= title
         link(rel='stylesheet', href='css/base.css')
+        link(rel='stylesheet', href='css/auth-buttons.css')
         block head
     body
         header
@@ -12,7 +13,7 @@ html
                     a(class='name', href=user.profileUrl)= user.username
                 a(class='logout', href='/logout') Logout
             else
-                a(class='login', href='/auth/github') Login with GitHub
+                a(class='login btn-auth btn-github', href='/auth/github') Login with GitHub
 
             a(class='browse', href='/') Browse
             a(class='create', href='/editor') Create
