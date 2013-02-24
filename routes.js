@@ -1,4 +1,4 @@
-var effects = require('./effects');
+var effects = require('./utils/effects');
 
 exports.index = function(req, res) {
     effects.get(function(data) {

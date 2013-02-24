@@ -1,7 +1,7 @@
 var passport = require('passport');
 var gh = require('passport-github').Strategy;
 
-var conf = require('./conf.json');
+var conf = require('../conf.json');
 
 // https://github.com/jaredhanson/passport-github/tree/master/examples/login
 function auth(app) {

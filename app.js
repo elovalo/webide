@@ -5,7 +5,7 @@ var express = require('express');
 var passport = require('passport');
 
 var routes = require('./routes');
-var auth = require('./auth');
+var auth = require('./utils/auth');
 
 try {
     var conf = require('./conf.json');

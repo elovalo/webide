@@ -5,7 +5,7 @@ var gift = require('gift');
 
 var filewalker = require('filewalker');
 
-var conf = require('./conf.json');
+var conf = require('../conf.json');
 var repo = gift(conf.repoPath);
 
 function get(cb) {
