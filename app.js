@@ -15,6 +15,7 @@ try {
 }
 
 function serve() {
+    var apiPrefix = '/api/v1';
     var app = express();
 
     app.configure(function() {
@@ -43,8 +44,9 @@ function serve() {
     });
 
     app.get('/', routes.index);
-    app.get('/effects', routes.effects);
     app.get('/editor', routes.editor);
+
+    app.get(apiPrefix + '/effects', routes.effects);
 
     app.post('/editor', routes.editorSave);
 
