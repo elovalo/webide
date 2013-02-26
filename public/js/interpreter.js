@@ -1,16 +1,82 @@
-define(function() {
-    return function(sb, dims, cbs) {
-        var vars, ok, prevTime, curTime;
+if(typeof module === 'object' && typeof define !== 'function') {
+    var define = function (factory) {
+        module.exports = factory(require, exports, module);
+    };
+}
 
-        sb._ops = [];
+define(function(require) {
+    var funkit = require('funkit');
+    var is = require('is-js');
+    var cube = require('./cube');
+
+    function initSandbox(sb) {
+        var deps = {
+            funkit: funkit,
+            math: funkit.math,
+            range: funkit.math.range,
+            partial: funkit.partial
+        };
+        var n;
+
+        sb.is = is;
+
+        // TODO: merge with below
+        for(n in deps) {
+            sb[n] = deps[n];
+
+            // completion
+            if(window) window[n] = deps[n];
+        }
+
+        for(n in cube) {
+            sb[n] = cube[n];
+
+            // completion
+            if(window) window[n] = deps[n];
+        }
+
+        sb.evaluateInit = function(init, dims) {
+            var ops = [];
+            var vars = {};
+
+            if(init) {
+                cube.cube(dims, ops)().off();
+                vars = init(cube.cube(dims, ops));
+            }
+
+            return {
+                vars: vars,
+                ops: ops
+            };
+        };
+
+        sb.evaluateEffect = function(effect, dims, vars) {
+            var ops = [];
+
+            if(effect) {
+                cube.cube(dims, ops)().off();
+                effect(cube.cube(dims, ops), vars);
+            }
+
+            return ops;
+        };
+    }
+
+    return function(sb, dims, cbs) {
+        var vars, ok, prevTime, curTime, ops, ret;
+
+        initSandbox(sb);
+
         sb.ticks = 0;
         prevTime = new Date().getTime();
 
         sb.eval('function getInit() {var init;' + cbs.code() + ';return init;}');
-        vars = sb.evaluateInit(sb.getInit(), dims);
+        ret = sb.evaluateInit(sb.getInit(), dims);
+        vars = ret.vars;
+        ops = ret.ops;
 
-        cbs.execute({ops: sb._ops}, function(ticks) {
-            sb._ops = [];
+        cbs.execute({ops: ops}, function(ticks) {
+            ops = [];
 
             curTime = new Date().getTime();
             sb.ticks += curTime - prevTime;
@@ -21,7 +87,7 @@ define(function() {
             try {
                 sb.eval('function getEffect() {var effect;' + cbs.code() + ';return effect;}');
 
-                sb.evaluateEffect(sb.getEffect(), dims, vars);
+                ops = sb.evaluateEffect(sb.getEffect(), dims, vars);
 
                 cbs.ok();
             } catch(e) {
@@ -32,7 +98,7 @@ define(function() {
 
             return mergeInto({
                 ok: ok,
-                ops: sb._ops,
+                ops: ops,
                 ticks: sb.ticks
             }, cbs.playing());
         });

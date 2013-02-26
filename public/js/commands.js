@@ -19,7 +19,6 @@ define(function(require) {
     }
 
     function playback($e, editor, previews, dims) {
-        var sb = initSandbox();
         $e.addClass(playClass).
             on('click', function() {
                 var $e = $(this);
@@ -29,7 +28,7 @@ define(function(require) {
             });
 
         $e.bind('play', {
-                sb: sb,
+                sb: sandbox(),
                 editor: editor,
                 dims:dims,
                 previews: previews
@@ -77,26 +76,6 @@ define(function(require) {
         $e.addClass(playClass).removeClass(stopClass);
 
         console.groupEnd();
-    }
-
-    function initSandbox() {
-        var sb = sandbox();
-
-        sb.is = is;
-        sb.funkit = funkit;
-        sb.math = funkit.math;
-        sb.range = funkit.math.range;
-        sb.partial = funkit.partial;
-
-        // these are needed for completion to work
-        window.funkit = funkit;
-        window.math = funkit.math;
-        window.range = funkit.math.range;
-        window.partial = funkit.partial;
-
-        sandbox.load(sb, ['js/cube']);
-
-        return sb;
     }
 
     function save($e, editor) {
