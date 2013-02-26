@@ -7,8 +7,6 @@ var interpreter = require('../public/js/interpreter');
 main();
 
 function main() {
-    var delay = 20;
-
     interpreter(global, {x: 8, y: 8, z: 8}, {
         execute: function(init, cb) {
             animate(init, cb);
@@ -32,28 +30,26 @@ function main() {
     function animate(init, cb) {
         var res = cb(init.ticks);
 
-        if(res.ok) execute(res.ops);
-
-        setTimeout(animate.bind(undefined, init, cb), delay);
+        if(res.ok) execute(res.ops, animate.bind(undefined, init, cb));
     }
 }
 
-function execute(ops) {
+function execute(ops, cb) {
     ops.forEach(function(op) {
         if(!op) return;
 
         var o = {
             on: function() {
-                renderFrame(op.coords, op.intensity);
+                renderFrame(op.coords, op.intensity, cb);
             },
             off: function() {
-                renderFrame(op.coords, 0);
+                renderFrame(op.coords, 0, cb);
             }
         }[op.op]();
     });
 }
 
-function renderFrame(coords, alpha) {
+function renderFrame(coords, alpha, cb) {
     var i, len, coord;
     var data = setAll(0);
     var dims = {x: 8, y: 8, z: 8};
@@ -64,10 +60,10 @@ function renderFrame(coords, alpha) {
         data[parseInt(coord.x, 10) + parseInt(coord.y, 10) * dims.x * dims.y + parseInt(coord.z, 10) * dims.z] = alpha;
     }
 
-    putData(data);
+    putData(data, cb);
 }
 
-function putData(data) {
+function putData(data, cb) {
     var uri = 'http://84.251.8.171:8081/frame';
 
     request({
@@ -76,6 +72,8 @@ function putData(data) {
         json: data
     }, function(err, res, d) {
         if(err) throw err;
+
+        cb();
     });
 }
 
