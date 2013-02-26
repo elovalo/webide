@@ -9,7 +9,7 @@ define(function(require) {
     var is = require('is-js');
     var cube = require('./cube');
 
-    function initSandbox(sb) {
+    function initSandbox(sb, completion) {
         var deps = {
             funkit: funkit,
             math: funkit.math,
@@ -24,15 +24,13 @@ define(function(require) {
         for(n in deps) {
             sb[n] = deps[n];
 
-            // completion
-            if(window) window[n] = deps[n];
+            if(completion) window[n] = deps[n];
         }
 
         for(n in cube) {
             sb[n] = cube[n];
 
-            // completion
-            if(window) window[n] = deps[n];
+            if(completion) window[n] = deps[n];
         }
 
         sb.evaluateInit = function(init, dims) {

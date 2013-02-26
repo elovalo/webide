@@ -69,7 +69,7 @@ define(function(require) {
                     playing: $e.hasClass(stopClass)
                 };
             }
-        });
+        }, true);
     }
 
     function stop($e) {
