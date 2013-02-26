@@ -52,7 +52,6 @@ define(function(require) {
             var ops = [];
 
             if(effect) {
-                cube.cube(dims, ops)().off();
                 effect(cube.cube(dims, ops), vars);
             }
 

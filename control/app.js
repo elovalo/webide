@@ -7,7 +7,7 @@ var interpreter = require('../public/js/interpreter');
 main();
 
 function main() {
-    var delay = 40;
+    var delay = 20;
 
     interpreter(global, {x: 8, y: 8, z: 8}, {
         execute: function(init, cb) {
@@ -47,7 +47,7 @@ function execute(ops) {
                 renderFrame(op.coords, op.intensity);
             },
             off: function() {
-                renderFrame(op.coords, op.intensity);
+                renderFrame(op.coords, 0);
             }
         }[op.op]();
     });
@@ -76,8 +76,6 @@ function putData(data) {
         json: data
     }, function(err, res, d) {
         if(err) throw err;
-
-        //console.log(res, d);
     });
 }
 
