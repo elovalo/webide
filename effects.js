@@ -69,7 +69,9 @@ function create(author, code, cb) {
             }), function(err, d) {
                 if(err) return cb(err);
 
-                cb();
+                cb(null, {
+                    id: id
+                });
             });
         });
     });

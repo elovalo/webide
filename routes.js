@@ -35,7 +35,7 @@ exports.editor = function(req, res) {
 
 exports.editorSave = function(req, res) {
     var code = req.param('code');
-    var id = req.param('id');
+    var id = req.param('id') || req.session.effectId;
     var author = req.user.id;
     var status;
 
@@ -60,10 +60,11 @@ exports.editorSave = function(req, res) {
             });
         }
         else {
-            effects.create(author, code, function(err) {
+            effects.create(author, code, function(err, d) {
                 status = err? 'error': 'success';
 
                 res.json({status: status});
+                req.session.effectId = d.id;
             });
         }
     }
