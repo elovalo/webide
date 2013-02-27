@@ -1,6 +1,7 @@
-function init(cube) {
-    cube({z: 0}).map(function(led) {
-        led.z = led.x;
+function effect(cube) {
+    cube().off();
+    cube({x: 0}).map(function(led) {
+        led.x = led.z;
 
         return led;
     }).on();
