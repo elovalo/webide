@@ -5,8 +5,7 @@
   "main": "app.js",
 
   "dependencies": {
-    "request": "2.14.0",
-    "funkit": "0.7.4"
+    "request": "2.14.0"
   },
 
   "scripts": {

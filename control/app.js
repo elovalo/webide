@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 var request = require('request');
-var funkit = require('funkit');
 
 var interpreter = require('../public/js/interpreter');
 
@@ -30,37 +29,8 @@ function main() {
     function animate(init, cb) {
         var res = cb(init.ticks);
 
-        if(res.ok) execute(res.ops, animate.bind(undefined, init, cb));
+        if(res.ok) putData(res.ops, animate.bind(undefined, init, cb));
     }
-}
-
-function execute(ops, cb) {
-    ops.forEach(function(op) {
-        if(!op) return;
-
-        var o = {
-            on: function() {
-                renderFrame(op.coords, op.intensity, cb);
-            },
-            off: function() {
-                renderFrame(op.coords, 0, cb);
-            }
-        }[op.op]();
-    });
-}
-
-function renderFrame(coords, alpha, cb) {
-    var i, len, coord;
-    var data = setAll(0);
-    var dims = {x: 8, y: 8, z: 8};
-
-    for(i = 0, len = coords.length; i < len; i++) {
-        coord = coords[i];
-
-        data[parseInt(coord.x, 10) + parseInt(coord.y, 10) * dims.x * dims.y + parseInt(coord.z, 10) * dims.z] = alpha;
-    }
-
-    putData(data, cb);
 }
 
 function putData(data, cb) {
@@ -75,12 +45,4 @@ function putData(data, cb) {
 
         cb();
     });
-}
-
-function setAll(val) {
-    var amount = 512;
-
-    return funkit.functional.map(function(v) {
-        return val;
-    }, funkit.math.range(amount));
 }

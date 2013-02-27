@@ -66,19 +66,7 @@ define(['threejs', 'trackball'], function() {
         refresh();
 
         function execute(ops) {
-            ops.forEach(function(op) {
-                if(!op) return;
-
-                var o = {
-                    on: function() {
-                        render(dims, particles, op.coords, op.intensity);
-                    },
-                    off: function() {
-                        render(dims, particles, op.coords, 0);
-                    }
-                }[op.op]();
-
-            });
+            render(dims, particles, ops);
 
             renderer.render(scene, camera);
         }
@@ -108,17 +96,10 @@ define(['threejs', 'trackball'], function() {
         return controls;
     }
 
-    function render(dims, particles, coords, alpha) {
-        var xDims = dims.x;
-        var yDims = dims.y;
-        var zDims = dims.z;
-        var i, len, coord;
-
-        for(i = 0, len = coords.length; i < len; i++) {
-            coord = coords[i];
-
-            particles.alpha.value[parseInt(coord.x, 10) + parseInt(coord.y, 10) * xDims * yDims + parseInt(coord.z, 10) * zDims] = alpha;
-        }
+    function render(dims, particles, ops) {
+        ops.forEach(function(op, i) {
+            particles.alpha.value[i] = op;
+        });
 
         particles.alpha.needsUpdate = true;
     }

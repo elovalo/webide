@@ -59,6 +59,33 @@ define(function(require) {
         };
     }
 
+    function convertOps(dims, ops) {
+        var ret = funkit.math.range(512); // XXX: generate based on dims
+
+        ops.forEach(function(op) {
+            if(!op) return;
+
+            return {
+                on: function() {
+                    convertFrame(dims, ret, op.coords, op.intensity);
+                },
+                off: function() {
+                    convertFrame(dims, ret, op.coords, 0);
+                }
+            }[op.op]();
+        });
+
+        return ret;
+    }
+
+    function convertFrame(dims, data, coords, alpha) {
+        coords.forEach(function(c) {
+            data[parseInt(c.x, 10) + parseInt(c.y, 10) * dims.x * dims.y + parseInt(c.z, 10) * dims.z] = alpha;
+        });
+
+        return data;
+    }
+
     return function(sb, dims, cbs) {
         var vars, ok, prevTime, curTime, ops, ret;
 
@@ -70,7 +97,7 @@ define(function(require) {
         sb.eval('function getInit() {var init;' + cbs.code() + ';return init;}');
         ret = sb.evaluateInit(sb.getInit(), dims);
         vars = ret.vars;
-        ops = ret.ops;
+        ops = convertOps(dims, ret.ops);
 
         cbs.execute({ops: ops}, function(ticks) {
             ops = [];
@@ -95,7 +122,7 @@ define(function(require) {
 
             return mergeInto({
                 ok: ok,
-                ops: ops,
+                ops: convertOps(dims, ops),
                 ticks: sb.ticks
             }, cbs.playing());
         });
