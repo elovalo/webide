@@ -2,12 +2,87 @@ var fs = require('fs');
 var path = require('path');
 
 var gift = require('gift');
-var partial = require('funkit').partial;
+var funkit = require('funkit');
+var partial = funkit.partial;
+var zfill = funkit.string.zfill;
 
 var filewalker = require('filewalker');
 
 var conf = require('./conf.json');
 var repo = gift(conf.repoPath);
+
+
+var effectPath = partial(getPath, effectsPath(), 'js');
+var effectMetaPath = partial(getPath, effectsMetaPath(), 'json');
+
+var commitEffect = partial(commit, 'effects', effectPath, 'js');
+var commitEffectMeta = partial(commit, 'effects_meta', effectMetaPath, 'json');
+
+exports.commitEffect = commitEffect;
+exports.commitEffectMeta = commitEffectMeta;
+
+function commit(pathPrefix, pathFn, ext, msg, id, data, cb) {
+    var p = pathFn(id);
+
+    fs.writeFile(p, data, 'utf8', function(err, d) {
+        if(err) return cb(err);
+
+        repo.add(path.join(pathPrefix, id + '.' + ext), function(err) {
+            if(err) {
+                console.warn('add failed', err);
+                return cb(err);
+            }
+
+            repo.commit(msg, {
+                all: true
+            }, function(err) {
+                if(err) {
+                    console.warn('commit failed', err);
+                    return cb(err);
+                }
+
+                cb();
+            });
+        });
+    });
+}
+
+function create(author, code, cb) {
+    var name = 'demo'; // XXX
+    var id;
+
+    // TODO: get new id
+    // TODO: create new code file
+    // TODO: create new meta file
+    count(effectsPath(), function(err, count) {
+        if(err) return console.error(err);
+        id = zfill(5, count + 1) + '_' + name;
+
+        commitEffect('New effect', id, code, function(err, d) {
+            if(err) return cb(err);
+
+            commitEffectMeta('New effect', id, JSON.stringify({
+                name: name,
+                author: author,
+                description: '',
+                parent: ''
+            }), function(err, d) {
+                if(err) return cb(err);
+
+                cb();
+            });
+        });
+    });
+}
+exports.create = create;
+
+function count(p, cb) {
+    fs.readdir(p, function(err, files) {
+        if(err) return console.error(err);
+
+        cb(null, files.length);
+    });
+}
 
 exports.getAll = partial(walk, effectsMetaPath(), function(f, p) {
     var d = require(path.join(p, f));
@@ -40,33 +115,6 @@ function read(id, cb) {
 }
 exports.read = read;
 
-function commit(msg, id, data, cb) {
-    var p = effectPath(id);
-
-    fs.writeFile(p, data, 'utf8', function(err, d) {
-        if(err) return cb(err);
-
-        repo.add(path.join('effects', id + '.js'), function(err) {
-            if(err) {
-                console.warn('add failed', err);
-                return cb(err);
-            }
-
-            repo.commit(msg, {
-                all: true
-            }, function(err) {
-                if(err) {
-                    console.warn('commit failed', err);
-                    return cb(err);
-                }
-
-                cb();
-            });
-        });
-    });
-}
-exports.commit = commit;
-
 function getMeta(id, cb) {
     try {
         var d = require(effectMetaPath(id));
@@ -77,9 +125,6 @@ function getMeta(id, cb) {
     }
 }
 exports.getMeta = getMeta;
-
-var effectPath = partial(getPath, effectsPath(), 'js');
-var effectMetaPath = partial(getPath, effectsMetaPath(), 'json');
 
 function getPath(p, ext, id) {
     // avoid exposing FS (perhaps there's a neater way?)

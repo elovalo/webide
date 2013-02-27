@@ -36,16 +36,19 @@ exports.editor = function(req, res) {
 exports.editorSave = function(req, res) {
     var code = req.param('code');
     var id = req.param('id');
+    var author = req.user.id;
     var status;
 
+    // TODO: attach name
+    // TODO: attach description
     // TODO: refactor status out and replace with 404
-    if(code && req.user.id) {
+    if(code && author) {
         if(id) {
             effects.getMeta(id, function(err, d) {
                 if(err) return res.json({status: 'error'});
 
-                if(req.user.id == d.author) {
-                    effects.commit('Save effect', id, code, function(err) {
+                if(author == d.author) {
+                    effects.commitEffect('Save effect', id, code, function(err) {
                         status = err? 'error': 'success';
 
                         res.json({status: status});
@@ -57,8 +60,11 @@ exports.editorSave = function(req, res) {
             });
         }
         else {
-            // TODO: create new effect to repo now
-            res.json({status: 'success'});
+            effects.create(author, code, function(err) {
+                status = err? 'error': 'success';
+
+                res.json({status: status});
+            });
         }
     }
     else {
