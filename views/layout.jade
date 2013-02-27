@@ -9,7 +9,6 @@ html
         header
             if user
                 .user
-                    img(class='avatar', src= user._json.avatar_url, alt='Avatar')
                     a(class='name', href=user.profileUrl)= user.username
                 a(class='logout', href='/logout') Logout
             else
