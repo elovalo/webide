@@ -1,6 +1,7 @@
-function init(cube) {
+function effect(cube) {
     var z;
 
+    cube().off();
     for(var i = 0; i < 2; i++) {
         z = i * cube.z;
 

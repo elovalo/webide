@@ -1,4 +1,4 @@
-function init(cube) {
+function effect(cube) {
     var demo = 0;
 
     cube().off();
