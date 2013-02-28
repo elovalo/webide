@@ -47,25 +47,22 @@ function commit(pathPrefix, pathFn, ext, msg, id, data, cb) {
     });
 }
 
-function create(author, code, cb) {
-    var name = 'demo'; // XXX
+function create(o, cb) {
+    var name = o.name || 'untitled';
     var id;
 
-    // TODO: get new id
-    // TODO: create new code file
-    // TODO: create new meta file
     count(effectsPath(), function(err, count) {
         if(err) return console.error(err);
         id = zfill(5, count + 1) + '_' + name;
 
-        commitEffect('New effect', id, code, function(err, d) {
+        commitEffect('New effect', id, o.code, function(err, d) {
             if(err) return cb(err);
 
             commitEffectMeta('New effect', id, JSON.stringify({
                 name: name,
-                author: author,
+                author: o.author,
                 description: '',
-                parent: ''
+                parent: o.parent
             }), function(err, d) {
                 if(err) return cb(err);
 

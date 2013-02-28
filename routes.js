@@ -54,24 +54,24 @@ exports.editorSave = function(req, res) {
                         res.json({status: status});
                     });
                 }
-                else {
-                    // new author, fork
-                }
+                else createEffect(req, res, {author: author, code: code, parent: d.author});
             });
         }
-        else {
-            effects.create(author, code, function(err, d) {
-                status = err? 'error': 'success';
-
-                res.json({status: status});
-                req.session.effectId = d.id;
-            });
-        }
+        else createEffect(req, res, {author: author, code: code});
     }
     else {
         res.json({status: 'error'});
     }
 };
+
+function createEffect(req, res, o) {
+    effects.create(o, function(err, d) {
+        var status = err? 'error': 'success';
+
+        res.json({status: status});
+        req.session.effectId = d.id;
+    });
+}
 
 exports.effects = function(req, res) {
     var id = req.query.id;
