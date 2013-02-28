@@ -41,17 +41,16 @@ exports.editorSave = function(req, res) {
 
     // TODO: attach name
     // TODO: attach description
-    // TODO: refactor status out and replace with 404
     if(code && author) {
         if(id) {
             effects.getMeta(id, function(err, d) {
-                if(err) return res.json({status: 'error'});
+                if(err) return res.send(404);
 
                 if(author == d.author) {
                     effects.commitEffect('Save effect', id, code, function(err) {
-                        status = err? 'error': 'success';
+                        if(err) return res.send(404);
 
-                        res.json({status: status});
+                        res.send(200);
                     });
                 }
                 else createEffect(req, res, {author: author, code: code, parent: d.author});
@@ -59,16 +58,15 @@ exports.editorSave = function(req, res) {
         }
         else createEffect(req, res, {author: author, code: code});
     }
-    else {
-        res.json({status: 'error'});
-    }
+    else res.send(404);
 };
 
 function createEffect(req, res, o) {
     effects.create(o, function(err, d) {
-        var status = err? 'error': 'success';
+        if(err) return res.send(400);
 
-        res.json({status: status});
+        res.send(200);
+
         req.session.effectId = d.id;
     });
 }

@@ -83,10 +83,11 @@ define(function(require) {
             $.post('', {
                 id: $('.codeId').text(),
                 code: editor.getValue()
-            }, function(data) {
-                if(data.status == 'success') console.log('Saved data successfully!');
-                else console.error('Saving data failed!');
-            }, 'json');
+            }).done(function() {
+                console.log('Saved data successfully!');
+            }).fail(function() {
+                console.error('Saving data failed!');
+            });
         });
     }
 
