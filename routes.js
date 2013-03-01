@@ -1,4 +1,5 @@
 var effects = require('./effects');
+var interpret = require('./interpret');
 
 exports.index = function(req, res) {
     effects.getAll(function(err, data) {
@@ -74,7 +75,13 @@ function playbackOnCube(req, res) {
     var author = req.user.id;
 
     if(code && author) {
-        console.log('should play on cube now');
+        // TODO: keep track of authors (play only played one per time) and
+        // their code
+        // TODO: detect that author has left (ping back). if author has left,
+        // move on to next
+        interpret(code, function() {
+            return true; // TODO: hook up stopOnCube with this
+        });
 
         res.send(200);
     }

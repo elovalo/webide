@@ -96,6 +96,7 @@ define(function(require) {
     function playbackOnCube($e, editor) {
         $e.addClass(playClass);
 
+        // TODO: update code given some interval
         $e.on('click', function() {
             if($e.hasClass(playClass)) {
                 $.post('', {

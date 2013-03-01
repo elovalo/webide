@@ -2,6 +2,7 @@
   "cookieSecret": "replacethis",
   "host": "http://localhost",
   "port": 3000,
+  "cubeUrl": "replacethis",
   "repoPath": "../webidefx",
   "github": {
     "id": "todo",
