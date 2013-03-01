@@ -77,8 +77,8 @@ function playbackOnCube(req, res) {
     if(code && author) {
         // TODO: keep track of authors (play only played one per time) and
         // their code
-        // TODO: detect that author has left (ping back). if author has left,
-        // move on to next
+        // make client ping every n ms during playback. this way we know that
+        // the client is active
         interpret(code, function() {
             return true; // TODO: hook up stopOnCube with this
         });
