@@ -16,6 +16,7 @@ define(function(require) {
         playback($('.playback', $commands), editor, previews, dims);
         templates($('.templates', $commands), editor, groups);
         save($('.save', $commands), editor);
+        playbackOnCube($('.playbackOnCube', $commands), editor);
     }
 
     function playback($e, editor, previews, dims) {
@@ -81,6 +82,7 @@ define(function(require) {
     function save($e, editor) {
         $e.on('click', function() {
             $.post('', {
+                op: 'save',
                 id: $('.codeId').text(),
                 code: editor.getValue()
             }).done(function() {
@@ -88,6 +90,34 @@ define(function(require) {
             }).fail(function() {
                 console.error('Saving data failed!');
             });
+        });
+    }
+
+    function playbackOnCube($e, editor) {
+        $e.addClass(playClass);
+
+        $e.on('click', function() {
+            if($e.hasClass(playClass)) {
+                $.post('', {
+                    op: 'playbackOnCube',
+                    code: editor.getValue()
+                }).done(function() {
+                    console.log('Playing on cube now');
+                    $e.addClass(stopClass).removeClass(playClass);
+                }).fail(function() {
+                    console.error('Failed to play on cube');
+                });
+            }
+            else {
+                $.post('', {
+                    op: 'stopOnCube'
+                }).done(function() {
+                    console.log('Stopping on cube now');
+                    $e.addClass(playClass).removeClass(stopClass);
+                }).fail(function() {
+                    console.error('Failed to stop on cube');
+                });
+            }
         });
     }
 

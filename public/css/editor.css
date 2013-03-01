@@ -44,6 +44,17 @@
     content: 'save';
 }
 
+.commands .playbackOnCube {
+    float: right;
+    margin-right: 2em;
+}
+.commands .playbackOnCube.play::after {
+    content: 'play on cube';
+}
+.commands .playbackOnCube.stop::after {
+    content: 'stop on cube';
+}
+
 .commands .templates {
     float: right;
 }

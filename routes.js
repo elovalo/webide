@@ -33,7 +33,15 @@ exports.editor = function(req, res) {
     }
 };
 
-exports.editorSave = function(req, res) {
+exports.editorPost = function(req, res) {
+    var ops = {
+        save: save,
+        playbackOnCube: playbackOnCube,
+        stopOnCube: stopOnCube
+    }[req.param('op')](req, res);
+};
+
+function save(req, res) {
     var code = req.param('code');
     var id = req.param('id') || req.session.effectId;
     var author = req.user.id;
@@ -59,7 +67,30 @@ exports.editorSave = function(req, res) {
         else createEffect(req, res, {author: author, code: code});
     }
     else res.send(404);
-};
+}
+
+function playbackOnCube(req, res) {
+    var code = req.param('code');
+    var author = req.user.id;
+
+    if(code && author) {
+        console.log('should play on cube now');
+
+        res.send(200);
+    }
+    else res.send(404);
+}
+
+function stopOnCube(req, res) {
+    var author = req.user.id;
+
+    if(author) {
+        console.log('should stop on cube now');
+
+        res.send(200);
+    }
+    else res.send(404);
+}
 
 function createEffect(req, res, o) {
     effects.create(o, function(err, d) {

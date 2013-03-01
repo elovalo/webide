@@ -48,7 +48,7 @@ function serve() {
 
     app.get(apiPrefix + '/effects', routes.effects);
 
-    app.post('/editor', routes.editorSave);
+    app.post('/editor', routes.editorPost);
 
     auth(app);
 
