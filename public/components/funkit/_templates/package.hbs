@@ -1,0 +1,14 @@
+define(['require', './functional/chain', './functional/each', './object/values', {{#list modules}}'./{{package}}/{{name}}'{{/list}}],
+        function(require, chain, each, values) {
+    // GENERATED! DO NOT MODIFY!
+    var functions = {
+        {{#list modules}}'{{name}}': require('./{{package}}/{{name}}'){{/list}}
+    };
+    var ret = chain(values(functions));
+
+    each(function(k, v) {
+        ret[k] = v;
+    }, functions);
+
+    return ret;
+});

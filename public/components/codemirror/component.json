@@ -1,0 +1,9 @@
+{
+  "name": "codemirror",
+  "version": "0.0.0",
+  "commit": "1ecf37893f33a40396d09c4aab484492c65baa8b",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marijnh/CodeMirror.git"
+  }
+}

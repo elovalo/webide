@@ -1,0 +1,14 @@
+{
+  "name": "sandboxy",
+  "version": "0.1.0",
+  "main": "./sandboxy.js",
+  "gitHead": "46ebc3ea9d78f9bfe3c6316401e5023f8de4f1e9",
+  "readme": "# sandboxy - Minimal sandboxing system for JavaScript\n\nThis little library essentially allows you to set up a separate execution environment for JavaScript. For this purpose it uses iframe. It isn't guaranteed to be 100% safe but is likely enough for some quick hacks.\n\nIf you want to see it in action, check out [webide](https://github.com/elovalo/webide).\n\n## License\n\nMIT. See LICENSE for more info.\n",
+  "readmeFilename": "README.md",
+  "_id": "sandboxy@0.1.0",
+  "description": "This little library essentially allows you to set up a separate execution environment for JavaScript. For this purpose it uses iframe. It isn't guaranteed to be 100% safe but is likely enough for some quick hacks.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bebraw/sandboxy"
+  }
+}

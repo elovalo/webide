@@ -1,0 +1,17 @@
+{
+  "name": "annotate.js",
+  "version": "0.6.5",
+  "main": "./lib/annotate.js",
+  "dependencies": {
+    "is": "scottrabin/is-js"
+  },
+  "gitHead": "9a7ec8000b1ee1d77ec1d3c848643a800f131a72",
+  "readme": "# annotate.js - Asserts your function invariants\n\n`annotate.js` allows you to attach certain metadata to your functions. For\ninstance you could document invariants of your function this way. In\naddition you can attach an optional description you can access later on.\n\nThis metadata can be used by tools such as [suite.js](https://github.com/bebraw/suite.js)\nin order to generate tests. In addition you can access the metadata via REPL.\n\nThe usage is quite simple as the following example illustrates:\n\n```javascript\n// let's define some function to annotate\nfunction add(a, b) {\n    return a + b;\n}\n\n// type checkers from is-js (https://npmjs.org/package/is-js)\nvar addNumbers = annotate('addNumbers', 'Adds numbers')\n    .on(is.number, is.number, add);\nvar addStrings = annotate('addStrings', 'Adds strings')\n    .on(is.string, is.string, add);\n\n// you can assert invariants too\nvar addPositive = annotate('addPositive', 'Adds positive')\n    .on(isPositive, isPositive, add)\n    .satisfies(isPositive); // postcondition\n\n// it is possible to chain guards\nvar fib = annotate('fib', 'Calculates Fibonacci numbers')\n    .on(0, 0).on(1, 1)\n    .on(is.number, function(n) {\n        return fib(n - 1) + fib(n - 2);\n    });\n\n// invariants may depend on each other\nvar clamp = annotate('clamp', 'Clamps given number between given bounds')\n    .on(is.number, is.number, function(a, args) {\n        return is.number(a) && args[1] <= a;\n    }, function(a, min, max) {\n        return Math.max(Math.min(a, max), min);\n    });\n\n// furthermore it is possible to pass a variable amount of args\nvar min = annotate('min', 'Returns minimum of the given numbers')\n    .on([is.number], Math.min);\n\nfunction isPositive(a) {\n    return a >= 0;\n}\n```\n\nThe `annotate` function will create a new function that contains the metadata as\nproperties `_name`, `_doc`, `_preconditions` and `_postconditions`. In case\nsome pre- or postcondition doesn't pass it won't return and gives a warning\ninstead.\n\n## Related Projects\n\n* [suite.js](https://github.com/bebraw/suite.js) - Constructs tests based on invariant data (fuzzing)\n* [funkit](https://github.com/bebraw/funkit) - Collection of utilities tested using `annotate.js` and `suite.js`\n\n## Acknowledgements\n\n* [Kris Jordan](http://krisjordan.com/)'s [multimethod.js](http://krisjordan.com/multimethod-js) - Provided inspiration for the API\n\n## License\n\n`annotate.js` is available under MIT. See LICENSE for more details.\n\n",
+  "readmeFilename": "README.md",
+  "_id": "annotate@0.6.5",
+  "description": "`annotate.js` allows you to attach certain metadata to your functions. For instance you could document invariants of your function this way. In addition you can attach an optional description you can access later on.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bebraw/annotate.js"
+  }
+}

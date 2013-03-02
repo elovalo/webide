@@ -1,0 +1,17 @@
+{
+  "name": "funkit",
+  "version": "0.7.4",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "is": "scottrabin/is-js"
+  },
+  "gitHead": "0236aa111cc4f27eca954011162c871ec4761690",
+  "readme": "# Funkit - Various utilities\n\nVarious utilities.\n\n## License\n\nFunkit is available under MIT. See LICENSE for more details.\n\n",
+  "readmeFilename": "README.md",
+  "_id": "funkit@0.7.4",
+  "description": "Various utilities.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bebraw/funkit"
+  }
+}
