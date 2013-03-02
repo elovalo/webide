@@ -58,6 +58,7 @@ function save(req, res) {
     // TODO: attach description
     if(code && author) {
         if(id) {
+            console.log('updating effect', author, id);
             effects.getMeta(id, function(err, d) {
                 if(err) return res.send(404);
 
@@ -68,10 +69,16 @@ function save(req, res) {
                         res.send(200);
                     });
                 }
-                else createEffect(req, res, {author: author, code: code, parent: d.author});
+                else {
+                    console.log('forking effect', author, d.author);
+                    createEffect(req, res, {author: author, code: code, parent: d.author});
+                }
             });
         }
-        else createEffect(req, res, {author: author, code: code});
+        else {
+            console.log('creating effect', author);
+            createEffect(req, res, {author: author, code: code});
+        }
     }
     else res.send(404);
 }
