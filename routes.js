@@ -1,5 +1,5 @@
 var effects = require('./effects');
-var interpret = require('./interpret');
+var remote = require('./utils/remote');
 var conf = require('./conf.json');
 
 
@@ -43,7 +43,8 @@ exports.editorPost = function(req, res) {
     var ops = {
         save: save,
         playbackOnCube: playbackOnCube,
-        stopOnCube: stopOnCube
+        stopOnCube: stopOnCube,
+        pingOnCube: pingOnCube
     }[req.param('op')](req, res);
 };
 
@@ -76,17 +77,11 @@ function save(req, res) {
 }
 
 function playbackOnCube(req, res) {
-    var code = req.param('code');
     var author = getUser(req).id;
+    var code = req.param('code');
 
-    if(code && author) {
-        // TODO: keep track of authors (play only played one per time) and
-        // their code
-        // make client ping every n ms during playback. this way we know that
-        // the client is active
-        interpret(code, function() {
-            return true; // TODO: hook up stopOnCube with this
-        });
+    if(author && code) {
+        remote.play(req, author, code);
 
         res.send(200);
     }
@@ -97,11 +92,23 @@ function stopOnCube(req, res) {
     var author = getUser(req).id;
 
     if(author) {
-        console.log('should stop on cube now');
+        remote.stop(req, author);
 
         res.send(200);
     }
     else res.send(404);
+}
+
+function pingOnCube(req, res) {
+    var author = getUser(req).id;
+    var code = req.param('code');
+
+    if(author) {
+        remote.ping(req, author, code);
+
+        res.send(200);
+    }
+    else stopOnCube(req, res);
 }
 
 function createEffect(req, res, o) {

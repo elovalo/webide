@@ -94,6 +94,9 @@ define(function(require) {
     }
 
     function playbackOnCube($e, editor) {
+        var delay = 2000;
+        var playing;
+
         $e.addClass(playClass);
 
         // TODO: update code given some interval
@@ -104,7 +107,11 @@ define(function(require) {
                     code: editor.getValue()
                 }).done(function() {
                     console.log('Playing on cube now');
+
                     $e.addClass(stopClass).removeClass(playClass);
+
+                    playing = true;
+                    ping();
                 }).fail(function() {
                     console.error('Failed to play on cube');
                 });
@@ -114,12 +121,25 @@ define(function(require) {
                     op: 'stopOnCube'
                 }).done(function() {
                     console.log('Stopping on cube now');
+
                     $e.addClass(playClass).removeClass(stopClass);
                 }).fail(function() {
                     console.error('Failed to stop on cube');
+                }).always(function() {
+                    playing = false;
                 });
             }
         });
+
+        function ping() {
+            $.post('', {
+                op: 'pingOnCube'
+            }).fail(function() {
+                console.error('Failed to ping the cube, check your connection!');
+            });
+
+            if(playing) setTimeout(ping, 2000);
+        }
     }
 
     function templates($e, editor, groups) {
