@@ -1,12 +1,15 @@
 var effects = require('./effects');
 var interpret = require('./interpret');
+var conf = require('./conf.json');
+
 
 exports.index = function(req, res) {
     effects.getAll(function(err, data) {
         res.render('index', {
             title: 'Elovalo Webide', // TODO: move to tpl
             effects: data,
-            user: req.user
+            user: getUser(req),
+            dev: conf.dev
         });
     });
 };
@@ -20,16 +23,18 @@ exports.editor = function(req, res) {
                 title: 'Effect editor', // TODO: move to tpl
                 initialCode: d,
                 codeId: id,
-                user: req.user
+                user: getUser(req),
+                dev: conf.dev
             });
         });
     }
     else {
         res.render('editor', {
             title: 'Effect editor', // TODO: move to tpl
-            user: req.user,
+            user: getUser(req),
             initialCode: undefined,
-            codeId: undefined
+            codeId: undefined,
+            dev: conf.dev
         });
     }
 };
@@ -45,7 +50,7 @@ exports.editorPost = function(req, res) {
 function save(req, res) {
     var code = req.param('code');
     var id = req.param('id') || req.session.effectId;
-    var author = req.user.id;
+    var author = getUser(req).id;
     var status;
 
     // TODO: attach name
@@ -72,7 +77,7 @@ function save(req, res) {
 
 function playbackOnCube(req, res) {
     var code = req.param('code');
-    var author = req.user.id;
+    var author = getUser(req).id;
 
     if(code && author) {
         // TODO: keep track of authors (play only played one per time) and
@@ -89,7 +94,7 @@ function playbackOnCube(req, res) {
 }
 
 function stopOnCube(req, res) {
-    var author = req.user.id;
+    var author = getUser(req).id;
 
     if(author) {
         console.log('should stop on cube now');
@@ -127,3 +132,8 @@ exports.effects = function(req, res) {
         });
     }
 };
+
+// TODO: eliminate this by fixing plain auth
+function getUser(req) {
+    return req.user? req.user: req.session.user;
+}

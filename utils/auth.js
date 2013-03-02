@@ -3,8 +3,27 @@ var gh = require('passport-github').Strategy;
 
 var conf = require('../conf.json');
 
+function plain(app) {
+    app.get('/auth/plain', function(req, res) {
+        // XXX: should go into req.user but not working for some reason
+        req.session.user = {
+            id: 123456,
+            username: 'Developer'
+        };
+
+        res.redirect('back');
+    });
+
+    app.get('/logout', function(req, res) {
+        delete req.session.user;
+
+        res.redirect('back');
+    });
+}
+exports.plain = plain;
+
 // https://github.com/jaredhanson/passport-github/tree/master/examples/login
-function auth(app) {
+function github(app) {
     passport.use(new gh({
             clientID: conf.github.id,
             clientSecret: conf.github.secret,
@@ -40,5 +59,4 @@ function auth(app) {
         res.redirect('back');
     });
 }
-
-module.exports = auth;
+exports.github = github;

@@ -50,7 +50,7 @@ function serve() {
 
     app.post('/editor', routes.editorPost);
 
-    auth(app);
+    auth[conf.dev? 'plain': 'github'](app);
 
     return app;
 }
