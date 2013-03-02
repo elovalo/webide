@@ -12,7 +12,9 @@ block head
 
             if user
                 .save
-                .playbackOnCube
+
+                if dev
+                    .playbackOnCube
 
     script(type='x-shader/x-vertex', id='vertexshader')
         include ../public/shaders/vertex.shader
