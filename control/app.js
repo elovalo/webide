@@ -3,6 +3,8 @@ var request = require('request');
 
 var interpreter = require('../public/js/interpreter');
 
+var cubeUrl = require('../conf.json').cubeUrl;
+
 main();
 
 function main() {
@@ -34,11 +36,9 @@ function main() {
 }
 
 function putData(data, cb) {
-    var uri = 'http://84.251.8.171:8081/frame';
-
     request({
         method: 'PUT',
-        uri: uri,
+        uri: cubeUrl,
         json: data
     }, function(err, res, d) {
         if(err) throw err;
