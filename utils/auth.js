@@ -7,7 +7,7 @@ function plain(app) {
     app.get('/auth/plain', function(req, res) {
         // XXX: should go into req.user but not working for some reason
         req.session.user = {
-            id: 123456,
+            id: parseInt(Math.random() * 10000, 10),
             username: 'Developer'
         };
 
