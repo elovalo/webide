@@ -1,6 +1,6 @@
 var request = require('request');
 
-var interpreter = require('../public/js/interpreter');
+var interpreter = require('./public/js/interpreter');
 var conf = require('./conf.json');
 
 // TODO: pass dims here properly, tidy up
