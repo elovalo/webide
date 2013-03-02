@@ -21,13 +21,20 @@ header, footer {
     background: #ddd;
 }
 
-.create {
-    float: left;
+.browse {
     margin-left: 2em;
 }
 
-.browse {
-    float: left;
+.create {
+    margin-left: 2em;
+}
+
+.version {
+    display: inline;
+}
+
+.issueTracker {
+    margin-left: 2em;
 }
 
 .user {

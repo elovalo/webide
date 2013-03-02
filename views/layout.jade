@@ -17,8 +17,10 @@ html
                 else
                     a(class='login btn-auth btn-github', href='/auth/github') Login with GitHub
 
-            a(class='browse', href='/') Browse
-            a(class='create', href='/editor') Create
+            .version= version
+            a.issueTracker(href='https://www.github.com/elovalo/webide/issues') Issue Tracker
+            a.browse(href='/') Browse
+            a.create(href='/editor') Create
 
         article
             block content

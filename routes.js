@@ -2,6 +2,8 @@ var effects = require('./effects');
 var remote = require('./utils/remote');
 var conf = require('./conf.json');
 
+var VERSION = '0.6.0';
+
 
 exports.index = function(req, res) {
     effects.getAll(function(err, data) {
@@ -9,7 +11,8 @@ exports.index = function(req, res) {
             title: 'Elovalo Webide', // TODO: move to tpl
             effects: data,
             user: getUser(req),
-            dev: conf.dev
+            dev: conf.dev,
+            version: VERSION
         });
     });
 };
@@ -24,7 +27,8 @@ exports.editor = function(req, res) {
                 initialCode: d,
                 codeId: id,
                 user: getUser(req),
-                dev: conf.dev
+                dev: conf.dev,
+                version: VERSION
             });
         });
     }
@@ -34,7 +38,8 @@ exports.editor = function(req, res) {
             user: getUser(req),
             initialCode: undefined,
             codeId: undefined,
-            dev: conf.dev
+            dev: conf.dev,
+            version: VERSION
         });
     }
 };
