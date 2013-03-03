@@ -14,9 +14,10 @@ function init(cubeUrl, dims, delay) {
         var playableItem = queue[0];
         var now = new Date();
 
-        if(now.getSecondsBetween(playableItem.age) > 1) removeFromQueue(playableItem);
-
-        if(playableItem) code = playableItem.code;
+        if(playableItem) {
+            if(now.getSecondsBetween(playableItem.age) > 1) removeFromQueue(playableItem);
+            code = playableItem.code;
+        }
 
         setTimeout(play, delay);
     }
