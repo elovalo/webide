@@ -138,7 +138,8 @@ define(function(require) {
 
         function ping() {
             $.post('', {
-                op: 'pingOnCube'
+                op: 'pingOnCube',
+                code: editor.getValue()
             }).fail(function() {
                 console.error('Failed to ping the cube, check your connection!');
             });
