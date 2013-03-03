@@ -98,7 +98,7 @@ define(function(require) {
 
     function playbackOnCube($e, editor) {
         var delay = 2000;
-        var playing;
+        var playing, playingAlready;
 
         $e.addClass(playClass);
 
@@ -113,8 +113,10 @@ define(function(require) {
 
                     $e.addClass(stopClass).removeClass(playClass);
 
+                    playingAlready = playing;
                     playing = true;
-                    ping();
+
+                    if(!playingAlready) ping();
                 }).fail(function() {
                     console.error('Failed to play on cube');
                 });
