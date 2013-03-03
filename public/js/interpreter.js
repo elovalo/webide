@@ -95,7 +95,13 @@ define(function(require) {
         prevTime = new Date().getTime();
 
         code = cbs.code() || '';
-        sb.eval('function getInit() {var init;' + code + ';return init;}');
+
+        try {
+            sb.eval('function getInit() {var init;' + code + ';return init;}');
+        } catch(e) {
+            // TODO
+        }
+
         ret = sb.evaluateInit(sb.getInit(), dims);
         vars = ret.vars;
         ops = convertOps(dims, ret.ops);
