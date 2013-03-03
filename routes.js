@@ -102,9 +102,11 @@ function playbackOnCube(req, res) {
     var code = req.param('code');
 
     if(author && code) {
-        remote.play(req, author, code);
+        remote.play(req, author, code, function(err) {
+            if(err) return res.send(404);
 
-        res.send(200);
+            res.send(200);
+        });
     }
     else res.send(404);
 }
@@ -113,9 +115,11 @@ function stopOnCube(req, res) {
     var author = getUser(req).id;
 
     if(author) {
-        remote.stop(req, author);
+        remote.stop(req, author, function(err) {
+            if(err) return res.send(404);
 
-        res.send(200);
+            res.send(200);
+        });
     }
     else res.send(404);
 }
@@ -125,11 +129,17 @@ function pingOnCube(req, res) {
     var code = req.param('code');
 
     if(author) {
-        remote.ping(req, author, code);
+        remote.ping(req, author, code, function(err) {
+            if(err) return res.send(404);
+
+            res.send(200);
+        });
+    }
+    else stopOnCube(req, res, function(err) {
+        if(err) return res.send(404);
 
         res.send(200);
-    }
-    else stopOnCube(req, res);
+    });
 }
 
 function createEffect(req, res, o, cb) {

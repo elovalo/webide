@@ -2,12 +2,9 @@ var interpret = require('./interpret');
 var conf = require('../conf.json');
 
 
-function play(req, author, code) {
-    console.log('before play', req.session.remote);
-
+function play(req, author, code, cb) {
     req.session.remote = addToQueue(req.session, author, code);
-
-    console.log('after play', req.session.remote);
+    req.session.save(cb);
 
     /*
     TODO: this needs to go to a separate init. code is then updated dynamically
@@ -20,18 +17,20 @@ function play(req, author, code) {
 }
 exports.play = play;
 
-function stop(req, author) {
+function stop(req, author, cb) {
     req.session.remote = removeFromQueue(req.session, author);
+    req.session.save(cb);
 }
 exports.stop = stop;
 
-function ping(req, author, code) {
+function ping(req, author, code, cb) {
     var queue = getQueue(req.session, 'remote');
     var i = searchQueue(queue, 'author', author);
 
     if(i >= 0) queue[i].age = 0;
 
     req.session.remote = queue;
+    req.session.save(cb);
 }
 exports.ping = ping;
 
