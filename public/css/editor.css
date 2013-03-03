@@ -66,3 +66,8 @@
 .CodeMirror {
     height: auto;
 }
+
+.saveMessage {
+    float: right;
+    margin-right: 2em;
+}

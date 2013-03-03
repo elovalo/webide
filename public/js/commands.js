@@ -80,15 +80,18 @@ define(function(require) {
     }
 
     function save($e, editor) {
+        var delay = 2000;
+        var $msg = $('.saveMessage');
+
         $e.on('click', function() {
             $.post('', {
                 op: 'save',
                 id: $('.codeId').text(),
                 code: editor.getValue()
             }).done(function() {
-                console.log('Saved data successfully!');
+                $msg.text('Saved data successfully!').show().delay(delay).fadeOut();
             }).fail(function() {
-                console.error('Saving data failed!');
+                $msg.text('Saving data failed!').show().delay(delay).fadeOut();
             });
         });
     }
