@@ -76,13 +76,21 @@ function save(req, res) {
                 }
                 else {
                     console.log('forking effect', author, d.author);
-                    createEffect(req, res, {author: author, code: code, parent: d.author});
+                    createEffect(req, res, {author: author, code: code, parent: d.author}, function(err, d) {
+                        if(err) return res.send(404);
+
+                        res.send(200);
+                    });
                 }
             });
         }
         else {
             console.log('creating effect', author);
-            createEffect(req, res, {author: author, code: code});
+            createEffect(req, res, {author: author, code: code}, function(err, d) {
+                if(err) return res.send(404);
+
+                res.send(200);
+            });
         }
     }
     else res.send(404);
@@ -123,14 +131,17 @@ function pingOnCube(req, res) {
     else stopOnCube(req, res);
 }
 
-function createEffect(req, res, o) {
+function createEffect(req, res, o, cb) {
     effects.create(o, function(err, d) {
         if(err) return res.send(400);
 
         res.send(200);
-
         req.session.effectId = d.id;
+
+        req.session.save(cb);
     });
+
+    cb();
 }
 
 exports.effects = function(req, res) {
