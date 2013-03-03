@@ -87,14 +87,15 @@ define(function(require) {
     }
 
     return function(sb, dims, cbs) {
-        var vars, ok, prevTime, curTime, ops, ret;
+        var vars, ok, prevTime, curTime, ops, ret, code;
 
         initSandbox(sb);
 
         sb.ticks = 0;
         prevTime = new Date().getTime();
 
-        sb.eval('function getInit() {var init;' + cbs.code() + ';return init;}');
+        code = cbs.code() || '';
+        sb.eval('function getInit() {var init;' + code + ';return init;}');
         ret = sb.evaluateInit(sb.getInit(), dims);
         vars = ret.vars;
         ops = convertOps(dims, ret.ops);
@@ -109,7 +110,8 @@ define(function(require) {
             ok = true;
 
             try {
-                sb.eval('function getEffect() {var effect;' + cbs.code() + ';return effect;}');
+                code = cbs.code() || '';
+                sb.eval('function getEffect() {var effect;' + code + ';return effect;}');
 
                 ops = sb.evaluateEffect(sb.getEffect(), dims, vars);
 
