@@ -57,6 +57,8 @@ function ping(author, code, cb) {
         queue[i].age = new Date();
         queue[i].code = code;
     }
+
+    cb(null);
 }
 exports.ping = ping;
 
