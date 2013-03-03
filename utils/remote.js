@@ -1,16 +1,20 @@
 var interpret = require('./interpret');
 var conf = require('../conf.json');
 
+require('date-utils');
 
 var queue = [];
 
 
 function init(cubeUrl, dims, delay) {
-    delay = delay || 500;
+    delay = delay || 500;
     var code;
 
     function play() {
         var playableItem = queue[0];
+        var now = new Date();
+
+        if(now.getSecondsBetween(playableItem.age) > 1) removeFromQueue(playableItem);
 
         if(playableItem) code = playableItem.code;
 
@@ -31,15 +35,6 @@ function play(author, code, cb) {
     console.log('play queue', queue);
 
     cb(null);
-
-    /*
-    TODO: this needs to go to a separate init. code is then updated dynamically
-    by some Node timer (setTimeout)
-    interpret(conf.cubeUrl, code, function() {
-        // TODO: return false if ping fails, should start new interpreter
-        return true;
-    });
-    */
 }
 exports.play = play;
 
@@ -55,7 +50,7 @@ exports.stop = stop;
 function ping(author, code, cb) {
     var i = searchQueue(queue, 'author', author);
 
-    if(i >= 0) queue[i].age = 0;
+    if(i >= 0) queue[i].age = new Date();
 }
 exports.ping = ping;
 
