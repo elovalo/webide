@@ -128,7 +128,7 @@ function pingOnCube(req, res) {
     var author = getUser(req).id;
     var code = req.param('code');
 
-    if(author) {
+    if(author && code) {
         remote.ping(author, code, function(err) {
             if(err) return res.send(404);
 
