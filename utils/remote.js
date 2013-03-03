@@ -4,6 +4,27 @@ var conf = require('../conf.json');
 
 var queue = [];
 
+
+function init(cubeUrl, dims, delay) {
+    delay = delay || 500;
+    var code;
+
+    function play() {
+        var playableItem = queue[0];
+
+        if(playableItem) code = playableItem.code;
+
+        setTimeout(play, delay);
+    }
+
+    interpret(cubeUrl, dims, function() {
+        return code;
+    });
+
+    setTimeout(play, delay);
+}
+exports.init = init;
+
 function play(author, code, cb) {
     addToQueue(author, code);
 

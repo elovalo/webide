@@ -3,14 +3,13 @@ var request = require('request');
 var interpreter = require('../public/js/interpreter');
 
 
-// TODO: pass dims here properly, tidy up
-function interpret(cubeUrl, code, playCb) {
-    interpreter(global, {x: 8, y: 8, z: 8}, {
+function interpret(cubeUrl, dims, codeCb) {
+    interpreter(global, dims, {
         execute: function(init, cb) {
             animate(init, cb);
         },
         code: function() {
-            return code;
+            return codeCb();
         },
         ok: function() {},
         error: function() {},
@@ -22,7 +21,7 @@ function interpret(cubeUrl, code, playCb) {
     function animate(init, cb) {
         var res = cb(init.ticks);
 
-        if(res.ok && playCb()) putData(cubeUrl, res.ops, animate.bind(undefined, init, cb));
+        if(res.ok) putData(cubeUrl, res.ops, animate.bind(undefined, init, cb));
     }
 }
 module.exports = interpret;

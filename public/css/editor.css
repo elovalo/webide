@@ -45,8 +45,8 @@
 }
 
 .commands .playbackOnCube {
-    float: right;
-    margin-right: 2em;
+    float: left;
+    margin-left: 2em;
 }
 .commands .playbackOnCube.play::after {
     content: 'play on cube';

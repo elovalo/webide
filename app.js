@@ -6,6 +6,8 @@ var passport = require('passport');
 
 var routes = require('./routes');
 var auth = require('./utils/auth');
+var remote = require('./utils/remote');
+
 
 try {
     var conf = require('./conf.json');
@@ -51,6 +53,9 @@ function serve() {
     app.post('/editor', routes.editorPost);
 
     auth[conf.dev? 'plain': 'github'](app);
+
+    // TODO: move dims to conf
+    remote.init(conf.cubeUrl, {x: 8, y: 8, z: 8});
 
     return app;
 }
