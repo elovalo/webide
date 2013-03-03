@@ -34,7 +34,7 @@ function commit(pathPrefix, pathFn, ext, msg, id, data, cb) {
             }
 
             repo.commit(msg, {
-                all: true
+                all: true // XXXXX: sketchy, better commit just specific files
             }, function(err) {
                 if(err) {
                     console.warn('commit failed', err);
