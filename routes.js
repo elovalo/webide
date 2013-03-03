@@ -68,6 +68,7 @@ function save(req, res) {
                 if(err) return res.send(404);
 
                 if(author == d.author) {
+                    console.log('saving effect', author);
                     effects.commitEffect('Save effect', id, code, function(err) {
                         if(err) return res.send(404);
 
