@@ -2,9 +2,14 @@ var interpret = require('./interpret');
 var conf = require('../conf.json');
 
 
-function play(req, author, code, cb) {
-    req.session.remote = addToQueue(req.session, author, code);
-    req.session.save(cb);
+var queue = [];
+
+function play(author, code, cb) {
+    addToQueue(author, code);
+
+    console.log('play queue', queue);
+
+    cb(null);
 
     /*
     TODO: this needs to go to a separate init. code is then updated dynamically
@@ -17,50 +22,35 @@ function play(req, author, code, cb) {
 }
 exports.play = play;
 
-function stop(req, author, cb) {
-    req.session.remote = removeFromQueue(req.session, author);
-    req.session.save(cb);
+function stop(author, cb) {
+    removeFromQueue(author);
+
+    console.log('play queue', queue);
+
+    cb(null);
 }
 exports.stop = stop;
 
-function ping(req, author, code, cb) {
-    var queue = getQueue(req.session, 'remote');
+function ping(author, code, cb) {
     var i = searchQueue(queue, 'author', author);
 
     if(i >= 0) queue[i].age = 0;
-
-    req.session.remote = queue;
-    req.session.save(cb);
 }
 exports.ping = ping;
 
 // TODO: these queue funcs might go into a module of their own at some point
-function addToQueue(store, author, code) {
-    var queue = getQueue(store, 'remote');
-
+function addToQueue(author, code) {
     if(!inQueue(queue, 'author', author)) queue.push({
         author: author,
         code: code,
         age: 0
     });
-
-    return queue;
 }
 
-function getQueue(store, name) {
-    console.log('getting queue', store, store[name]);
-    if(!store[name]) store[name] = [];
-
-    return store[name];
-}
-
-function removeFromQueue(store, author) {
-    var queue = getQueue(store, 'remote');
+function removeFromQueue(author) {
     var i = searchQueue(queue, 'author', author);
 
     if(i >= 0) queue.splice(i, 1);
-
-    return queue;
 }
 
 function inQueue(queue, property, value) {

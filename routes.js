@@ -102,7 +102,7 @@ function playbackOnCube(req, res) {
     var code = req.param('code');
 
     if(author && code) {
-        remote.play(req, author, code, function(err) {
+        remote.play(author, code, function(err) {
             if(err) return res.send(404);
 
             res.send(200);
@@ -115,7 +115,7 @@ function stopOnCube(req, res) {
     var author = getUser(req).id;
 
     if(author) {
-        remote.stop(req, author, function(err) {
+        remote.stop(author, function(err) {
             if(err) return res.send(404);
 
             res.send(200);
@@ -129,7 +129,7 @@ function pingOnCube(req, res) {
     var code = req.param('code');
 
     if(author) {
-        remote.ping(req, author, code, function(err) {
+        remote.ping(author, code, function(err) {
             if(err) return res.send(404);
 
             res.send(200);
