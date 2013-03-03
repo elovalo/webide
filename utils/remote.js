@@ -51,7 +51,12 @@ exports.stop = stop;
 function ping(author, code, cb) {
     var i = searchQueue(queue, 'author', author);
 
-    if(i >= 0) queue[i].age = new Date();
+    console.log('pinging');
+    if(i >= 0) {
+        console.log('found item at ping');
+        queue[i].age = new Date();
+        queue[i].code = code;
+    }
 }
 exports.ping = ping;
 
