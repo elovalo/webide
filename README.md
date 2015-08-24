@@ -2,9 +2,7 @@
 
 Elovalo Webide makes it possible to write effects for the [Elovalo](http://www.elovalo.org) led cube using a simple web based interface. It provides WebGL based visualization and an interactive editor. There is also a Git based revisioning system.
 
-## Demo
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/p4sAIj8a5V4" frameborder="0" allowfullscreen></iframe>
+[Demo](https://www.youtube.com/watch?v=p4sAIj8a5V4)
 
 ## Dependencies
 
