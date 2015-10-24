@@ -98,7 +98,7 @@ define(['threejs', 'trackball'], function() {
 
     function render(dims, particles, ops) {
         ops.forEach(function(op, i) {
-            particles.alpha.value[i] = op;
+            particles.alpha.value[i] = Math.max(op, 0.2);
         });
 
         particles.alpha.needsUpdate = true;
