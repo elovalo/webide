@@ -120,7 +120,7 @@ define(['threejs', 'trackball'], function() {
             uniforms: {
                 color: {
                     type: 'c',
-                    value: new THREE.Color(0x0000ff)
+                    value: new THREE.Color(0xff0000)
                 }
             },
             attributes: attributes,
