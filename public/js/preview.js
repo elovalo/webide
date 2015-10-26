@@ -10,7 +10,7 @@ define(['threejs', 'trackball'], function() {
 
         scene.add(camera);
         camera.position.x = 50;
-        camera.position.z = 800;
+        camera.position.z = 1800;
 
         var controls = trackball($e, camera);
 
